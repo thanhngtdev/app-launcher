@@ -1,4 +1,4 @@
-import { CONNECTOR_ENUM } from 'constants/index';
+import { CONNECTOR_ENUM } from 'consts/index';
 import { AuthProvider, AuthContextProps } from 'oidc-react';
 import { useCached } from 'providers/CachedProvider';
 import useAuth from 'hooks/useAuth';

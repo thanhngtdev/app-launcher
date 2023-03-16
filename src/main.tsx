@@ -13,7 +13,8 @@ import ToggleThemeProvider from 'providers/ToggleThemeProvider';
 import CachedProvider from 'providers/CachedProvider';
 import AppAuthenticationProvider from 'providers/AppAuthenticationProvider';
 import { AuthProvider as OIDCAuthProvider } from 'oidc-react';
-import { WebStorageStateStore } from 'oidc-client';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const queryClient = new QueryClient();
 
@@ -32,6 +33,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
           <OIDCAuthProvider {...config}>
             <AppAuthenticationProvider>
               <App />
+              <ToastContainer theme='colored' />
             </AppAuthenticationProvider>
           </OIDCAuthProvider>
         </ToggleThemeProvider>

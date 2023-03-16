@@ -9,7 +9,7 @@ import React, {
 
 import HttpService from 'services/httpService';
 import { showError } from 'helpers/toast';
-import { PERMISSION_ENUM } from 'constants/index';
+import { PERMISSION_ENUM } from 'consts/index';
 
 type Action =
   | { type: 'LOGIN_SUCCESS'; token: string; user: any }

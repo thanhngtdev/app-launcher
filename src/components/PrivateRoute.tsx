@@ -1,5 +1,5 @@
 import { Navigate } from 'react-router-dom';
-import BaseUrl from 'constants/baseUrl';
+import BaseUrl from 'consts/baseUrl';
 import useAuth from 'hooks/useAuth';
 
 const PrivateRoute = (props: { children: any }) => {

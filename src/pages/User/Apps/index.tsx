@@ -3,6 +3,7 @@ import CommonIcons from 'components/CommonIcons';
 import CommonStyles from 'components/CommonStyles';
 import { useTheme } from '@mui/material';
 import useAuth from 'hooks/useAuth';
+import { useGetListInstalledApp } from 'hooks/app/useAppHooks';
 
 interface AppsProps {}
 
@@ -10,51 +11,25 @@ const Apps = (props: AppsProps) => {
   //! State
   const theme = useTheme();
   const user = useAuth();
+  const { data: resListInstalledApp, isLoading: isInstalledLoading } = useGetListInstalledApp({
+    skip: 0,
+    take: 999,
+    filter: '',
+  });
+  const dataInstallApp = resListInstalledApp?.data?.items || [];
+  const totalCountInstallApp = resListInstalledApp?.data?.totalCount || 0;
 
   //! Function
 
   //! Render
-  const apps = [
-    {
-      label: 'Name of App',
-      company: 'Nextlvl',
-      desc: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum `,
-      img: 'https://picsum.photos/id/237/200/300',
-    },
-    {
-      label: 'Name of App',
-      company: 'Nextlvl',
-      desc: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum `,
-      img: 'https://picsum.photos/id/237/200/300',
-    },
-    {
-      label: 'Name of App',
-      company: 'Nextlvl',
-      desc: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum `,
-      img: 'https://picsum.photos/id/237/200/300',
-    },
-    {
-      label: 'Name of App',
-      company: 'Nextlvl',
-      desc: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum `,
-      img: 'https://picsum.photos/id/237/200/300',
-    },
-    {
-      label: 'Name of App',
-      company: 'Nextlvl',
-      desc: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum `,
-      img: 'https://picsum.photos/id/237/200/300',
-    },
-  ];
-
   return (
     <CommonStyles.Box>
-      <CommonStyles.Box sx={{ p: 1, background: 'rgba(0, 0, 0, 0.1)', mb: 2 }}>
+      {/* <CommonStyles.Box sx={{ p: 1, background: 'rgba(0, 0, 0, 0.1)', mb: 2 }}>
         <code style={{ overflowWrap: 'anywhere' }}> {JSON.stringify(user)}</code>
-      </CommonStyles.Box>
+      </CommonStyles.Box> */}
 
       <CommonStyles.Typography variant='h4' sx={{ mb: 5 }}>
-        My Apps
+        My Apps ({totalCountInstallApp})
       </CommonStyles.Typography>
 
       <CommonStyles.Box
@@ -75,10 +50,10 @@ const Apps = (props: AppsProps) => {
           },
         }}
       >
-        {apps.map((el, index) => {
+        {dataInstallApp.map((el, index) => {
           return (
             <CommonStyles.Box
-              key={`${el.label}-${index}`}
+              key={`${el.id}-${index}`}
               sx={{
                 display: 'flex',
                 p: 2,
@@ -106,30 +81,20 @@ const Apps = (props: AppsProps) => {
                 },
               }}
             >
-              <CommonStyles.Box
-                sx={{
-                  width: 60,
-                  height: 60,
-                  flexShrink: 0,
-                  '& > img': {
-                    borderRadius: '50%',
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                  },
-                }}
-              >
-                <img src={el.img} alt='company-logo' />
-              </CommonStyles.Box>
+              <CommonStyles.Avatar
+                src={el.icon}
+                alt='company-logo'
+                sx={{ width: 60, height: 60 }}
+              />
 
               <CommonStyles.Box>
-                <CommonStyles.Typography variant='h6'>{el.label}</CommonStyles.Typography>
+                <CommonStyles.Typography variant='h6'>{el.name}</CommonStyles.Typography>
                 <CommonStyles.Typography variant='body2' sx={{ mb: 1 }}>
-                  {el.company}
+                  {el.developerName}
                 </CommonStyles.Typography>
 
                 <CommonStyles.Typography variant='body2' sx={{ color: theme.colors?.gray }}>
-                  {el.desc}
+                  {el.summary}
                 </CommonStyles.Typography>
               </CommonStyles.Box>
             </CommonStyles.Box>

@@ -1,24 +1,20 @@
 import { useMemo } from 'react';
 import CommonIcons from 'components/CommonIcons';
 import { useAppAuthentication } from 'providers/AppAuthenticationProvider';
-import { PERMISSION_ENUM } from 'constants/index';
+import { PERMISSION_ENUM } from 'consts/index';
+import BaseUrl from 'consts/baseUrl';
 
 const navbarAdmin = [
   [
     {
       label: 'Apps',
       icon: CommonIcons.CloudIcon,
-      href: '/',
+      href: BaseUrl.Homepage,
     },
     {
-      label: 'Todo',
-      icon: CommonIcons.InboxIcon,
-      href: '/todos/12',
-    },
-    {
-      label: 'Todos',
-      icon: CommonIcons.MailIcon,
-      href: '/todos',
+      label: 'Apps Management',
+      icon: CommonIcons.CloudIcon,
+      href: BaseUrl.AppManagement,
     },
   ],
 ];

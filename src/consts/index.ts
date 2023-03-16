@@ -1,5 +1,8 @@
 export const queryKeys = {
   getTodos: 'getTodos',
+  getAppList: 'getAppList',
+  getAppDetail: 'getAppDetai',
+  getAppInstalledList: 'getAppInstalledList',
 };
 
 export const LANG_ENUM = {

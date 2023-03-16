@@ -19,7 +19,7 @@ import useHandleAsideMenu from 'hooks/useHandleAsideMenu';
 import useCheckWidth from 'hooks/useCheckWidth';
 import useAuth from 'hooks/useAuth';
 
-const drawerWidth = 80;
+const drawerWidth = 90;
 
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
@@ -260,6 +260,8 @@ const DefaultLayout = ({ children }: { children: React.ReactNode }) => {
                               fontSize: '0.825rem',
                               pt: 0.5,
                               color: theme.colors?.white,
+                              whiteSpace: 'pre-wrap',
+                              textAlign: 'center',
                             }}
                           >
                             {menu.label}

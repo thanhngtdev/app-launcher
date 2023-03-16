@@ -1,7 +1,7 @@
 import CommonStyles from 'components/CommonStyles';
 import { useAppAuthentication } from 'providers/AppAuthenticationProvider';
 import React from 'react';
-import { PERMISSION_ENUM } from 'constants/index';
+import { PERMISSION_ENUM } from 'consts/index';
 
 const withCheckRole = (
   ComponentWrapped:

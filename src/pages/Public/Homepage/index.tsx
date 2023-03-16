@@ -1,14 +1,12 @@
-import baseUrl from 'constants/baseUrl';
+import baseUrl from 'consts/baseUrl';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import { LANG_ENUM } from 'constants/index';
+import { LANG_ENUM } from 'consts/index';
 import { langMethod } from 'i18n';
 import { useToggleTheme } from 'providers/ToggleThemeProvider';
 import CommonStyles from 'components/CommonStyles';
 import { Box, Stack } from '@mui/material';
-import useToggleDialog from 'hooks/useToggleDialog';
-import DialogTest from './dialogs/DialogTest';
 
 interface HomepageProps {}
 
@@ -17,23 +15,13 @@ const Homepage = (props: HomepageProps) => {
   const { toggleTheme } = useToggleTheme();
   const { t } = useTranslation();
   const language = langMethod.getLang();
-  const { open: openTest, toggle: toggleTest, shouldRender: shouldRenderTest } = useToggleDialog();
 
   //! Function
 
   //! Render
+
   return (
     <div>
-      {shouldRenderTest && (
-        <DialogTest
-          isOpen={openTest}
-          toggle={toggleTest}
-          onSubmit={(values) => {
-            alert(values.username);
-          }}
-        />
-      )}
-
       <ul>
         <li>
           <Link to={baseUrl.Homepage}>Homepage</Link>
@@ -49,10 +37,6 @@ const Homepage = (props: HomepageProps) => {
       <Stack direction='row' spacing={1}>
         <CommonStyles.Button onClick={toggleTheme}>Toggle theme</CommonStyles.Button>
       </Stack>
-
-      <CommonStyles.Box sx={{ mt: 2 }}>
-        <CommonStyles.Button onClick={toggleTest}>Toggle Dialog</CommonStyles.Button>
-      </CommonStyles.Box>
 
       <CommonStyles.Typography variant='h4' style={{ marginTop: 12, marginBottom: 12 }}>
         Lang:{' '}

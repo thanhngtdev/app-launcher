@@ -6,6 +6,10 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import LogoutIcon from '@mui/icons-material/Logout';
 import HomeIcon from '@mui/icons-material/Home';
 import CloudIcon from '@mui/icons-material/Cloud';
+import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
+import DownloadingIcon from '@mui/icons-material/Downloading';
+import RestoreFromTrashIcon from '@mui/icons-material/RestoreFromTrash';
 
 export default {
   InboxIcon,
@@ -16,4 +20,8 @@ export default {
   LogoutIcon,
   HomeIcon,
   CloudIcon,
+  AddIcon,
+  EditIcon,
+  DownloadingIcon,
+  UninstallIcon: RestoreFromTrashIcon,
 };

@@ -1,16 +1,15 @@
 import React, { Fragment, lazy } from 'react';
-import BaseUrl from 'constants/baseUrl';
+import BaseUrl from 'consts/baseUrl';
 import withCheckRole from 'HOCs/withCheckRole';
-import { PERMISSION_ENUM } from 'constants';
+import { PERMISSION_ENUM } from 'consts/index';
 
 // Bash importHere
 const DefaultLayout = lazy(() => import('layouts/DefaultLayout'));
 const Login = lazy(() => import('pages/Public/Login'));
-const Homepage = lazy(() => import('pages/Public/Homepage'));
-const Todos = lazy(() => import('pages/User/Todos'));
-const Todo = lazy(() => import('pages/User/Todo'));
 const Apps = lazy(() => import('pages/User/Apps'));
 const Callbacks = lazy(() => import('pages/Public/Callbacks'));
+
+const AppManagement = lazy(() => import('pages/Admin/AppManagement'));
 
 interface Route {
   name: string;
@@ -41,16 +40,9 @@ const routes: Route[] = [
         isPrivateRoute: true,
       },
       {
-        name: 'Todos',
-        path: BaseUrl.Todos,
-        component: withCheckRole(Todos, [PERMISSION_ENUM.PUBLIC]),
-        isPrivateRoute: true,
-      },
-      {
-        name: 'Todo',
-        path: `${BaseUrl.Todos}/:id`,
-        component: withCheckRole(Todo, [PERMISSION_ENUM.ADMIN]),
-        isPrivateRoute: true,
+        name: 'AppManagement',
+        path: BaseUrl.AppManagement,
+        component: withCheckRole(AppManagement, [PERMISSION_ENUM.PUBLIC]),
       },
     ],
   },
