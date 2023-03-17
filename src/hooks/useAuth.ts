@@ -1,8 +1,8 @@
-import { useMemo, useEffect, useRef } from 'react';
+import { useMemo, useEffect } from 'react';
 import { useAuth as useAuthOIDC } from 'oidc-react';
 import { useAppAuthentication } from 'providers/AppAuthenticationProvider';
 import { signOut } from 'firebase/auth';
-import { isEmpty, isObject } from 'lodash';
+import { isEmpty } from 'lodash';
 import { authFirebase } from 'helpers/firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 

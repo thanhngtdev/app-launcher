@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { alpha, useTheme } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -9,14 +9,8 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
-import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
-import DeleteIcon from '@mui/icons-material/Delete';
-import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
 import { OrderType } from 'interfaces/common';
 import CommonStyles from '.';
@@ -57,7 +51,7 @@ function EnhancedTableHead<T>(props: EnhancedTableProps<T>) {
         )}
 
         {props.headCells.map((headCell: any) => {
-          if (!!headCell?.disableSort) {
+          if (headCell?.disableSort) {
             return (
               <TableCell key={headCell.id} align={headCell.numeric ? 'right' : 'left'}>
                 {headCell.label}
@@ -167,7 +161,7 @@ function TableCommon<T>({
                   >
                     {headCells.map((hc, idx) => {
                       return (
-                        <TableCell key={`cell-${index}-idx`}>
+                        <TableCell key={`cell-${index}-${idx}`}>
                           {hc?.Cell?.(rowAny) || rowAny?.[hc?.id]}
                         </TableCell>
                       );

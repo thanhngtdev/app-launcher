@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import { BrowserRouter as Router, Navigate, Outlet, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Outlet, Route, Routes } from 'react-router-dom';
 
 import Page404 from 'pages/Public/Page404';
 import routes from 'routes/routes';
@@ -12,8 +12,6 @@ import { useToggleTheme } from 'providers/ToggleThemeProvider';
 import { ErrorBoundary } from 'react-error-boundary';
 import CommonStyles from 'components/CommonStyles';
 
-interface AppProps {}
-
 const ErrorFallback = ({ error, resetErrorBoundary }: any) => {
   return (
     <div role='alert'>
@@ -24,7 +22,7 @@ const ErrorFallback = ({ error, resetErrorBoundary }: any) => {
   );
 };
 
-const App = (props: AppProps) => {
+const App = () => {
   //! State
   const { mode } = useToggleTheme();
 

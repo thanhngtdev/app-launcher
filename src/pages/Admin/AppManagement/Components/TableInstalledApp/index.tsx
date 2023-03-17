@@ -4,9 +4,7 @@ import { useGetListInstalledApp } from 'hooks/app/useAppHooks';
 import useFiltersHandler from 'hooks/useFiltersHandler';
 import CellActions from './Cells/CellActions';
 
-interface AppsProps {}
-
-const TableInstalledApp = (props: AppsProps) => {
+const TableInstalledApp = () => {
   //! State
   const {
     filters,

@@ -98,36 +98,31 @@ const AppAuthenticationProvider = ({ children }: { children: any }) => {
 
   const login = useCallback(
     ({ username, password }: { username: string; password: string }) => {
-      return new Promise(async (resolve, reject) => {
+      (async () => {
         try {
           if (username === 'don' && password === 'don') {
             const token = 'fake token';
             onLoginSuccess(token);
           }
-
-          resolve('');
         } catch (error) {
-          reject(error);
           showError(error);
         }
-      });
+      })();
     },
     [dispatch, onLoginSuccess]
   );
 
   const logout = useCallback(() => {
-    return new Promise(async (resolve, reject) => {
+    (async () => {
       try {
         dispatch({ type: 'LOGGING_OUT_SUCCESS' });
         window.localStorage.clear();
         window.location.reload();
-        resolve('');
       } catch (error) {
         dispatch({ type: 'LOGGING_OUT_FAILED' });
         showError(error);
-        reject(error);
       }
-    });
+    })();
   }, [dispatch]);
 
   //! Render

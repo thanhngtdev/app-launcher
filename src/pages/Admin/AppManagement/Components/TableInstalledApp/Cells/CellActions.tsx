@@ -4,7 +4,7 @@ import CommonStyles from 'components/CommonStyles';
 import useToggleDialog from 'hooks/useToggleDialog';
 import DialogAddOrEditApp from '../../../Dialogs/DialogAddOrEditApp';
 import { App } from 'interfaces/apps';
-import { useInstallApp, useUninstallApp, useUpdateAppIntegration } from 'hooks/app/useAppHooks';
+import { useUninstallApp, useUpdateAppIntegration } from 'hooks/app/useAppHooks';
 import { showError, showSuccess } from 'helpers/toast';
 import { useQueryClient } from '@tanstack/react-query';
 import { queryKeys } from 'consts/index';

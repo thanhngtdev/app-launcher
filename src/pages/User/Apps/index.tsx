@@ -1,17 +1,14 @@
 import React from 'react';
-import CommonIcons from 'components/CommonIcons';
 import CommonStyles from 'components/CommonStyles';
 import { useTheme } from '@mui/material';
-import useAuth from 'hooks/useAuth';
 import { useGetListInstalledApp } from 'hooks/app/useAppHooks';
 
-interface AppsProps {}
+// interface AppsProps {}
 
-const Apps = (props: AppsProps) => {
+const Apps = () => {
   //! State
   const theme = useTheme();
-  const user = useAuth();
-  const { data: resListInstalledApp, isLoading: isInstalledLoading } = useGetListInstalledApp({
+  const { data: resListInstalledApp } = useGetListInstalledApp({
     skip: 0,
     take: 999,
     filter: '',

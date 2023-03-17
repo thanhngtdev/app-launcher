@@ -8,8 +8,8 @@ interface CachedContextI {
 }
 
 const CachedContext = createContext<CachedContextI>({
-  get: (key) => {},
-  set: (key, value) => {},
+  get: () => {},
+  set: () => {},
 });
 
 export const useCached = () => useContext(CachedContext);

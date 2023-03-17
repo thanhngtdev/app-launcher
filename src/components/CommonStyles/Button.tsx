@@ -1,4 +1,3 @@
-import { ButtonProps } from '@mui/material/Button';
 import MuiIconButton, { IconButtonProps } from '@mui/material/IconButton';
 import LoadingButton, { LoadingButtonProps } from '@mui/lab/LoadingButton';
 

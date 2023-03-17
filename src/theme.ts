@@ -1,3 +1,5 @@
+import { createTheme } from '@mui/material/styles';
+
 declare module '@mui/material/styles' {
   interface Theme {
     colors?: {
@@ -24,8 +26,6 @@ declare module '@mui/material/styles' {
     };
   }
 }
-
-import { createTheme } from '@mui/material/styles';
 
 const lightTheme = createTheme({
   palette: {

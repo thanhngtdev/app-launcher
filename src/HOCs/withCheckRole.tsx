@@ -21,7 +21,7 @@ const withCheckRole = (
     }
 
     return (
-      <CommonStyles.Typography>You're not have permission to access this!</CommonStyles.Typography>
+      <CommonStyles.Typography>{`You're not have permission to access this!`}</CommonStyles.Typography>
     );
   };
 };
