@@ -5,13 +5,9 @@ import { FastField, Form, Formik } from 'formik';
 import TextField from 'components/CustomFields/TextField';
 import { useTheme } from '@mui/material';
 import useAuth from 'hooks/useAuth';
-import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { authFirebase } from 'helpers/firebase';
 import { useAuth as useAuthOIDC } from 'oidc-react';
 
 interface LoginProps {}
-
-const googleProvider = new GoogleAuthProvider();
 
 const Login = (props: LoginProps) => {
   //! State
@@ -20,13 +16,6 @@ const Login = (props: LoginProps) => {
   const authOkta = useAuthOIDC();
 
   //! Function
-  const googleLogin = async () => {
-    try {
-      await signInWithPopup(authFirebase, googleProvider);
-    } catch (error) {}
-  };
-
-  console.log(auth);
 
   //! Render
 
@@ -75,7 +64,7 @@ const Login = (props: LoginProps) => {
                   boxShadow: 4,
                   p: 3,
                   borderRadius: 2,
-                  minWidth: 400,
+                  minWidth: 600,
                   backgroundColor: theme.colors?.white,
                 }}
               >
@@ -86,7 +75,7 @@ const Login = (props: LoginProps) => {
                   sx={{ width: '100%', display: 'flex', alignItems: 'center', gap: 4 }}
                 >
                   <CommonStyles.Box
-                    sx={{ display: 'flex', flexDirection: 'column', gap: 2, width: '60%' }}
+                    sx={{ display: 'flex', flexDirection: 'column', gap: 2, width: '55%' }}
                   >
                     <FastField component={TextField} name='username' label='Username' fullWidth />
                     <FastField
@@ -108,18 +97,13 @@ const Login = (props: LoginProps) => {
 
                   <CommonStyles.Box>
                     <CommonStyles.Button
-                      sx={{ mb: 2 }}
                       variant='outlined'
                       fullWidth
                       onClick={() => {
                         authOkta.signInPopup();
                       }}
                     >
-                      Sign in by Okta
-                    </CommonStyles.Button>
-
-                    <CommonStyles.Button variant='outlined' fullWidth onClick={googleLogin}>
-                      Sign in by Google
+                      Sign In by AWS
                     </CommonStyles.Button>
                   </CommonStyles.Box>
                 </CommonStyles.Box>

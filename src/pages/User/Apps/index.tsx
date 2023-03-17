@@ -2,12 +2,14 @@ import React from 'react';
 import CommonStyles from 'components/CommonStyles';
 import { useTheme } from '@mui/material';
 import { useGetListInstalledApp } from 'hooks/app/useAppHooks';
+import useAuth from 'hooks/useAuth';
 
 // interface AppsProps {}
 
 const Apps = () => {
   //! State
   const theme = useTheme();
+  const { user } = useAuth();
   const { data: resListInstalledApp } = useGetListInstalledApp({
     skip: 0,
     take: 999,
@@ -21,9 +23,11 @@ const Apps = () => {
   //! Render
   return (
     <CommonStyles.Box>
-      {/* <CommonStyles.Box sx={{ p: 1, background: 'rgba(0, 0, 0, 0.1)', mb: 2 }}>
-        <code style={{ overflowWrap: 'anywhere' }}> {JSON.stringify(user)}</code>
-      </CommonStyles.Box> */}
+      <CommonStyles.Box sx={{ p: 1, background: 'rgba(0, 0, 0, 0.1)', mb: 2 }}>
+        <CommonStyles.Typography variant='h5'>
+          Welcome {user?.profile.email}
+        </CommonStyles.Typography>
+      </CommonStyles.Box>
 
       <CommonStyles.Typography variant='h4' sx={{ mb: 5 }}>
         My Apps ({totalCountInstallApp})

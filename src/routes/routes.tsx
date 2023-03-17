@@ -43,6 +43,7 @@ const routes: Route[] = [
         name: 'AppManagement',
         path: BaseUrl.AppManagement,
         component: withCheckRole(AppManagement, [PERMISSION_ENUM.PUBLIC]),
+        isPrivateRoute: true,
       },
     ],
   },

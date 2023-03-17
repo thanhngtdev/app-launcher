@@ -1,52 +1,32 @@
-import { useMemo, useEffect } from 'react';
+import { useMemo } from 'react';
 import { useAuth as useAuthOIDC } from 'oidc-react';
-import { useAppAuthentication } from 'providers/AppAuthenticationProvider';
-import { signOut } from 'firebase/auth';
 import { isEmpty } from 'lodash';
-import { authFirebase } from 'helpers/firebase';
-import { useAuthState } from 'react-firebase-hooks/auth';
 
 //* Hooks to get ALL auth
 const useAuth = () => {
   //! State
-  //* Okta Provider
-  const authOkta = useAuthOIDC();
-  const isOktaProvider = !!authOkta?.userData?.id_token;
-  const isOktaLogged = !!localStorage.getItem('AUTH_OKTA');
-
-  useEffect(() => {
-    if (authOkta?.userData) {
-      localStorage.setItem('AUTH_OKTA', JSON.stringify(authOkta?.userData));
-    }
-  }, [isOktaLogged, authOkta?.userData]);
-
-  //* Google Provider
-  const [userProviders, loadingProviders] = useAuthState(authFirebase);
-
-  //* Local Provider
-  const authApp = useAppAuthentication();
+  //* Auth AWS
+  const auth = useAuthOIDC();
 
   const user = useMemo(() => {
-    if (!isEmpty(authOkta?.userData)) {
-      return authOkta?.userData;
+    if (!isEmpty(auth?.userData)) {
+      return auth?.userData;
     }
 
-    if (!isEmpty(authApp?.user)) {
-      return authApp.user;
-    }
+    return null;
+  }, [auth.userData]);
 
-    return userProviders;
-  }, [authOkta?.userData, authApp?.user, userProviders]);
+  console.log({ user });
 
   //! Return
   return useMemo(() => {
     return {
-      loading: loadingProviders,
-      isLogged: true || !isEmpty(user),
+      loading: false,
+      isLogged: !isEmpty(user),
       user,
-      logout: isOktaProvider ? authOkta.signOut : () => signOut(authFirebase),
+      logout: auth.signOut,
     };
-  }, [isOktaProvider, loadingProviders, user]);
+  }, [user, auth.signOut]);
 };
 
 export default useAuth;
