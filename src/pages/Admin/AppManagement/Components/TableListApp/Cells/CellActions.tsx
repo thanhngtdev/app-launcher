@@ -64,13 +64,17 @@ const CellActions = ({ item }: CellActionsProps) => {
         />
       )}
 
-      <CommonStyles.Button isIconButton onClick={toggleEditApp}>
-        <CommonIcons.EditIcon />
-      </CommonStyles.Button>
+      <CommonStyles.Tooltip title='Edit'>
+        <CommonStyles.Button isIconButton onClick={toggleEditApp}>
+          <CommonIcons.EditIcon />
+        </CommonStyles.Button>
+      </CommonStyles.Tooltip>
 
-      <CommonStyles.Button isIconButton onClick={onClickInstall}>
-        <CommonIcons.DownloadingIcon />
-      </CommonStyles.Button>
+      <CommonStyles.Tooltip title='Install'>
+        <CommonStyles.Button isIconButton onClick={onClickInstall}>
+          <CommonIcons.DownloadingIcon />
+        </CommonStyles.Button>
+      </CommonStyles.Tooltip>
     </Fragment>
   );
 };

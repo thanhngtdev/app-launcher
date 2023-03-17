@@ -4,6 +4,7 @@ import Loading from './Loading';
 import Box from './Box';
 import Table from './Table';
 import Avatar from './Avatar';
+import Tooltip from './Tooltip';
 
 export default {
   Avatar,
@@ -11,5 +12,6 @@ export default {
   Button,
   Typography,
   Loading,
+  Tooltip,
   Box,
 };
