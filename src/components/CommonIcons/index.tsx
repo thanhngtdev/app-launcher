@@ -1,3 +1,6 @@
+import GroupIcon from '@mui/icons-material/Group';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
+import NoteAddOutlinedIcon from '@mui/icons-material/NoteAddOutlined';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -24,4 +27,7 @@ export default {
   EditIcon,
   DownloadingIcon,
   UninstallIcon: RestoreFromTrashIcon,
+  NoteAddIcon: NoteAddOutlinedIcon,
+  BookIcon: MenuBookIcon,
+  Users: GroupIcon,
 };

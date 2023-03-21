@@ -1,8 +1,7 @@
 import { useMemo } from 'react';
 import CommonIcons from 'components/CommonIcons';
-import { useAppAuthentication } from 'providers/AppAuthenticationProvider';
-import { PERMISSION_ENUM } from 'consts/index';
 import BaseUrl from 'consts/baseUrl';
+import useAuth from './useAuth';
 
 const navbarAdmin = [
   [
@@ -16,32 +15,34 @@ const navbarAdmin = [
       icon: CommonIcons.CloudIcon,
       href: BaseUrl.AppManagement,
     },
-  ],
-];
-
-const navbarUser = [
-  [
     {
-      label: 'Homepage',
-      icon: CommonIcons.HomeIcon,
-      href: '/',
+      label: 'Users',
+      icon: CommonIcons.Users,
+      href: BaseUrl.Users,
     },
   ],
 ];
 
+// const navbarUser = [
+//   [
+//     {
+//       label: 'Homepage',
+//       icon: CommonIcons.HomeIcon,
+//       href: '/',
+//     },
+//   ],
+// ];
+
 const useHandleAsideMenu = () => {
-  const { user } = useAppAuthentication();
-  const role = user?.role;
+  const { isLogged } = useAuth();
 
   return useMemo(() => {
-    return navbarAdmin;
-
-    if (role === PERMISSION_ENUM.ADMIN) {
-      return navbarAdmin;
+    if (!isLogged) {
+      return [];
     }
 
-    return navbarUser;
-  }, [role]);
+    return navbarAdmin;
+  }, [isLogged]);
 };
 
 export default useHandleAsideMenu;

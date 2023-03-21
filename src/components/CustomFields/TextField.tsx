@@ -21,13 +21,14 @@ const TextField = ({ field, form, ...props }: Props & TextFieldProps) => {
       onChange={onChange}
       error={!!msgError}
       helperText={isString(msgError) && msgError}
+      variant='standard'
       sx={{
         '& label': {
-          fontSize: '0.825rem',
-          top: -3,
+          // fontSize: '0.825rem',
+          // top: -3,
         },
         '& input': {
-          padding: '9px 14px',
+          // padding: '9px 14px',
         },
       }}
       {...props}

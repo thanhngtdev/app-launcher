@@ -1,4 +1,8 @@
-const ROOT_URL = 'http://13.214.123.193:10000/api';
+import { isDevelopment } from 'consts';
+
+const ROOT_URL = `${
+  isDevelopment ? 'https://betterhome-mvp.twenty-tech.com' : window.location.origin
+}/api`;
 
 // Dont remove this command
 // ImportAPIURL

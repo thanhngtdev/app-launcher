@@ -6,6 +6,10 @@ const BaseUrl = {
   Callbacks: '/login/callback',
 
   AppManagement: '/app-management',
+
+  CreateApp: '/create-app',
+
+  Users: '/users',
 };
 
 export default BaseUrl;

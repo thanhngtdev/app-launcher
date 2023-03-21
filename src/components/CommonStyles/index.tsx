@@ -5,8 +5,10 @@ import Box from './Box';
 import Table from './Table';
 import Avatar from './Avatar';
 import Tooltip from './Tooltip';
+import TabPanel from './TabPanel';
 
 export default {
+  TabPanel,
   Avatar,
   Table,
   Button,

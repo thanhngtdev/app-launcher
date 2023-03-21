@@ -74,7 +74,7 @@ const Login = (props: LoginProps) => {
                 <CommonStyles.Box
                   sx={{ width: '100%', display: 'flex', alignItems: 'center', gap: 4 }}
                 >
-                  <CommonStyles.Box
+                  {/* <CommonStyles.Box
                     sx={{ display: 'flex', flexDirection: 'column', gap: 2, width: '55%' }}
                   >
                     <FastField component={TextField} name='username' label='Username' fullWidth />
@@ -93,9 +93,9 @@ const Login = (props: LoginProps) => {
                     <CommonStyles.Typography sx={{ color: theme.colors?.gray }}>
                       OR
                     </CommonStyles.Typography>
-                  </CommonStyles.Box>
+                  </CommonStyles.Box> */}
 
-                  <CommonStyles.Box>
+                  <CommonStyles.Box sx={{ width: '100%' }}>
                     <CommonStyles.Button
                       variant='outlined'
                       fullWidth
