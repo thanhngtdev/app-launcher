@@ -3,16 +3,13 @@ import CommonStyles from 'components/CommonStyles';
 import { useGetListInstalledApp } from 'hooks/app/useAppHooks';
 import useFiltersHandler from 'hooks/useFiltersHandler';
 import CellActions from './Cells/CellActions';
+import { Order } from 'interfaces/common';
 
 const TableInstalledApp = () => {
   //! State
   const {
     filters,
-    order,
-    orderBy,
     selected,
-    page,
-    rowsPerPage,
     handleChangePage,
     handleChangeRowsPerPage,
     handleRequestSort,
@@ -20,8 +17,8 @@ const TableInstalledApp = () => {
   } = useFiltersHandler({ search: '' });
 
   const { data: resListInstalledApp, isLoading: isInstalledLoading } = useGetListInstalledApp({
-    skip: page,
-    take: rowsPerPage,
+    skip: filters?.page || 0,
+    take: filters?.rowsPerPage || 5,
     filter: filters?.search,
   });
   const dataInstallApp = resListInstalledApp?.data?.items || [];
@@ -44,11 +41,11 @@ const TableInstalledApp = () => {
       </CommonStyles.Typography>
 
       <CommonStyles.Table
-        order={order}
-        orderBy={orderBy}
+        order={filters?.order || Order.desc}
+        orderBy={filters?.orderBy}
         selected={selected}
-        page={page}
-        rowsPerPage={rowsPerPage}
+        page={filters?.page || 0}
+        rowsPerPage={filters?.rowsPerPage || 5}
         headCells={[
           {
             label: 'Icon',

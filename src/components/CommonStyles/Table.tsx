@@ -104,11 +104,17 @@ interface TableCommonProps<T> {
   rows: T[];
   headCells: HeadCell<T>[];
   totalCount: number;
-  a?: (arg: T) => void;
   handleChangePage: (event: unknown, newPage: number) => void;
-  handleSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleSelectAllClick: (
+    event: React.ChangeEvent<HTMLInputElement>,
+    rows: T[],
+    key?: string
+  ) => void;
+  handleCheckBox?: (value: T, key: string) => void;
   handleRequestSort: (event: React.MouseEvent<unknown>, property: keyof any) => void;
   handleChangeRowsPerPage: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  showCheckBox?: boolean;
+  keyPrimary?: string;
 }
 
 function TableCommon<T>({
@@ -120,6 +126,9 @@ function TableCommon<T>({
   rows,
   headCells,
   totalCount,
+  showCheckBox,
+  keyPrimary = 'id',
+  handleCheckBox,
   handleChangePage,
   handleSelectAllClick,
   handleRequestSort,
@@ -140,16 +149,19 @@ function TableCommon<T>({
               numSelected={selected.length}
               order={order}
               orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
+              onSelectAllClick={(e) => {
+                handleSelectAllClick(e, rows, keyPrimary);
+              }}
               onRequestSort={handleRequestSort}
               rowCount={totalCount}
               headCells={headCells}
+              showCheckBox={showCheckBox}
             />
             <TableBody>
               {rows.map((row, index) => {
                 const rowAny = row as any;
-                const isItemSelected = isSelected(rowAny?.name || '');
-                const labelId = `enhanced-table-checkbox-${index}`;
+                const isItemSelected = isSelected(rowAny?.[keyPrimary] || '');
+                const labelId = `enhanced-table-checkbox-${index}-${keyPrimary}` as any;
 
                 return (
                   <TableRow
@@ -159,6 +171,20 @@ function TableCommon<T>({
                     key={labelId}
                     selected={isItemSelected}
                   >
+                    {showCheckBox && (
+                      <TableCell padding='checkbox'>
+                        <Checkbox
+                          color='primary'
+                          checked={isItemSelected}
+                          onClick={() => {
+                            handleCheckBox && handleCheckBox(row, keyPrimary);
+                          }}
+                          inputProps={{
+                            'aria-labelledby': labelId,
+                          }}
+                        />
+                      </TableCell>
+                    )}
                     {headCells.map((hc, idx) => {
                       return (
                         <TableCell key={`cell-${index}-${idx}`}>

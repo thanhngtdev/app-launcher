@@ -32,12 +32,17 @@ export interface ResponseCommon<T> {
 
 export type PromiseResponseBase<T> = Promise<AxiosResponse<T>>;
 
-export type OrderType = 'desc' | 'asc';
+export enum Order {
+  desc = 'desc',
+  asc = 'asc',
+}
+export type OrderType = Order.desc | Order.asc;
 
 export interface CommonFilters {
-  page?: number;
-  limit?: number;
   order?: OrderType;
+  page?: number;
+  rowsPerPage?: number;
+  orderBy?: string | number | symbol;
 }
 
 export interface DialogI<T> {

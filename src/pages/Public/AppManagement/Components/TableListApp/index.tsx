@@ -3,16 +3,14 @@ import CommonStyles from 'components/CommonStyles';
 import { useGetListApp } from 'hooks/app/useAppHooks';
 import useFiltersHandler from 'hooks/useFiltersHandler';
 import CellActions from './Cells/CellActions';
+import { Order } from 'interfaces/common';
 
 const TableListApp = () => {
   //! State
   const {
     filters,
-    order,
-    orderBy,
+
     selected,
-    page,
-    rowsPerPage,
     handleChangePage,
     handleChangeRowsPerPage,
     handleRequestSort,
@@ -20,8 +18,8 @@ const TableListApp = () => {
   } = useFiltersHandler({ search: '' });
 
   const { data: resListApp, isLoading } = useGetListApp({
-    skip: page,
-    take: rowsPerPage,
+    skip: filters?.page || 0,
+    take: filters?.rowsPerPage || 5,
     filter: filters?.search,
   });
   const data = resListApp?.data?.items || [];
@@ -44,11 +42,11 @@ const TableListApp = () => {
       </CommonStyles.Typography>
 
       <CommonStyles.Table
-        order={order}
-        orderBy={orderBy}
+        order={filters?.order || Order.desc}
+        orderBy={filters?.orderBy}
         selected={selected}
-        page={page}
-        rowsPerPage={rowsPerPage}
+        page={filters?.page || 0}
+        rowsPerPage={filters?.rowsPerPage || 5}
         headCells={[
           {
             label: 'Icon',

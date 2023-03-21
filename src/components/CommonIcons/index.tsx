@@ -1,3 +1,5 @@
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import SearchIcon from '@mui/icons-material/Search';
 import GroupIcon from '@mui/icons-material/Group';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import NoteAddOutlinedIcon from '@mui/icons-material/NoteAddOutlined';
@@ -30,4 +32,6 @@ export default {
   NoteAddIcon: NoteAddOutlinedIcon,
   BookIcon: MenuBookIcon,
   Users: GroupIcon,
+  Search: SearchIcon,
+  Reset: RestartAltIcon,
 };
