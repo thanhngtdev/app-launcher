@@ -115,6 +115,7 @@ interface TableCommonProps<T> {
   handleChangeRowsPerPage: (event: React.ChangeEvent<HTMLInputElement>) => void;
   showCheckBox?: boolean;
   keyPrimary?: string;
+  isLoading?: boolean;
 }
 
 function TableCommon<T>({
@@ -128,6 +129,7 @@ function TableCommon<T>({
   totalCount,
   showCheckBox,
   keyPrimary = 'id',
+  isLoading,
   handleCheckBox,
   handleChangePage,
   handleSelectAllClick,
@@ -158,44 +160,45 @@ function TableCommon<T>({
               showCheckBox={showCheckBox}
             />
             <TableBody>
-              {rows.map((row, index) => {
-                const rowAny = row as any;
-                const isItemSelected = isSelected(rowAny?.[keyPrimary] || '');
-                const labelId = `enhanced-table-checkbox-${index}-${keyPrimary}` as any;
+              {!isLoading &&
+                rows.map((row, index) => {
+                  const rowAny = row as any;
+                  const isItemSelected = isSelected(rowAny?.[keyPrimary] || '');
+                  const labelId = `enhanced-table-checkbox-${index}-${keyPrimary}` as any;
 
-                return (
-                  <TableRow
-                    hover
-                    aria-checked={isItemSelected}
-                    tabIndex={-1}
-                    key={labelId}
-                    selected={isItemSelected}
-                  >
-                    {showCheckBox && (
-                      <TableCell padding='checkbox'>
-                        <Checkbox
-                          color='primary'
-                          checked={isItemSelected}
-                          onClick={() => {
-                            handleCheckBox && handleCheckBox(row, keyPrimary);
-                          }}
-                          inputProps={{
-                            'aria-labelledby': labelId,
-                          }}
-                        />
-                      </TableCell>
-                    )}
-                    {headCells.map((hc, idx) => {
-                      return (
-                        <TableCell key={`cell-${index}-${idx}`}>
-                          {hc?.Cell?.(rowAny) || rowAny?.[hc?.id]}
+                  return (
+                    <TableRow
+                      hover
+                      aria-checked={isItemSelected}
+                      tabIndex={-1}
+                      key={labelId}
+                      selected={isItemSelected}
+                    >
+                      {showCheckBox && (
+                        <TableCell padding='checkbox'>
+                          <Checkbox
+                            color='primary'
+                            checked={isItemSelected}
+                            onClick={() => {
+                              handleCheckBox && handleCheckBox(row, keyPrimary);
+                            }}
+                            inputProps={{
+                              'aria-labelledby': labelId,
+                            }}
+                          />
                         </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                );
-              })}
-              {totalCount === 0 && (
+                      )}
+                      {headCells.map((hc, idx) => {
+                        return (
+                          <TableCell key={`cell-${index}-${idx}`}>
+                            {hc?.Cell?.(rowAny) || rowAny?.[hc?.id]}
+                          </TableCell>
+                        );
+                      })}
+                    </TableRow>
+                  );
+                })}
+              {!isLoading && totalCount === 0 && (
                 <TableRow
                   style={{
                     height: 53 * emptyRows,
@@ -220,6 +223,30 @@ function TableCommon<T>({
                   </TableCell>
                 </TableRow>
               )}
+
+              {isLoading && (
+                <TableRow
+                  style={{
+                    height: 53 * emptyRows,
+                  }}
+                >
+                  <TableCell colSpan={6}>
+                    <CommonStyles.Box
+                      sx={{
+                        width: '100%',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        flexDirection: 'column',
+                        gap: 1,
+                      }}
+                    >
+                      <CommonStyles.Loading />
+                    </CommonStyles.Box>
+                  </TableCell>
+                </TableRow>
+              )}
+
               {emptyRows > 0 && (
                 <TableRow
                   style={{

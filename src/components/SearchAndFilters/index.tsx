@@ -2,10 +2,12 @@ import React from 'react';
 import CommonIcons from 'components/CommonIcons';
 import CommonStyles from 'components/CommonStyles';
 import { Form, Formik, FormikConfig, FormikValues } from 'formik';
+import { SxProps } from '@mui/material';
 
 interface SearchAndFiltersProps {
   renderFilterFields?: () => React.ReactNode;
   onReset?: () => void;
+  sxContainer?: SxProps;
 }
 
 function SearchAndFilters<T extends FormikValues = FormikValues>({
@@ -13,6 +15,7 @@ function SearchAndFilters<T extends FormikValues = FormikValues>({
   renderFilterFields,
   onSubmit,
   onReset,
+  sxContainer,
 }: SearchAndFiltersProps & FormikConfig<T>) {
   //! State
 
@@ -24,7 +27,7 @@ function SearchAndFilters<T extends FormikValues = FormikValues>({
       {({ resetForm }) => {
         return (
           <Form>
-            <CommonStyles.Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+            <CommonStyles.Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, ...sxContainer }}>
               {renderFilterFields && renderFilterFields()}
 
               <CommonStyles.Box sx={{ display: 'flex', gap: 1 }}>

@@ -20,29 +20,42 @@ const navbarAdmin = [
       icon: CommonIcons.Users,
       href: BaseUrl.Users,
     },
+    {
+      label: 'Settings',
+      icon: CommonIcons.SettingsIcon,
+      href: BaseUrl.Settings,
+    },
   ],
 ];
 
-// const navbarUser = [
-//   [
-//     {
-//       label: 'Homepage',
-//       icon: CommonIcons.HomeIcon,
-//       href: '/',
-//     },
-//   ],
-// ];
+const navbarUser = [
+  [
+    {
+      label: 'Homepage',
+      icon: CommonIcons.HomeIcon,
+      href: '/',
+    },
+  ],
+];
 
 const useHandleAsideMenu = () => {
-  const { isLogged } = useAuth();
+  const { loading, isLogged, isAdmin, isAppManager } = useAuth();
 
   return useMemo(() => {
-    if (!isLogged) {
+    if (loading || !isLogged) {
       return [];
     }
 
-    return navbarAdmin;
-  }, [isLogged]);
+    if (isAdmin) {
+      return navbarAdmin;
+    }
+
+    if (isAppManager) {
+      return navbarUser;
+    }
+
+    return navbarUser;
+  }, [loading, isLogged, isAdmin, isAppManager]);
 };
 
 export default useHandleAsideMenu;

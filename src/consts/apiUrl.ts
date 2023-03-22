@@ -8,3 +8,4 @@ const ROOT_URL = `${
 // ImportAPIURL
 export const APP_MANAGEMENT_URL = `${ROOT_URL}/app-management`;
 export const APP_INTEGRATION_URL = `${ROOT_URL}/app-integration`;
+export const USER_URL = `${ROOT_URL}/user`;

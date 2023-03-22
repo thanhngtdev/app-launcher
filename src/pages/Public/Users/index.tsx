@@ -1,17 +1,18 @@
 import React from 'react';
-import CommonIcons from 'components/CommonIcons';
 import CommonStyles from 'components/CommonStyles';
 import SearchAndFilters from 'components/SearchAndFilters';
 import { FastField } from 'formik';
 import TextField from 'components/CustomFields/TextField';
 import useFiltersHandler from 'hooks/useFiltersHandler';
 import { Order } from 'interfaces/common';
+import { cloneDeep } from 'lodash';
+import { useGetUserList } from 'hooks/users/useUsersHooks';
+import CellActions from './Cells/CellActions';
 
 interface UsersProps {}
 
 const initialValues = {
-  username: '',
-  email: '',
+  search: '',
   page: 0,
   rowsPerPage: 5,
   order: Order.desc,
@@ -32,21 +33,15 @@ const Users = (props: UsersProps) => {
     handleCheckBox,
   } = useFiltersHandler(initialValues);
 
-  //! Function
-  const totalCount = 2;
+  const { data: resUserList, isLoading } = useGetUserList({
+    skip: filters?.page || 0,
+    take: filters?.rowsPerPage || 5,
+    filter: filters?.search || '',
+  });
+  const users = resUserList?.data?.items || [];
+  const totalCount = resUserList?.data?.totalCount || 0;
 
-  const data = [
-    {
-      id: '1',
-      name: 'Pham Quy Don',
-      email: 'donezombie@gmail.com',
-    },
-    {
-      id: '2',
-      name: 'Pham Quy Don 2',
-      email: 'donezombie2@gmail.com',
-    },
-  ];
+  //! Function
 
   //! Render
   return (
@@ -55,30 +50,29 @@ const Users = (props: UsersProps) => {
         Users management
       </CommonStyles.Typography>
 
-      <CommonStyles.Typography sx={{ mb: 2 }}>
-        <code style={{ backgroundColor: 'rgba(0, 0, 0, 0.1)', padding: 12 }}>
-          {JSON.stringify({ filters: { ...filters, selected } })}
-        </code>
-      </CommonStyles.Typography>
-
       <SearchAndFilters
         initialValues={initialValues}
         onSubmit={(values) => {
-          setFilters(values);
+          setFilters(cloneDeep(values));
         }}
         onReset={() => {
           handleResetToInitial();
         }}
+        sxContainer={{
+          justifyContent: 'space-between',
+        }}
         renderFilterFields={() => {
           return (
             <CommonStyles.Box sx={{ gap: 2, display: 'flex' }}>
-              <FastField
-                component={TextField}
-                name='username'
-                placeholder='Username'
-                label='Username'
-              />
-              <FastField component={TextField} name='email' placeholder='Email' label='Email' />
+              <CommonStyles.Box sx={{ minWidth: 300 }}>
+                <FastField
+                  component={TextField}
+                  name='search'
+                  placeholder='Search'
+                  label='Search'
+                  fullWidth
+                />
+              </CommonStyles.Box>
             </CommonStyles.Box>
           );
         }}
@@ -96,22 +90,41 @@ const Users = (props: UsersProps) => {
           rowsPerPage={filters?.rowsPerPage || 5}
           headCells={[
             {
-              label: 'Name',
-              id: 'name',
+              label: 'Username',
+              id: 'username',
             },
             {
               label: 'Email',
               id: 'email',
             },
+            {
+              label: 'Phone number',
+              id: 'phoneNumber',
+            },
+            {
+              label: 'First name',
+              id: 'firstname',
+            },
+            {
+              label: 'Last name',
+              id: 'lastname',
+            },
+            {
+              label: '',
+              id: 'actions',
+              Cell: (row) => {
+                return <CellActions user={row} />;
+              },
+            },
           ]}
           totalCount={totalCount}
-          rows={data}
+          rows={users}
           handleChangePage={handleChangePage}
           handleChangeRowsPerPage={handleChangeRowsPerPage}
           handleRequestSort={handleRequestSort}
           handleSelectAllClick={handleSelectAllClick}
           handleCheckBox={handleCheckBox}
-          showCheckBox
+          isLoading={isLoading}
         />
       </CommonStyles.Box>
     </CommonStyles.Box>

@@ -5,6 +5,13 @@ export const queryKeys = {
   getAppList: 'getAppList',
   getAppDetail: 'getAppDetai',
   getAppInstalledList: 'getAppInstalledList',
+
+  getUserInfo: 'getUserInfo',
+  updateUserInfo: 'updateUserInfo',
+  assignUser: 'assignUser',
+  getListUser: 'getListUser',
+  getUserDetail: 'getUserDetail',
+  updateUser: 'updateUser',
 };
 
 export const LANG_ENUM = {
@@ -14,11 +21,20 @@ export const LANG_ENUM = {
 
 export enum PERMISSION_ENUM {
   PUBLIC = 'PUBLIC',
-  ADMIN = 'ADMIN',
-  USER = 'USER',
+  ADMIN = 'admin',
+  USER = 'user',
+  APP_MANAGER = 'appmanager',
 }
 
-export enum CONNECTOR_ENUM {
-  OKTA = 'OKTA',
-  GOOGLE = 'GOOGLE',
-}
+export const PermissionOptions = Object.entries(PERMISSION_ENUM)
+  .filter((el) => {
+    const [key, value] = el;
+    return key !== PERMISSION_ENUM.PUBLIC && value !== PERMISSION_ENUM.ADMIN;
+  })
+  .map((el) => {
+    const [key, value] = el;
+    return {
+      label: key,
+      value: value,
+    };
+  });

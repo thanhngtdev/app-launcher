@@ -20,8 +20,8 @@ export interface ResponseGenerator<T = any> {
 export type TypeAlign = 'left' | 'right' | 'inherit' | 'center' | 'justify' | undefined;
 
 export interface SelectOption {
-  label: string | number;
-  value: string | number | undefined;
+  label: string;
+  value: any;
 }
 
 export interface ResponseCommon<T> {
@@ -57,6 +57,11 @@ export interface RequestPagingCommon {
   filter?: string;
 }
 
+export interface ResponsePagingCommon<T> {
+  totalCount: number;
+  items: T;
+}
+
 export interface User {
   sub: string;
   name: string;
@@ -68,3 +73,6 @@ export interface User {
   exp: number;
   amr: string[];
 }
+
+export type SetOptionsValue = React.Dispatch<React.SetStateAction<SelectOption[]>>;
+export type SetBooleanState = React.Dispatch<React.SetStateAction<boolean>>;

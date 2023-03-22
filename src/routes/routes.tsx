@@ -11,6 +11,7 @@ const Callbacks = lazy(() => import('pages/Public/Callbacks'));
 const AppManagement = lazy(() => import('pages/Public/AppManagement'));
 const CreateApp = lazy(() => import('pages/Public/Apps/CreateApp'));
 const Users = lazy(() => import('pages/Public/Users'));
+const Settings = lazy(() => import('pages/Public/Settings'));
 
 interface Route {
   name: string;
@@ -56,6 +57,12 @@ const routes: Route[] = [
         name: 'Users',
         path: BaseUrl.Users,
         component: withCheckRole(Users, [PERMISSION_ENUM.PUBLIC]),
+        isPrivateRoute: true,
+      },
+      {
+        name: 'Settings',
+        path: BaseUrl.Settings,
+        component: withCheckRole(Settings, [PERMISSION_ENUM.PUBLIC]),
         isPrivateRoute: true,
       },
     ],

@@ -20,29 +20,27 @@ const SelectField = ({ field, form, options, label, ...props }: SelectFieldProps
   const msgError = get(touched, name) && get(errors, name) ? (get(errors, name) as string) : '';
 
   return (
-    <div>
-      <FormControl sx={{ minWidth: 120 }} error={!!msgError}>
-        <InputLabel id={`${name}`}>{label}</InputLabel>
-        <Select
-          labelId={`${name}`}
-          id={`${name}`}
-          value={value}
-          name={name}
-          onChange={onChange}
-          onBlur={onBlur}
-          {...props}
-        >
-          {options.map((el) => {
-            return (
-              <MenuItem key={el.value} value={el.value}>
-                {el.label}
-              </MenuItem>
-            );
-          })}
-        </Select>
-        {!!msgError && <FormHelperText>{msgError}</FormHelperText>}
-      </FormControl>
-    </div>
+    <FormControl sx={{ minWidth: 120 }} fullWidth={props.fullWidth} error={!!msgError}>
+      <InputLabel id={`${name}`}>{label}</InputLabel>
+      <Select
+        labelId={`${name}`}
+        id={`${name}`}
+        value={value}
+        name={name}
+        onChange={onChange}
+        onBlur={onBlur}
+        {...props}
+      >
+        {options.map((el) => {
+          return (
+            <MenuItem key={el.value} value={el.value}>
+              {el.label}
+            </MenuItem>
+          );
+        })}
+      </Select>
+      {!!msgError && <FormHelperText>{msgError}</FormHelperText>}
+    </FormControl>
   );
 };
 

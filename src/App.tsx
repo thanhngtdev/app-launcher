@@ -11,7 +11,6 @@ import { theme } from './theme';
 import { useToggleTheme } from 'providers/ToggleThemeProvider';
 import { ErrorBoundary } from 'react-error-boundary';
 import CommonStyles from 'components/CommonStyles';
-import useAuth from 'hooks/useAuth';
 
 const ErrorFallback = ({ error, resetErrorBoundary }: any) => {
   return (
@@ -25,17 +24,12 @@ const ErrorFallback = ({ error, resetErrorBoundary }: any) => {
 
 const App = () => {
   //! State
-  const { loading } = useAuth();
   const { mode } = useToggleTheme();
 
   //! Function
 
   //! Render
   const renderContent = () => {
-    if (loading) {
-      return <CommonStyles.Loading />;
-    }
-
     return (
       <Router>
         <Routes>

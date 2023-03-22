@@ -10,6 +10,7 @@ const BaseUrl = {
   CreateApp: '/create-app',
 
   Users: '/users',
+  Settings: '/settings',
 };
 
 export default BaseUrl;

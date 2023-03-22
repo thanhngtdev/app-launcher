@@ -1,3 +1,6 @@
+import PersonAddOutlinedIcon from '@mui/icons-material/PersonAddOutlined';
+import SaveIcon from '@mui/icons-material/Save';
+import SettingsIcon from '@mui/icons-material/Settings';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import SearchIcon from '@mui/icons-material/Search';
 import GroupIcon from '@mui/icons-material/Group';
@@ -34,4 +37,7 @@ export default {
   Users: GroupIcon,
   Search: SearchIcon,
   Reset: RestartAltIcon,
+  SettingsIcon,
+  SaveIcon,
+  AssignIcon: PersonAddOutlinedIcon,
 };
