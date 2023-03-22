@@ -9,7 +9,7 @@ import { cloneDeep } from 'lodash';
 import { useGetUserList } from 'hooks/users/useUsersHooks';
 import CellActions from './Cells/CellActions';
 import { getNameRole } from 'helpers';
-import { NUMBER_DEFAULT_ROW_PER_PAGE, NUMBER_DEFAUTL_PAGE } from 'consts';
+import { NUMBER_DEFAULT_ROW_PER_PAGE, NUMBER_DEFAULT_PAGE } from 'consts';
 
 interface UsersProps {}
 
@@ -37,7 +37,7 @@ const Users = (props: UsersProps) => {
 
   const { data: resUserList, isLoading } = useGetUserList({
     skip:
-      (filters?.page || NUMBER_DEFAUTL_PAGE) *
+      (filters?.page || NUMBER_DEFAULT_PAGE) *
       (filters?.rowsPerPage || NUMBER_DEFAULT_ROW_PER_PAGE),
     take: filters?.rowsPerPage || NUMBER_DEFAULT_ROW_PER_PAGE,
     filter: filters?.search || '',

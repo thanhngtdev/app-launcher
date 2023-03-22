@@ -36,7 +36,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
             <AuthenticationProvider>
               <App />
             </AuthenticationProvider>
-            <ToastContainer theme='colored' />
+            <ToastContainer theme='light' />
           </OIDCAuthProvider>
         </ToggleThemeProvider>
       </I18nextProvider>

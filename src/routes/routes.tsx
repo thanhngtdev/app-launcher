@@ -47,6 +47,7 @@ const routes: Route[] = [
         component: withCheckRole(AppManagement, [
           PERMISSION_ENUM.ADMIN,
           PERMISSION_ENUM.APP_MANAGER,
+          PERMISSION_ENUM.USER,
         ]),
         isPrivateRoute: true,
       },

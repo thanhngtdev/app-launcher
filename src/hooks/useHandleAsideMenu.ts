@@ -53,7 +53,17 @@ const navbarUser = [
     {
       label: 'Homepage',
       icon: CommonIcons.HomeIcon,
-      href: '/',
+      href: BaseUrl.Homepage,
+    },
+    {
+      label: 'Apps',
+      icon: CommonIcons.CloudIcon,
+      href: BaseUrl.AppManagement,
+    },
+    {
+      label: 'Settings',
+      icon: CommonIcons.SettingsIcon,
+      href: BaseUrl.Settings,
     },
   ],
 ];

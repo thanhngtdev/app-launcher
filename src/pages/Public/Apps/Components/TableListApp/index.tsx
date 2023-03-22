@@ -4,7 +4,7 @@ import { useGetListApp } from 'hooks/app/useAppHooks';
 import useFiltersHandler from 'hooks/useFiltersHandler';
 import CellActions from './Cells/CellActions';
 import { Order } from 'interfaces/common';
-import { NUMBER_DEFAULT_ROW_PER_PAGE, NUMBER_DEFAUTL_PAGE } from 'consts';
+import { NUMBER_DEFAULT_ROW_PER_PAGE, NUMBER_DEFAULT_PAGE } from 'consts';
 import CellActive from './Cells/CellActive';
 
 const TableListApp = () => {
@@ -20,7 +20,7 @@ const TableListApp = () => {
 
   const { data: resListApp, isLoading } = useGetListApp({
     skip:
-      (filters?.page || NUMBER_DEFAUTL_PAGE) *
+      (filters?.page || NUMBER_DEFAULT_PAGE) *
       (filters?.rowsPerPage || NUMBER_DEFAULT_ROW_PER_PAGE),
     take: filters?.rowsPerPage || NUMBER_DEFAULT_ROW_PER_PAGE,
     filter: filters?.search,

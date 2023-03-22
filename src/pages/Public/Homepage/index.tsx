@@ -13,15 +13,7 @@ import { Link } from 'react-router-dom';
 const Apps = () => {
   //! State
   const theme = useTheme();
-  const { user } = useAuth();
-  const { data: resListInstalledApp } = useGetListInstalledApp({
-    skip: 0,
-    take: 999,
-    filter: '',
-  });
-  const dataInstallApp = resListInstalledApp?.data?.items || [];
-  const totalCountInstallApp = resListInstalledApp?.data?.totalCount || 0;
-  const navigate = useNavigate();
+  const { isUser, user } = useAuth();
 
   //! Function
 
@@ -125,6 +117,19 @@ const Apps = () => {
       </CommonStyles.Box>
     );
   };
+
+  if (isUser) {
+    return (
+      <CommonStyles.Box>
+        <CommonStyles.Typography variant='h4' sx={{ mb: 2 }}>
+          Hello {user?.username}
+        </CommonStyles.Typography>
+        <Link to={BaseUrl.AppManagement}>
+          <CommonStyles.Button> Go to Apps</CommonStyles.Button>
+        </Link>
+      </CommonStyles.Box>
+    );
+  }
 
   return (
     <CommonStyles.Box sx={{ display: 'flex', gap: 5 }}>

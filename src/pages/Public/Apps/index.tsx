@@ -8,11 +8,10 @@ import { showError, showSuccess } from 'helpers/toast';
 import { queryKeys } from 'consts';
 import { useQueryClient } from '@tanstack/react-query';
 import TableListApp from './Components/TableListApp';
-import TableInstalledApp from './Components/TableInstalledApp';
 import { Link } from 'react-router-dom';
 import BaseUrl from 'consts/baseUrl';
 import { useAuth } from 'providers/AuthenticationProvider';
-import ListAvailableApps from './AppsForUser/ListAvailableApps';
+import AppsForUser from './AppsForUser';
 
 const AppManagement = () => {
   //! State
@@ -30,7 +29,7 @@ const AppManagement = () => {
 
   //! Render
   if (isUser) {
-    return <ListAvailableApps />;
+    return <AppsForUser />;
   }
 
   return (
