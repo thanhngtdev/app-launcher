@@ -1,3 +1,4 @@
+import { PERMISSION_ENUM } from 'consts/index';
 export function a11yProps(index: number) {
   return {
     id: `simple-tab-${index}`,
@@ -38,4 +39,17 @@ export const convertToFormSelect = (
     return listReturn;
   }
   return [{ label: 'None', value: '' }, ...list];
+};
+
+export const getNameRole = (role: string) => {
+  let result = '';
+
+  Object.entries(PERMISSION_ENUM).forEach((el) => {
+    const [key, value] = el;
+    if (role === value) {
+      result = key;
+    }
+  });
+
+  return result;
 };

@@ -1,4 +1,3 @@
-import React from 'react';
 import DialogMui from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -8,7 +7,6 @@ import { FastField, Form, Formik } from 'formik';
 import CommonStyles from 'components/CommonStyles';
 import TextField from 'components/CustomFields/TextField';
 import { RequestCreateApp } from 'services/appManagementService';
-import SwitchField from 'components/CustomFields/SwitchField';
 import { App } from 'interfaces/apps';
 import { useGetAppIntegrationDetail } from 'hooks/app/useAppHooks';
 
@@ -39,7 +37,7 @@ const DialogAddOrEditApp = (props: Props) => {
     privacyPolicyUri: itemFound?.privacyPolicyUri || '',
     summary: itemFound?.summary || '',
     description: itemFound?.description || '',
-    isLive: itemFound?.isLive || false,
+    isApproved: itemFound?.isApproved || false,
   };
 
   //! Render
@@ -82,8 +80,6 @@ const DialogAddOrEditApp = (props: Props) => {
                     label='Description'
                     fullWidth
                   />
-
-                  <FastField component={SwitchField} name='isLive' label='Live' />
 
                   <CommonStyles.Typography variant='h6' sx={{ mb: 1 }}>
                     Config URI

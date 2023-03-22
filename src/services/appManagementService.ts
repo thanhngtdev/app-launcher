@@ -10,8 +10,13 @@ interface ResponseListApp {
 
 export type RequestCreateApp = Omit<
   AppIntegration,
-  'id' | 'ownerUserId' | 'developerName' | 'developerDescription' | 'isApproved'
+  'id' | 'ownerUserId' | 'developerName' | 'developerDescription'
 >;
+
+export interface RequestApproveApp {
+  appId: string;
+  isApproved: boolean;
+}
 
 class AppManagementService {
   getListApp({ skip, take, filter }: RequestPagingCommon): PromiseResponseBase<ResponseListApp> {
@@ -48,6 +53,10 @@ class AppManagementService {
 
   updateApp(id: string, body: RequestCreateApp) {
     return httpService.put(`${APP_INTEGRATION_URL}/update?Id=${id}`, body);
+  }
+
+  setApproveState({ appId, isApproved }: RequestApproveApp) {
+    return httpService.post(`${APP_INTEGRATION_URL}/set-app-approval-state`, { appId, isApproved });
   }
 }
 

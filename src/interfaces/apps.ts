@@ -4,6 +4,8 @@ export interface App {
   developerName: string;
   summary: string;
   icon: string;
+  isLive: boolean;
+  isApproved: boolean;
 }
 
 export interface AppIntegration {
@@ -25,6 +27,6 @@ export interface AppIntegration {
   privacyPolicyUri: string;
   summary: string;
   description: string;
-  isLive: boolean;
-  isApproved: boolean;
+  isLive?: boolean;
+  isApproved?: boolean;
 }

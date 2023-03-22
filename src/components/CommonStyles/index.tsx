@@ -6,8 +6,10 @@ import Table from './Table';
 import Avatar from './Avatar';
 import Tooltip from './Tooltip';
 import TabPanel from './TabPanel';
+import Chip from './Chip';
 
 export default {
+  Chip,
   TabPanel,
   Avatar,
   Table,

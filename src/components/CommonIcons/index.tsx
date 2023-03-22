@@ -1,3 +1,5 @@
+import CloseIcon from '@mui/icons-material/Close';
+import CheckIcon from '@mui/icons-material/Check';
 import PersonAddOutlinedIcon from '@mui/icons-material/PersonAddOutlined';
 import SaveIcon from '@mui/icons-material/Save';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -40,4 +42,6 @@ export default {
   SettingsIcon,
   SaveIcon,
   AssignIcon: PersonAddOutlinedIcon,
+  CheckIcon,
+  CloseIcon,
 };

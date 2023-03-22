@@ -2,17 +2,15 @@ import DialogMui from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import { DialogI, SelectOption, SetBooleanState, SetOptionsValue } from 'interfaces/common';
+import { DialogI } from 'interfaces/common';
 import { FastField, Form, Formik } from 'formik';
 import CommonStyles from 'components/CommonStyles';
-import { RequestAssignUser, UserInfo } from 'services/userService';
-import AutoCompleteField from 'components/CustomFields/AutoCompleteField';
-import appManagementService from 'services/appManagementService';
-import { convertToFormSelect } from 'helpers';
+import { RequestAssignUser } from 'services/userService';
 import SelectField from 'components/CustomFields/SelectField';
 import { PermissionOptions } from 'consts';
+import { UserInfo } from 'interfaces/user';
 
-interface Props extends DialogI<Omit<RequestAssignUser, 'appId'> & { appId: SelectOption }> {
+interface Props extends DialogI<Omit<RequestAssignUser, 'appId'>> {
   user: UserInfo;
 }
 
@@ -22,7 +20,6 @@ const DialogAssignUser = (props: Props) => {
   return (
     <Formik
       initialValues={{
-        appId: { label: '', value: '' },
         role: '',
         username: user?.username || '',
       }}
@@ -30,14 +27,14 @@ const DialogAssignUser = (props: Props) => {
       validateOnBlur={false}
       onSubmit={onSubmit ? onSubmit : () => {}}
     >
-      {({ values, isSubmitting }) => {
+      {({ isSubmitting }) => {
         return (
           <DialogMui open={isOpen} onClose={toggle}>
             <Form>
               <DialogTitle>Assign [{user?.username}]</DialogTitle>
-              <DialogContent>
+              <DialogContent sx={{ minWidth: 400 }}>
                 <CommonStyles.Box sx={{ width: '100%', '& > div': { mb: 2, pt: 3 } }}>
-                  <FastField
+                  {/* <FastField
                     name='appId'
                     component={AutoCompleteField}
                     label='Application'
@@ -55,7 +52,7 @@ const DialogAssignUser = (props: Props) => {
                           setOptions(convertToFormSelect(data, 'name', 'id'));
                         });
                     }}
-                  />
+                  /> */}
 
                   <FastField
                     name='role'

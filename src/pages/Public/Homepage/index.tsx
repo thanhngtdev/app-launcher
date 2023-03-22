@@ -1,60 +1,137 @@
-import baseUrl from 'consts/baseUrl';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
-import { LANG_ENUM } from 'consts/index';
-import { langMethod } from 'i18n';
-import { useToggleTheme } from 'providers/ToggleThemeProvider';
+import React, { Fragment } from 'react';
 import CommonStyles from 'components/CommonStyles';
-import { Box, Stack } from '@mui/material';
+import { useTheme } from '@mui/material';
+import { useGetListInstalledApp } from 'hooks/app/useAppHooks';
+import { useAuth } from 'providers/AuthenticationProvider';
+import CommonIcons from 'components/CommonIcons';
+import { useNavigate } from 'react-router-dom';
+import BaseUrl from 'consts/baseUrl';
+import { Link } from 'react-router-dom';
 
-interface HomepageProps {}
+// interface AppsProps {}
 
-const Homepage = (props: HomepageProps) => {
+const Apps = () => {
   //! State
-  const { toggleTheme } = useToggleTheme();
-  const { t } = useTranslation();
-  const language = langMethod.getLang();
+  const theme = useTheme();
+  const { user } = useAuth();
+  const { data: resListInstalledApp } = useGetListInstalledApp({
+    skip: 0,
+    take: 999,
+    filter: '',
+  });
+  const dataInstallApp = resListInstalledApp?.data?.items || [];
+  const totalCountInstallApp = resListInstalledApp?.data?.totalCount || 0;
+  const navigate = useNavigate();
 
   //! Function
 
   //! Render
+  const renderLeft = () => {
+    return (
+      <CommonStyles.Box sx={{ flexShrink: 0 }}>
+        <CommonStyles.Typography variant='h5' sx={{ mb: 3 }}>
+          Apps
+        </CommonStyles.Typography>
+
+        <CommonStyles.Box
+          sx={{ maxWidth: 580, backgroundColor: theme.colors?.grayLight, p: 2, borderRadius: 1 }}
+        >
+          <CommonStyles.Box sx={{ mb: 5 }}>
+            <CommonStyles.Typography variant='h6' sx={{ mb: 3 }}>
+              <b>View Docs</b>
+            </CommonStyles.Typography>
+
+            <CommonStyles.Box sx={{ display: 'flex', gap: 3, alignItems: 'center', mb: 1 }}>
+              <CommonIcons.BookIcon sx={{ fontSize: 80, color: theme.colors?.purple }} />
+
+              <CommonStyles.Typography>
+                We have invested a considerable amount of time to ensure our documentation is as
+                comprehensive as possible, from detailed references, to our APIs to a glossary of
+                terms and frequently asked questions.
+              </CommonStyles.Typography>
+            </CommonStyles.Box>
+
+            <CommonStyles.Typography sx={{ mb: 1 }}>
+              Having first watched the video, you may want to have a deep dive into the
+              documentation before creating your first app.
+            </CommonStyles.Typography>
+
+            <CommonStyles.Typography>
+              If you get stuck at any point when working with Apps, make the docs your first port of
+              call.
+            </CommonStyles.Typography>
+
+            <CommonStyles.Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <CommonStyles.Button sx={{ mt: 2 }} variant='outlined'>
+                View docs
+              </CommonStyles.Button>
+            </CommonStyles.Box>
+          </CommonStyles.Box>
+
+          {/*  */}
+          <CommonStyles.Box>
+            <CommonStyles.Typography variant='h6' sx={{ mb: 3 }}>
+              <b>Create APP</b>
+            </CommonStyles.Typography>
+
+            <CommonStyles.Box sx={{ display: 'flex', gap: 3, alignItems: 'center', mb: 1 }}>
+              <CommonIcons.NoteAddIcon sx={{ fontSize: 80, color: theme.colors?.purple }} />
+
+              <CommonStyles.Typography>
+                Creating an app is the starting point for authenticating against the Foundations
+                APIs. Your app might be a web application, possibly rendered inside of the
+                AgencyCloud CRM, or a simple data feed to serve a website.
+              </CommonStyles.Typography>
+            </CommonStyles.Box>
+
+            <CommonStyles.Typography>
+              In all cases, you will need to use the app creation wizard that will walk you through
+              creating your app, explain key concepts along the way and link out to our
+              documentation where relevant.
+            </CommonStyles.Typography>
+
+            <CommonStyles.Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <Link to={BaseUrl.CreateApp}>
+                <CommonStyles.Button sx={{ mt: 2 }} startIcon={<CommonIcons.AddIcon />}>
+                  CREATE APP
+                </CommonStyles.Button>
+              </Link>
+            </CommonStyles.Box>
+          </CommonStyles.Box>
+          {/*  */}
+        </CommonStyles.Box>
+      </CommonStyles.Box>
+    );
+  };
+
+  const renderRight = () => {
+    return (
+      <CommonStyles.Box>
+        <CommonStyles.Typography variant='h5' sx={{ mb: 3 }}>
+          About Foudations
+        </CommonStyles.Typography>
+
+        <CommonStyles.Typography>
+          {`
+          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
+          been the industry's standard dummy text ever since the 1500s, when an unknown printer took
+          a galley of type and scrambled it to make a type specimen book. It has survived not only
+          five centuries, but also the leap into electronic typesetting, remaining essentially
+          unchanged. It was popularised in the 1960s with the release of Letraset sheets containing
+          Lorem Ipsum passages, and more recently with desktop publishing software like Aldus
+          PageMaker including versions of Lorem Ipsum.
+          `}
+        </CommonStyles.Typography>
+      </CommonStyles.Box>
+    );
+  };
 
   return (
-    <div>
-      <ul>
-        <li>
-          <Link to={baseUrl.Homepage}>Homepage</Link>
-        </li>
-        <li>
-          <Link to={baseUrl.Login}>Login</Link>
-        </li>
-        <li>
-          <Link to={baseUrl.Todos}>Todos</Link>
-        </li>
-      </ul>
-
-      <Stack direction='row' spacing={1}>
-        <CommonStyles.Button onClick={toggleTheme}>Toggle theme</CommonStyles.Button>
-      </Stack>
-
-      <CommonStyles.Typography variant='h4' style={{ marginTop: 12, marginBottom: 12 }}>
-        Lang:{' '}
-      </CommonStyles.Typography>
-      <Box>{t('shared:hello')}</Box>
-      <CommonStyles.Button
-        onClick={() => {
-          if (language === LANG_ENUM.en) {
-            langMethod.changeLang(LANG_ENUM.vi);
-          } else {
-            langMethod.changeLang(LANG_ENUM.en);
-          }
-        }}
-      >
-        Switch to {language === LANG_ENUM.en ? 'VI' : 'EN'}
-      </CommonStyles.Button>
-    </div>
+    <CommonStyles.Box sx={{ display: 'flex', gap: 5 }}>
+      {renderLeft()}
+      {renderRight()}
+    </CommonStyles.Box>
   );
 };
 
-export default React.memo(Homepage);
+export default React.memo(Apps);

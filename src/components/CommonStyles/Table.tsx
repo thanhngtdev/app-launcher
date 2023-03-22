@@ -51,6 +51,10 @@ function EnhancedTableHead<T>(props: EnhancedTableProps<T>) {
         )}
 
         {props.headCells.map((headCell: any) => {
+          if (headCell.isHided) {
+            return null;
+          }
+
           if (headCell?.disableSort) {
             return (
               <TableCell key={headCell.id} align={headCell.numeric ? 'right' : 'left'}>
@@ -93,6 +97,7 @@ interface HeadCell<T> {
   numeric?: boolean;
   disableSort?: boolean;
   Cell?: (row: T) => React.ReactElement;
+  isHided?: boolean;
 }
 
 interface TableCommonProps<T> {
@@ -189,6 +194,10 @@ function TableCommon<T>({
                         </TableCell>
                       )}
                       {headCells.map((hc, idx) => {
+                        if (hc.isHided) {
+                          return null;
+                        }
+
                         return (
                           <TableCell key={`cell-${index}-${idx}`}>
                             {hc?.Cell?.(rowAny) || rowAny?.[hc?.id]}
@@ -227,7 +236,7 @@ function TableCommon<T>({
               {isLoading && (
                 <TableRow
                   style={{
-                    height: 53 * emptyRows,
+                    height: 53,
                   }}
                 >
                   <TableCell colSpan={6}>
@@ -247,7 +256,7 @@ function TableCommon<T>({
                 </TableRow>
               )}
 
-              {emptyRows > 0 && (
+              {!isLoading && emptyRows > 0 && (
                 <TableRow
                   style={{
                     height: 53 * emptyRows,

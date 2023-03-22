@@ -8,6 +8,8 @@ import { Order } from 'interfaces/common';
 import { cloneDeep } from 'lodash';
 import { useGetUserList } from 'hooks/users/useUsersHooks';
 import CellActions from './Cells/CellActions';
+import { getNameRole } from 'helpers';
+import { NUMBER_DEFAULT_ROW_PER_PAGE, NUMBER_DEFAUTL_PAGE } from 'consts';
 
 interface UsersProps {}
 
@@ -34,8 +36,10 @@ const Users = (props: UsersProps) => {
   } = useFiltersHandler(initialValues);
 
   const { data: resUserList, isLoading } = useGetUserList({
-    skip: filters?.page || 0,
-    take: filters?.rowsPerPage || 5,
+    skip:
+      (filters?.page || NUMBER_DEFAUTL_PAGE) *
+      (filters?.rowsPerPage || NUMBER_DEFAULT_ROW_PER_PAGE),
+    take: filters?.rowsPerPage || NUMBER_DEFAULT_ROW_PER_PAGE,
     filter: filters?.search || '',
   });
   const users = resUserList?.data?.items || [];
@@ -108,6 +112,18 @@ const Users = (props: UsersProps) => {
             {
               label: 'Last name',
               id: 'lastname',
+            },
+            {
+              label: 'Role',
+              id: 'role',
+              Cell: (row) => {
+                const role = getNameRole(row?.roles?.[0]);
+                if (role) {
+                  return <CommonStyles.Chip color='primary' label={getNameRole(row?.roles?.[0])} />;
+                }
+
+                return <div />;
+              },
             },
             {
               label: '',

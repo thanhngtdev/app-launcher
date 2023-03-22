@@ -1,13 +1,13 @@
 import DialogMui from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { DialogI } from 'interfaces/common';
 import { FastField, Form, Formik } from 'formik';
 import CommonStyles from 'components/CommonStyles';
 import TextField from 'components/CustomFields/TextField';
-import { RequestUpdateUserInfo, UserInfo } from 'services/userService';
+import { RequestUpdateUserInfo } from 'services/userService';
+import { UserInfo } from 'interfaces/user';
 
 interface Props extends DialogI<RequestUpdateUserInfo> {
   user: UserInfo;

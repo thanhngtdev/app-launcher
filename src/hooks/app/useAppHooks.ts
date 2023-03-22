@@ -1,3 +1,4 @@
+import { RequestApproveApp } from './../../services/appManagementService';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { queryKeys } from 'consts/index';
 import { RequestPagingCommon } from 'interfaces/common';
@@ -47,5 +48,12 @@ export const useInstallApp = () => {
 export const useUninstallApp = () => {
   return useMutation({
     mutationFn: ({ id }: { id: string }) => appManagementService.uninstallApp({ id }),
+  });
+};
+
+export const useApproveApp = () => {
+  return useMutation({
+    mutationFn: ({ appId, isApproved }: RequestApproveApp) =>
+      appManagementService.setApproveState({ appId, isApproved }),
   });
 };

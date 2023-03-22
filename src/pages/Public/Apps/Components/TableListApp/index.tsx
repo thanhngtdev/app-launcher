@@ -4,12 +4,13 @@ import { useGetListApp } from 'hooks/app/useAppHooks';
 import useFiltersHandler from 'hooks/useFiltersHandler';
 import CellActions from './Cells/CellActions';
 import { Order } from 'interfaces/common';
+import { NUMBER_DEFAULT_ROW_PER_PAGE, NUMBER_DEFAUTL_PAGE } from 'consts';
+import CellActive from './Cells/CellActive';
 
 const TableListApp = () => {
   //! State
   const {
     filters,
-
     selected,
     handleChangePage,
     handleChangeRowsPerPage,
@@ -18,8 +19,10 @@ const TableListApp = () => {
   } = useFiltersHandler({ search: '' });
 
   const { data: resListApp, isLoading } = useGetListApp({
-    skip: filters?.page || 0,
-    take: filters?.rowsPerPage || 5,
+    skip:
+      (filters?.page || NUMBER_DEFAUTL_PAGE) *
+      (filters?.rowsPerPage || NUMBER_DEFAULT_ROW_PER_PAGE),
+    take: filters?.rowsPerPage || NUMBER_DEFAULT_ROW_PER_PAGE,
     filter: filters?.search,
   });
   const data = resListApp?.data?.items || [];
@@ -28,10 +31,6 @@ const TableListApp = () => {
   //! Function
 
   //! Render
-  if (isLoading) {
-    return <CommonStyles.Loading />;
-  }
-
   return (
     <CommonStyles.Box>
       <CommonStyles.Typography variant='h4' sx={{ mb: 2 }}>
@@ -69,6 +68,13 @@ const TableListApp = () => {
             id: 'summary',
           },
           {
+            label: 'Active',
+            id: 'active',
+            Cell: (row) => {
+              return <CellActive item={row} />;
+            },
+          },
+          {
             label: '',
             id: 'actions',
             disableSort: true,
@@ -83,6 +89,7 @@ const TableListApp = () => {
         handleChangeRowsPerPage={handleChangeRowsPerPage}
         handleRequestSort={handleRequestSort}
         handleSelectAllClick={handleSelectAllClick}
+        isLoading={isLoading}
       />
     </CommonStyles.Box>
   );

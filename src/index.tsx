@@ -15,6 +15,8 @@ import { AuthProvider as OIDCAuthProvider } from 'oidc-react';
 import { ToastContainer } from 'react-toastify';
 import configAWS from 'consts/configAWS';
 import 'react-toastify/dist/ReactToastify.css';
+import AuthenticationProvider from 'providers/AuthenticationProvider';
+import { GlobalStyles } from '@mui/material';
 
 const queryClient = new QueryClient();
 
@@ -24,7 +26,16 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       <I18nextProvider i18n={i18n}>
         <ToggleThemeProvider>
           <OIDCAuthProvider {...configAWS}>
-            <App />
+            <GlobalStyles
+              styles={{
+                a: {
+                  textDecoration: 'none',
+                },
+              }}
+            />
+            <AuthenticationProvider>
+              <App />
+            </AuthenticationProvider>
             <ToastContainer theme='colored' />
           </OIDCAuthProvider>
         </ToggleThemeProvider>

@@ -4,7 +4,7 @@ import CommonIcons from 'components/CommonIcons';
 import CommonStyles from 'components/CommonStyles';
 import { FastField } from 'formik';
 import TextField from 'components/CustomFields/TextField';
-import useAuth from 'hooks/useAuth';
+import { useAuth } from 'providers/AuthenticationProvider';
 
 interface TabInformationProps {
   value: number;

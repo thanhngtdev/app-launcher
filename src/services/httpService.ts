@@ -88,6 +88,10 @@ class Services {
     const token = localStorage.getItem(TOKEN_KEY);
     return token || '';
   }
+
+  clearTokenStorage() {
+    localStorage.removeItem(TOKEN_KEY);
+  }
 }
 
 export default new Services();

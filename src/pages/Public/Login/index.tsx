@@ -1,10 +1,9 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 import CommonStyles from 'components/CommonStyles';
-import { FastField, Form, Formik } from 'formik';
-import TextField from 'components/CustomFields/TextField';
+import { Form, Formik } from 'formik';
 import { useTheme } from '@mui/material';
-import useAuth from 'hooks/useAuth';
+import { useAuth } from 'providers/AuthenticationProvider';
 import { useAuth as useAuthOIDC } from 'oidc-react';
 
 interface LoginProps {}

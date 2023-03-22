@@ -6,9 +6,9 @@ import { PERMISSION_ENUM } from 'consts/index';
 // Bash importHere
 const DefaultLayout = lazy(() => import('layouts/DefaultLayout'));
 const Login = lazy(() => import('pages/Public/Login'));
-const Apps = lazy(() => import('pages/Public/Apps'));
+const Apps = lazy(() => import('pages/Public/Homepage'));
 const Callbacks = lazy(() => import('pages/Public/Callbacks'));
-const AppManagement = lazy(() => import('pages/Public/AppManagement'));
+const AppManagement = lazy(() => import('pages/Public/Apps'));
 const CreateApp = lazy(() => import('pages/Public/Apps/CreateApp'));
 const Users = lazy(() => import('pages/Public/Users'));
 const Settings = lazy(() => import('pages/Public/Settings'));
@@ -44,7 +44,10 @@ const routes: Route[] = [
       {
         name: 'AppManagement',
         path: BaseUrl.AppManagement,
-        component: withCheckRole(AppManagement, [PERMISSION_ENUM.PUBLIC]),
+        component: withCheckRole(AppManagement, [
+          PERMISSION_ENUM.ADMIN,
+          PERMISSION_ENUM.APP_MANAGER,
+        ]),
         isPrivateRoute: true,
       },
       {
@@ -56,7 +59,7 @@ const routes: Route[] = [
       {
         name: 'Users',
         path: BaseUrl.Users,
-        component: withCheckRole(Users, [PERMISSION_ENUM.PUBLIC]),
+        component: withCheckRole(Users, [PERMISSION_ENUM.ADMIN]),
         isPrivateRoute: true,
       },
       {

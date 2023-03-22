@@ -5,7 +5,7 @@ const BaseUrl = {
   Login: '/login',
   Callbacks: '/login/callback',
 
-  AppManagement: '/app-management',
+  AppManagement: '/apps',
 
   CreateApp: '/create-app',
 

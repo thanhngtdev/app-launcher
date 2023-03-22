@@ -38,3 +38,6 @@ export const PermissionOptions = Object.entries(PERMISSION_ENUM)
       value: value,
     };
   });
+
+export const NUMBER_DEFAULT_ROW_PER_PAGE = 5;
+export const NUMBER_DEFAUTL_PAGE = 0;

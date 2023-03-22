@@ -1,5 +1,6 @@
 import { USER_URL } from 'consts/apiUrl';
 import { PromiseResponseBase, RequestPagingCommon, ResponsePagingCommon } from 'interfaces/common';
+import { UserInfo } from 'interfaces/user';
 import httpService from './httpService';
 
 export interface RequestUpdateUserInfo {
@@ -13,20 +14,6 @@ export interface RequestUpdateUserInfo {
 export interface RequestAssignUser {
   username: string;
   role: string;
-  appId: string;
-}
-
-export interface UserInfo {
-  id: string;
-  username: string;
-  firstname: string;
-  lastname: string;
-  phoneNumber: string;
-  email: string;
-  company: string;
-  address: string;
-  roles: string[];
-  isFirstTimeLogin: boolean;
 }
 
 class UserService {

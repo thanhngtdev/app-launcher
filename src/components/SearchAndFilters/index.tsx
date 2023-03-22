@@ -32,7 +32,7 @@ function SearchAndFilters<T extends FormikValues = FormikValues>({
 
               <CommonStyles.Box sx={{ display: 'flex', gap: 1 }}>
                 <CommonStyles.Button type='submit' startIcon={<CommonIcons.Search />}>
-                  Submit
+                  Search
                 </CommonStyles.Button>
                 <CommonStyles.Button
                   type='button'

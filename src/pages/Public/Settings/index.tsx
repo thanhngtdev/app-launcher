@@ -7,7 +7,7 @@ import { Tab, Tabs } from '@mui/material';
 import { a11yProps } from 'helpers';
 import { showError, showSuccess } from 'helpers/toast';
 import TabInformation from './Tabs/TabInformation';
-import useAuth from 'hooks/useAuth';
+import { useAuth } from 'providers/AuthenticationProvider';
 import { useUpdateUserInfo } from 'hooks/users/useUsersHooks';
 import { useQueryClient } from '@tanstack/react-query';
 import { queryKeys } from 'consts';

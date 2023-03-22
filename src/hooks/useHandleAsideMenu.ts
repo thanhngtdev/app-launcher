@@ -1,17 +1,17 @@
 import { useMemo } from 'react';
 import CommonIcons from 'components/CommonIcons';
 import BaseUrl from 'consts/baseUrl';
-import useAuth from './useAuth';
+import { useAuth } from 'providers/AuthenticationProvider';
 
 const navbarAdmin = [
   [
     {
-      label: 'Apps',
-      icon: CommonIcons.CloudIcon,
+      label: 'Home',
+      icon: CommonIcons.HomeIcon,
       href: BaseUrl.Homepage,
     },
     {
-      label: 'Apps Management',
+      label: 'Apps',
       icon: CommonIcons.CloudIcon,
       href: BaseUrl.AppManagement,
     },
@@ -19,6 +19,26 @@ const navbarAdmin = [
       label: 'Users',
       icon: CommonIcons.Users,
       href: BaseUrl.Users,
+    },
+    {
+      label: 'Settings',
+      icon: CommonIcons.SettingsIcon,
+      href: BaseUrl.Settings,
+    },
+  ],
+];
+
+const navbarAppManager = [
+  [
+    {
+      label: 'Home',
+      icon: CommonIcons.HomeIcon,
+      href: BaseUrl.Homepage,
+    },
+    {
+      label: 'Apps',
+      icon: CommonIcons.CloudIcon,
+      href: BaseUrl.AppManagement,
     },
     {
       label: 'Settings',
@@ -51,7 +71,7 @@ const useHandleAsideMenu = () => {
     }
 
     if (isAppManager) {
-      return navbarUser;
+      return navbarAppManager;
     }
 
     return navbarUser;

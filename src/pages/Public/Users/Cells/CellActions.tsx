@@ -1,8 +1,6 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
 import CommonIcons from 'components/CommonIcons';
 import CommonStyles from 'components/CommonStyles';
-import { UserInfo } from 'services/userService';
+import { UserInfo } from 'interfaces/user';
 import useToggleDialog from 'hooks/useToggleDialog';
 import DialogUpdateUser from '../Dialogs/DialogUpdateUser';
 import { useAssignUser, useUpdateUser } from 'hooks/users/useUsersHooks';
@@ -10,6 +8,7 @@ import { showError, showSuccess } from 'helpers/toast';
 import { useQueryClient } from '@tanstack/react-query';
 import { queryKeys } from 'consts';
 import DialogAssignUser from '../Dialogs/DialogAssignUser';
+import { getNameRole } from 'helpers';
 
 interface CellActionsProps {
   user: UserInfo;
@@ -48,7 +47,6 @@ const CellActions = ({ user }: CellActionsProps) => {
               try {
                 setSubmitting(true);
                 await assignUser({
-                  appId: `${values?.appId?.value}`,
                   username: values.username,
                   role: values.role,
                 });
@@ -57,10 +55,11 @@ const CellActions = ({ user }: CellActionsProps) => {
                 });
                 setSubmitting(false);
                 showSuccess(
-                  `Assign [${user?.username}] to [${values?.appId.label}] App successfully!`
+                  `Assign [${user?.username}] to ${getNameRole(values.role)} App successfully!`
                 );
                 toggleAssignUser();
               } catch (error) {
+                console.log('dqoiwdjqwd', error);
                 showError(error);
                 setSubmitting(false);
               }
