@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 import { BrowserRouter as Router, Outlet, Route, Routes } from 'react-router-dom';
 
-import Page404 from 'pages/Public/Page404';
+import Page404 from 'pages/Page404';
 import routes from 'routes/routes';
 import PrivateRoute from 'components/PrivateRoute';
 

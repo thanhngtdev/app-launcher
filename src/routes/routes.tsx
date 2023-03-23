@@ -5,13 +5,15 @@ import { PERMISSION_ENUM } from 'consts/index';
 
 // Bash importHere
 const DefaultLayout = lazy(() => import('layouts/DefaultLayout'));
-const Login = lazy(() => import('pages/Public/Login'));
-const Apps = lazy(() => import('pages/Public/Homepage'));
-const Callbacks = lazy(() => import('pages/Public/Callbacks'));
-const AppManagement = lazy(() => import('pages/Public/Apps'));
-const CreateApp = lazy(() => import('pages/Public/Apps/CreateApp'));
-const Users = lazy(() => import('pages/Public/Users'));
-const Settings = lazy(() => import('pages/Public/Settings'));
+const Login = lazy(() => import('pages/Login'));
+const Apps = lazy(() => import('pages/Homepage'));
+const Callbacks = lazy(() => import('pages/Callbacks'));
+const AppManagement = lazy(() => import('pages/Apps'));
+const CreateApp = lazy(() => import('pages/Apps/CreateApp'));
+const Users = lazy(() => import('pages/Users'));
+const Settings = lazy(() => import('pages/Settings'));
+const Logout = lazy(() => import('pages/Logout'));
+const AppConnect = lazy(() => import('pages/AppConnect'));
 
 interface Route {
   name: string;
@@ -94,6 +96,32 @@ const routes: Route[] = [
         name: 'Callbacks',
         path: BaseUrl.Callbacks,
         component: Callbacks,
+      },
+    ],
+  },
+
+  {
+    name: 'Callbacks Logout',
+    path: BaseUrl.Logout,
+    layout: Fragment,
+    routeChild: [
+      {
+        name: 'Logout',
+        path: BaseUrl.Logout,
+        component: Logout,
+      },
+    ],
+  },
+
+  {
+    name: 'App Connect',
+    path: BaseUrl.AppConnect,
+    layout: Fragment,
+    routeChild: [
+      {
+        name: 'App connect',
+        path: BaseUrl.AppConnect,
+        component: AppConnect,
       },
     ],
   },

@@ -4,6 +4,8 @@ import httpService from 'services/httpService';
 import { useGetUserInfo } from 'hooks/users/useUsersHooks';
 import { useAuth as useAuthOIDC } from 'oidc-react';
 import { UserInfo } from 'interfaces/user';
+import { LOGOUT_REDIRECT_URI } from 'consts/configAWS';
+import { isEmpty } from 'lodash';
 
 interface AuthenticationContextI {
   loading: boolean;
@@ -49,11 +51,12 @@ const AuthenticationProvider = ({ children }: { children: any }) => {
   const value = useMemo(() => {
     return {
       loading: isInitialLoading || auth?.isLoading,
-      isLogged: !!accessToken,
+      isLogged: !!accessToken && !isEmpty(user),
       user,
       logout: () => {
-        auth.signOut();
         httpService.clearTokenStorage();
+        window.sessionStorage.clear();
+        window.location.href = LOGOUT_REDIRECT_URI;
       },
       isAdmin: !!user?.roles?.includes(PERMISSION_ENUM.ADMIN),
       isAppManager: !!user?.roles?.includes(PERMISSION_ENUM.APP_MANAGER),

@@ -143,7 +143,6 @@
       "  //! Function",
       "",
       "  //! Render",
-      "",
       "  return <div>$1</div>;",
       "};",
       "",
