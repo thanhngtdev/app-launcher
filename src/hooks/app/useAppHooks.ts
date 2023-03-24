@@ -1,8 +1,8 @@
-import { RequestApproveApp } from './../../services/appManagementService';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { queryKeys } from 'consts/index';
 import { RequestPagingCommon } from 'interfaces/common';
 import appManagementService, { RequestCreateApp } from 'services/appManagementService';
+import { RequestApproveApp, RequestCheckAppCredential } from 'services/appManagementService';
 
 export const useGetListApp = (filters: RequestPagingCommon) => {
   return useQuery({
@@ -55,5 +55,18 @@ export const useApproveApp = () => {
   return useMutation({
     mutationFn: ({ appId, isApproved }: RequestApproveApp) =>
       appManagementService.setApproveState({ appId, isApproved }),
+  });
+};
+
+export const useGenerateAppCredentials = () => {
+  return useMutation({
+    mutationFn: ({ appId }: { appId: string }) =>
+      appManagementService.generateAppCredentials(appId),
+  });
+};
+
+export const useCheckCredentials = () => {
+  return useMutation({
+    mutationFn: (body: RequestCheckAppCredential) => appManagementService.checkAppCredential(body),
   });
 };

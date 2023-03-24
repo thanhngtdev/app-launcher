@@ -8,7 +8,9 @@ import CommonStyles from 'components/CommonStyles';
 import TextField from 'components/CustomFields/TextField';
 import { RequestCreateApp } from 'services/appManagementService';
 import { App } from 'interfaces/apps';
-import { useGetAppIntegrationDetail } from 'hooks/app/useAppHooks';
+import { useGenerateAppCredentials, useGetAppIntegrationDetail } from 'hooks/app/useAppHooks';
+import CommonIcons from 'components/CommonIcons';
+import { showError, showSuccess } from 'helpers/toast';
 
 interface Props extends DialogI<RequestCreateApp> {
   item?: App;
@@ -19,7 +21,13 @@ const DialogAddOrEditApp = (props: Props) => {
   const { isOpen, toggle, onSubmit, item } = props;
   const isEdit = !!item;
 
-  const { data: resDetailApp, isInitialLoading } = useGetAppIntegrationDetail(item?.id || '');
+  const { mutateAsync: generateAppCredentials, isLoading: isGenerating } =
+    useGenerateAppCredentials();
+  const {
+    data: resDetailApp,
+    isInitialLoading,
+    refetch,
+  } = useGetAppIntegrationDetail(item?.id || '');
   const itemFound = resDetailApp?.data;
 
   const initialValues = {
@@ -40,6 +48,16 @@ const DialogAddOrEditApp = (props: Props) => {
     isApproved: itemFound?.isApproved || false,
   };
 
+  const onClickGenerate = async () => {
+    try {
+      await generateAppCredentials({ appId: item?.id || '' });
+      await refetch();
+      showSuccess('Generate app credentials successfully!');
+    } catch (error) {
+      showError(error);
+    }
+  };
+
   //! Render
   return (
     <Formik
@@ -58,58 +76,129 @@ const DialogAddOrEditApp = (props: Props) => {
             <DialogContent>
               <Form>
                 {isInitialLoading && <CommonStyles.Loading />}
-                <CommonStyles.Box sx={{ width: '100%', pt: 2, '& > div': { mb: 2 } }}>
-                  <CommonStyles.Typography variant='h6' sx={{ mb: 1 }}>
+
+                <CommonStyles.Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                  <CommonStyles.Button
+                    startIcon={<CommonIcons.Reset />}
+                    variant='outlined'
+                    onClick={onClickGenerate}
+                    loading={isGenerating}
+                  >
+                    Generate App Credentials
+                  </CommonStyles.Button>
+                </CommonStyles.Box>
+
+                <CommonStyles.Box sx={{ width: '100%', pt: 2 }}>
+                  <CommonStyles.Typography variant='h5' sx={{ mb: 2 }}>
+                    Credentials
+                  </CommonStyles.Typography>
+                  <CommonStyles.Box sx={{ pl: 2, '& > div': { mb: 2 } }}>
+                    <TextField
+                      field={{
+                        name: 'appClientId',
+                        value: itemFound?.appClientId || '',
+                        onChange: () => {},
+                        onBlur: () => {},
+                      }}
+                      label='Client ID'
+                      InputProps={{
+                        readOnly: true,
+                      }}
+                      variant='filled'
+                      fullWidth
+                    />
+
+                    <TextField
+                      field={{
+                        name: 'appClientName',
+                        value: itemFound?.appClientName || '',
+                        onChange: () => {},
+                        onBlur: () => {},
+                      }}
+                      label='Client name'
+                      InputProps={{
+                        readOnly: true,
+                      }}
+                      variant='filled'
+                      fullWidth
+                    />
+
+                    <TextField
+                      field={{
+                        name: 'appClientSecret',
+                        value: itemFound?.appClientSecret || '',
+                        onChange: () => {},
+                        onBlur: () => {},
+                      }}
+                      label='Client secret'
+                      InputProps={{
+                        readOnly: true,
+                      }}
+                      variant='filled'
+                      fullWidth
+                    />
+                  </CommonStyles.Box>
+
+                  <CommonStyles.Typography variant='h5' sx={{ mb: 2 }}>
                     Information
                   </CommonStyles.Typography>
-                  <FastField component={TextField} name='name' label='Name' fullWidth />
-                  <FastField component={TextField} name='phone' label='Phone' fullWidth />
-                  <FastField component={TextField} name='homepage' label='Homepage' fullWidth />
-                  <FastField
-                    component={TextField}
-                    name='supportEmail'
-                    label='Support Email'
-                    fullWidth
-                  />
-                  <FastField component={TextField} name='scopes' label='Scope' fullWidth />
-                  <FastField component={TextField} name='summary' label='Summary' fullWidth />
-                  <FastField
-                    component={TextField}
-                    multiline
-                    name='description'
-                    label='Description'
-                    fullWidth
-                  />
+                  <CommonStyles.Box sx={{ pl: 2, '& > div': { mb: 2 } }}>
+                    <FastField component={TextField} name='name' label='Name' fullWidth />
+                    <FastField component={TextField} name='phone' label='Phone' fullWidth />
+                    <FastField component={TextField} name='homepage' label='Homepage' fullWidth />
+                    <FastField
+                      component={TextField}
+                      name='supportEmail'
+                      label='Support Email'
+                      fullWidth
+                    />
+                    <FastField component={TextField} name='scopes' label='Scope' fullWidth />
+                    <FastField component={TextField} name='summary' label='Summary' fullWidth />
+                    <FastField
+                      component={TextField}
+                      multiline
+                      name='description'
+                      label='Description'
+                      fullWidth
+                    />
+                  </CommonStyles.Box>
 
-                  <CommonStyles.Typography variant='h6' sx={{ mb: 1 }}>
+                  <CommonStyles.Typography variant='h5' sx={{ mb: 1 }}>
                     Config URI
                   </CommonStyles.Typography>
-                  <FastField component={TextField} name='icon' label='Icon URI' fullWidth />
-                  <FastField component={TextField} name='launchUri' label='Launch URI' fullWidth />
-                  <FastField
-                    component={TextField}
-                    name='termsConditionsUri'
-                    label='Terms & Conditions URI'
-                    fullWidth
-                  />
-                  <FastField
-                    component={TextField}
-                    name='privacyPolicyUri'
-                    label='Privacy & Policy URI'
-                    fullWidth
-                  />
-                  <FastField
-                    component={TextField}
-                    name='loginRedirectUri'
-                    label='Login Redirect URI'
-                    fullWidth
-                  />
-                  <FastField
-                    component={TextField}
-                    name='logoutRedirectUri'
-                    label='Logout Redirect URI'
-                    fullWidth
-                  />
+                  <CommonStyles.Box sx={{ pl: 2, '& > div': { mb: 2 } }}>
+                    <FastField component={TextField} name='icon' label='Icon URI' fullWidth />
+                    <FastField
+                      component={TextField}
+                      name='launchUri'
+                      label='Launch URI'
+                      fullWidth
+                    />
+                    <FastField
+                      component={TextField}
+                      name='termsConditionsUri'
+                      label='Terms & Conditions URI'
+                      fullWidth
+                    />
+                    <FastField
+                      component={TextField}
+                      name='privacyPolicyUri'
+                      label='Privacy & Policy URI'
+                      fullWidth
+                    />
+                    <FastField
+                      component={TextField}
+                      name='loginRedirectUri'
+                      label='Login Redirect URI'
+                      fullWidth
+                    />
+                    <FastField
+                      component={TextField}
+                      name='logoutRedirectUri'
+                      label='Logout Redirect URI'
+                      fullWidth
+                    />
+                  </CommonStyles.Box>
                 </CommonStyles.Box>
               </Form>
             </DialogContent>

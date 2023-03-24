@@ -1,13 +1,3 @@
-export interface App {
-  id: string;
-  name: string;
-  developerName: string;
-  summary: string;
-  icon: string;
-  isLive: boolean;
-  isApproved: boolean;
-}
-
 export interface AppIntegration {
   id: string;
   ownerUserId: string;
@@ -29,4 +19,12 @@ export interface AppIntegration {
   description: string;
   isLive?: boolean;
   isApproved?: boolean;
+  appClientName?: string;
+  appClientId?: string;
+  appClientSecret?: string;
 }
+
+export type App = Pick<
+  AppIntegration,
+  'id' | 'name' | 'developerName' | 'summary' | 'icon' | 'isLive' | 'isApproved'
+>;

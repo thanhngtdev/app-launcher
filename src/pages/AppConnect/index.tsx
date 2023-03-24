@@ -37,7 +37,7 @@ const AppConnect = () => {
         onSubmit={(values, { setSubmitting }) => {
           try {
             setSubmitting(true);
-            alert(JSON.stringify(values));
+            alert('App connect!');
             setSubmitting(false);
           } catch (error) {
             showError(error);

@@ -10,12 +10,29 @@ interface ResponseListApp {
 
 export type RequestCreateApp = Omit<
   AppIntegration,
-  'id' | 'ownerUserId' | 'developerName' | 'developerDescription'
+  | 'id'
+  | 'ownerUserId'
+  | 'developerName'
+  | 'developerDescription'
+  | 'appClientSecret'
+  | 'appClientName'
+  | 'appClientId'
 >;
 
 export interface RequestApproveApp {
   appId: string;
   isApproved: boolean;
+}
+
+export interface RequestCheckAppCredential {
+  userId: string;
+  appClientId: string;
+}
+
+export interface ResponseGenerateAppCredentials {
+  appClientName: string;
+  appClientId: string;
+  appClientSecret: string;
 }
 
 class AppManagementService {
@@ -57,6 +74,14 @@ class AppManagementService {
 
   setApproveState({ appId, isApproved }: RequestApproveApp) {
     return httpService.post(`${APP_INTEGRATION_URL}/set-app-approval-state`, { appId, isApproved });
+  }
+
+  generateAppCredentials(appId: string): PromiseResponseBase<ResponseGenerateAppCredentials> {
+    return httpService.post(`${APP_INTEGRATION_URL}/generate-app-credentials?appId=${appId}`, {});
+  }
+
+  checkAppCredential(body: RequestCheckAppCredential) {
+    return httpService.post(`${APP_INTEGRATION_URL}/check-app-credential`, body);
   }
 }
 

@@ -3,15 +3,16 @@ import { FieldInputProps, FormikProps } from 'formik';
 import { get, isString } from 'lodash';
 
 interface Props {
-  field: FieldInputProps<any>;
-  form: FormikProps<any>;
+  field?: FieldInputProps<any>;
+  form?: FormikProps<any>;
 }
 
 const TextField = ({ field, form, ...props }: Props & TextFieldProps) => {
   const { name, value, onBlur, onChange } = field || {};
   const { errors, touched } = form || {};
 
-  const msgError = get(touched, name) && get(errors, name) ? get(errors, name) : '';
+  const msgError =
+    get(touched, name || '') && get(errors, name || '') ? get(errors, name || '') : '';
 
   return (
     <MuiTextField

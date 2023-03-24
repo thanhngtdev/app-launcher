@@ -38,6 +38,7 @@ const DialogAssignUser = (props: Props) => {
                     name='appId'
                     component={AutoCompleteField}
                     label='Application'
+
                     loadOptions={(
                       text: string,
                       setOptions: SetOptionsValue,

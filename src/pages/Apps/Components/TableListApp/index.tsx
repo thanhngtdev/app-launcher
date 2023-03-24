@@ -6,17 +6,31 @@ import CellActions from './Cells/CellActions';
 import { Order } from 'interfaces/common';
 import { NUMBER_DEFAULT_ROW_PER_PAGE, NUMBER_DEFAULT_PAGE } from 'consts';
 import CellActive from './Cells/CellActive';
+import SearchAndFilters from 'components/SearchAndFilters';
+import { FastField } from 'formik';
+import TextField from 'components/CustomFields/TextField';
+import { cloneDeep } from 'lodash';
+
+const initialValues = {
+  search: '',
+  page: 0,
+  rowsPerPage: 5,
+  order: Order.asc,
+  orderBy: 'CreatedDate',
+};
 
 const TableListApp = () => {
   //! State
   const {
     filters,
     selected,
+    setFilters,
     handleChangePage,
     handleChangeRowsPerPage,
     handleRequestSort,
     handleSelectAllClick,
-  } = useFiltersHandler({ search: '' });
+    handleResetToInitial,
+  } = useFiltersHandler(initialValues);
 
   const { data: resListApp, isLoading } = useGetListApp({
     skip:
@@ -39,6 +53,20 @@ const TableListApp = () => {
       <CommonStyles.Typography sx={{ mb: 2 }} variant='h6'>
         Total: {totalCount}
       </CommonStyles.Typography>
+
+      <SearchAndFilters
+        sxContainer={{ mb: 2 }}
+        initialValues={initialValues}
+        onSubmit={(values) => {
+          setFilters(cloneDeep(values));
+        }}
+        onReset={() => {
+          handleResetToInitial();
+        }}
+        renderFilterFields={() => {
+          return <FastField component={TextField} name='search' label='Search' />;
+        }}
+      />
 
       <CommonStyles.Table
         order={filters?.order || Order.desc}

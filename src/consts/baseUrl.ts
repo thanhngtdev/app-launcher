@@ -5,7 +5,10 @@ const BaseUrl = {
   Login: '/login',
   Callbacks: '/login/callback',
   Logout: '/logout',
+
   AppManagement: '/apps',
+  AppLauncher: '/apps/:id',
+  AppLauncherWithID: (id: string) => `/apps/${id}`,
 
   CreateApp: '/create-app',
 

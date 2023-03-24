@@ -14,6 +14,7 @@ const Users = lazy(() => import('pages/Users'));
 const Settings = lazy(() => import('pages/Settings'));
 const Logout = lazy(() => import('pages/Logout'));
 const AppConnect = lazy(() => import('pages/AppConnect'));
+const Laucher = lazy(() => import('pages/Launcher'));
 
 interface Route {
   name: string;
@@ -31,49 +32,6 @@ interface Route {
 }
 
 const routes: Route[] = [
-  {
-    name: 'Home Layout',
-    path: '/',
-    layout: DefaultLayout,
-    routeChild: [
-      // Bash appendHere
-      {
-        name: 'Homepage',
-        path: BaseUrl.Homepage,
-        component: withCheckRole(Apps, [PERMISSION_ENUM.PUBLIC]),
-        isPrivateRoute: true,
-      },
-      {
-        name: 'AppManagement',
-        path: BaseUrl.AppManagement,
-        component: withCheckRole(AppManagement, [
-          PERMISSION_ENUM.ADMIN,
-          PERMISSION_ENUM.APP_MANAGER,
-          PERMISSION_ENUM.USER,
-        ]),
-        isPrivateRoute: true,
-      },
-      {
-        name: 'CreateApp',
-        path: BaseUrl.CreateApp,
-        component: withCheckRole(CreateApp, [PERMISSION_ENUM.PUBLIC]),
-        isPrivateRoute: true,
-      },
-      {
-        name: 'Users',
-        path: BaseUrl.Users,
-        component: withCheckRole(Users, [PERMISSION_ENUM.ADMIN]),
-        isPrivateRoute: true,
-      },
-      {
-        name: 'Settings',
-        path: BaseUrl.Settings,
-        component: withCheckRole(Settings, [PERMISSION_ENUM.PUBLIC]),
-        isPrivateRoute: true,
-      },
-    ],
-  },
-
   {
     name: 'Login Layout',
     path: BaseUrl.Login,
@@ -122,6 +80,58 @@ const routes: Route[] = [
         name: 'App connect',
         path: BaseUrl.AppConnect,
         component: AppConnect,
+      },
+    ],
+  },
+  {
+    name: 'Home Layout',
+    path: '/',
+    layout: DefaultLayout,
+    routeChild: [
+      // Bash appendHere
+      {
+        name: 'Homepage',
+        path: BaseUrl.Homepage,
+        component: withCheckRole(Apps, [PERMISSION_ENUM.PUBLIC]),
+        isPrivateRoute: true,
+      },
+      {
+        name: 'App Management',
+        path: BaseUrl.AppManagement,
+        component: withCheckRole(AppManagement, [
+          PERMISSION_ENUM.ADMIN,
+          PERMISSION_ENUM.APP_MANAGER,
+          PERMISSION_ENUM.USER,
+        ]),
+        isPrivateRoute: true,
+      },
+      {
+        name: 'App Launcher',
+        path: BaseUrl.AppLauncher,
+        component: withCheckRole(Laucher, [
+          PERMISSION_ENUM.ADMIN,
+          PERMISSION_ENUM.APP_MANAGER,
+          PERMISSION_ENUM.USER,
+        ]),
+        isPrivateRoute: true,
+      },
+      {
+        name: 'Create App',
+        path: BaseUrl.CreateApp,
+        component: withCheckRole(CreateApp, [PERMISSION_ENUM.PUBLIC]),
+        isPrivateRoute: true,
+      },
+      {
+        name: 'Users',
+        path: BaseUrl.Users,
+        component: withCheckRole(Users, [PERMISSION_ENUM.ADMIN]),
+        isPrivateRoute: true,
+      },
+      {
+        name: 'Settings',
+        path: BaseUrl.Settings,
+        component: withCheckRole(Settings, [PERMISSION_ENUM.PUBLIC]),
+        isPrivateRoute: true,
       },
     ],
   },
