@@ -1,6 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { User } from 'oidc-client-ts';
-import { AuthContextProps } from 'oidc-react';
 
 export const TOKEN_KEY = 'token';
 export const USER_KEY = 'user';
@@ -43,24 +42,6 @@ class Services {
         return config;
       },
       function (error) {
-        return Promise.reject(error);
-      }
-    );
-  }
-
-  setupInterceptors(auth: AuthContextProps) {
-    this.axios.interceptors.response.use(
-      (response) => {
-        return response;
-      },
-      (error) => {
-        const { status } = error?.response || {};
-        if (status === 401) {
-          auth.signOut();
-          window.localStorage.clear();
-          window.location.reload();
-        }
-
         return Promise.reject(error);
       }
     );
