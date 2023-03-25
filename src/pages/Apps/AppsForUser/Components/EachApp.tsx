@@ -7,8 +7,6 @@ import { showError, showSuccess } from 'helpers/toast';
 import { useInstallApp, useUninstallApp } from 'hooks/app/useAppHooks';
 import { useQueryClient } from '@tanstack/react-query';
 import { queryKeys } from 'consts';
-import { useNavigate } from 'react-router-dom';
-import BaseUrl from 'consts/baseUrl';
 
 interface EachAppProps {
   item: App;
@@ -22,7 +20,6 @@ const EachApp = ({ item, isInstalled }: EachAppProps) => {
   const { mutateAsync: installApp } = useInstallApp();
   const { mutateAsync: uninstallApp } = useUninstallApp();
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
 
   //! Function
   const onClickInstall = async () => {
@@ -53,18 +50,14 @@ const EachApp = ({ item, isInstalled }: EachAppProps) => {
     }
   };
 
-  const onClickLaunch = () => {
-    navigate(BaseUrl.AppLauncherWithID(item?.id || ''));
-  };
-
   //! Render
   const renderButton = () => {
     if (isInstalled) {
       return (
         <CommonStyles.Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-          <CommonStyles.Button startIcon={<CommonIcons.SendIcon />} onClick={onClickLaunch}>
-            Launch
-          </CommonStyles.Button>
+          <a href={item?.launchUri || ''} target={'_blank'} rel='noreferrer'>
+            <CommonStyles.Button startIcon={<CommonIcons.SendIcon />}>Launch</CommonStyles.Button>
+          </a>
           <CommonStyles.Button
             startIcon={<CommonIcons.UninstallIcon />}
             variant='outlined'

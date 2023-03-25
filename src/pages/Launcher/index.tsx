@@ -93,7 +93,11 @@ const Launcher = () => {
         '& > iframe': { height: '100% ', width: '100%' },
       }}
     >
-      <iframe src={item?.launchUri || ''} frameBorder={0} />
+      <iframe
+        src={item?.launchUri || ''}
+        frameBorder={0}
+        sandbox='allow-same-origin allow-scripts allow-popups allow-forms'
+      />
     </CommonStyles.Box>
   );
 };

@@ -12,7 +12,7 @@ const Callbacks = () => {
   //! Function
 
   React.useEffect(() => {
-    auth.loginCallback().then(() => {
+    auth.loginPopupCallback().then(() => {
       navigate(BaseUrl.Homepage);
     });
   }, []);

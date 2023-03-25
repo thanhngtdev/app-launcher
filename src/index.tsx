@@ -14,11 +14,8 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AuthenticationProvider from 'providers/AuthenticationProvider';
 import { GlobalStyles } from '@mui/material';
-import locationService from 'services/locationService';
 
 const queryClient = new QueryClient();
-
-locationService.setInitialPathname();
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <CachedProvider>
     <QueryClientProvider client={queryClient}>

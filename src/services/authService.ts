@@ -29,7 +29,7 @@ class AuthService {
     return this.userManager.signinPopup();
   }
 
-  loginCallback(): Promise<void> {
+  loginPopupCallback(): Promise<void> {
     return this.userManager.signinPopupCallback();
   }
 

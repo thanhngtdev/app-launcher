@@ -8,6 +8,7 @@ import { isEmpty } from 'lodash';
 import AuthService from 'services/authService';
 import { User } from 'oidc-client-ts';
 import { showError } from 'helpers/toast';
+import locationService from 'services/locationService';
 
 interface AuthenticationContextI {
   loading: boolean;
@@ -15,10 +16,11 @@ interface AuthenticationContextI {
   user: UserInfo | null;
   logout: () => void;
   loginPopup: () => void;
-  loginCallback: () => any;
+  loginPopupCallback: () => any;
   isAdmin: boolean;
   isAppManager: boolean;
   isUser: boolean;
+  initialPathName: string;
 }
 
 const AuthenticationContext = createContext<AuthenticationContextI>({
@@ -27,14 +29,16 @@ const AuthenticationContext = createContext<AuthenticationContextI>({
   user: {} as any,
   logout: () => {},
   loginPopup: () => {},
-  loginCallback: () => Promise.resolve({} as any),
+  loginPopupCallback: () => Promise.resolve({} as any),
   isAdmin: false,
   isAppManager: false,
   isUser: false,
+  initialPathName: '',
 });
 
 export const useAuth = () => useContext(AuthenticationContext);
 
+locationService.setInitialPathname();
 const authService = new AuthService();
 const AuthenticationProvider = ({ children }: { children: any }) => {
   //! State
@@ -51,6 +55,8 @@ const AuthenticationProvider = ({ children }: { children: any }) => {
   const onGetUserDataSuccess = useCallback((user: User | null) => {
     if (user) {
       const accessToken = user?.access_token;
+      httpService.saveUserStorage(user);
+      httpService.saveTokenStorage(accessToken);
       httpService.attachTokenToHeader(accessToken);
       setTokenAttached(true);
       setUserData(user);
@@ -64,6 +70,9 @@ const AuthenticationProvider = ({ children }: { children: any }) => {
         const user = await authService.getUser();
         if (user) {
           onGetUserDataSuccess(user);
+        } else {
+          const userStorage = httpService.getUserStorage();
+          userStorage && onGetUserDataSuccess(userStorage);
         }
 
         setCheckingAuth(false);
@@ -89,7 +98,7 @@ const AuthenticationProvider = ({ children }: { children: any }) => {
       await logoutUser(userData?.access_token || '');
       window.location.href = LOGOUT_REDIRECT_URI;
 
-      httpService.clearTokenStorage();
+      httpService.clearAuthStorage();
       window.sessionStorage.clear();
     } catch (error) {
       showError(error);
@@ -102,12 +111,13 @@ const AuthenticationProvider = ({ children }: { children: any }) => {
       loading: isCheckingAuth || isInitialLoading,
       isLogged: !isEmpty(user),
       user,
-      loginCallback: authService.loginCallback.bind(authService),
+      loginPopupCallback: authService.loginPopupCallback.bind(authService),
       loginPopup,
       logout,
       isAdmin: !!user?.roles?.includes(PERMISSION_ENUM.ADMIN),
       isAppManager: !!user?.roles?.includes(PERMISSION_ENUM.APP_MANAGER),
       isUser: !!user?.roles?.includes(PERMISSION_ENUM.USER),
+      initialPathName: locationService.initialPathname,
     };
   }, [user, isCheckingAuth, isInitialLoading, authService, loginPopup, logout]);
 

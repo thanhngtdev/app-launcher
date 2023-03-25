@@ -104,7 +104,7 @@ class Services {
     return null;
   }
 
-  clearTokenStorage() {
+  clearAuthStorage() {
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem(USER_KEY);
   }

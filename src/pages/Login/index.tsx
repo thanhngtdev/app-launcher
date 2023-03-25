@@ -4,8 +4,6 @@ import CommonStyles from 'components/CommonStyles';
 import { Form, Formik } from 'formik';
 import { useTheme } from '@mui/material';
 import { useAuth } from 'providers/AuthenticationProvider';
-import locationService from 'services/locationService';
-import BaseUrl from 'consts/baseUrl';
 
 const Login = () => {
   //! State
@@ -15,18 +13,9 @@ const Login = () => {
   //! Function
 
   //! Render
-
+  console.log('authauth', auth);
   if (auth.isLogged) {
-    return (
-      <Navigate
-        to={
-          locationService.initialPathname === '/login'
-            ? BaseUrl.Homepage
-            : locationService.initialPathname
-        }
-        replace
-      />
-    );
+    return <Navigate to={auth.initialPathName} replace />;
   }
 
   if (auth.loading) {

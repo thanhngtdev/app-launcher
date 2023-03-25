@@ -26,5 +26,5 @@ export interface AppIntegration {
 
 export type App = Pick<
   AppIntegration,
-  'id' | 'name' | 'developerName' | 'summary' | 'icon' | 'isLive' | 'isApproved'
+  'id' | 'name' | 'developerName' | 'summary' | 'icon' | 'isLive' | 'isApproved' | 'launchUri'
 >;
