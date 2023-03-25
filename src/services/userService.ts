@@ -44,6 +44,10 @@ class UserService {
   updateUser(username: string, body: RequestUpdateUserInfo) {
     return httpService.post(`${USER_URL}/update-user?username=${username}`, body);
   }
+
+  signOut(accessToken: string) {
+    return httpService.post(`${USER_URL}/signout-global`, { accessToken });
+  }
 }
 
 export default new UserService();

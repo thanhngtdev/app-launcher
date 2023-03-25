@@ -28,5 +28,10 @@ export const showError = (error: any, options?: ToastOptions) => {
     return;
   }
 
+  if (error?.message) {
+    toast.error(error?.message);
+    return;
+  }
+
   toast.error('Error default');
 };

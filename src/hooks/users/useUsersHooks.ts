@@ -43,3 +43,9 @@ export const useUpdateUser = () => {
       userService.updateUser(username, body),
   });
 };
+
+export const useLogoutUser = () => {
+  return useMutation({
+    mutationFn: (accessToken: string) => userService.signOut(accessToken),
+  });
+};

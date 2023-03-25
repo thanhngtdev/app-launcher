@@ -1,6 +1,8 @@
 import { isDevelopment } from 'consts';
 
 export const ROOT_URI = 'https://betterhome-mvp.auth.ap-southeast-1.amazoncognito.com';
+export const COGNITO_URI =
+  'https://cognito-idp.ap-southeast-1.amazonaws.com/ap-southeast-1_7wzWV6yyL';
 export const WELL_KNOW =
   'https://cognito-idp.ap-southeast-1.amazonaws.com/ap-southeast-1_7wzWV6yyL/.well-known/openid-configuration';
 export const CLIENT_ID = '450mbafbnrds0p8e5rk3jf4jt5';
@@ -12,15 +14,3 @@ export const LOGOUT_URI = isDevelopment
   ? 'http://localhost:3000/logout'
   : `${window.location.origin}/logout`;
 export const LOGOUT_REDIRECT_URI = `${ROOT_URI}/logout?client_id=${CLIENT_ID}&logout_uri=${LOGOUT_URI}`;
-
-const config = {
-  authority: WELL_KNOW,
-  clientId: CLIENT_ID,
-  clientSecret: CLIENT_SECRET,
-  redirectUri: REDIRECT_URI,
-  scope: 'openid email profile',
-  responseType: 'code',
-  autoSignIn: false,
-};
-
-export default config;

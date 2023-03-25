@@ -1,0 +1,41 @@
+import { CLIENT_ID, CLIENT_SECRET, COGNITO_URI, REDIRECT_URI } from 'consts/configAWS';
+import { User, UserManager } from 'oidc-client-ts';
+
+class AuthService {
+  userManager: UserManager;
+  constructor() {
+    const settings = {
+      authority: COGNITO_URI,
+      client_id: CLIENT_ID,
+      redirect_uri: REDIRECT_URI,
+      client_secret: CLIENT_SECRET,
+      scope: 'openid email profile aws.cognito.signin.user.admin',
+      response_type: 'code',
+      loadUserInfo: true,
+    };
+
+    this.userManager = new UserManager(settings);
+  }
+
+  getUser(): Promise<User | null> {
+    return this.userManager.getUser();
+  }
+
+  login(): Promise<void> {
+    return this.userManager.signinRedirect();
+  }
+
+  loginPopup(): Promise<User | null> {
+    return this.userManager.signinPopup();
+  }
+
+  loginCallback(): Promise<void> {
+    return this.userManager.signinPopupCallback();
+  }
+
+  logout(): Promise<void> {
+    return this.userManager.signoutRedirect();
+  }
+}
+
+export default AuthService;

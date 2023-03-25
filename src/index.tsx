@@ -1,5 +1,4 @@
 import App from 'App';
-import React from 'react';
 import ReactDOM from 'react-dom/client';
 // import AuthProvider from 'providers/AuthenticationProvider';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -11,33 +10,31 @@ import './index.css';
 import './styles/temp.scss';
 import ToggleThemeProvider from 'providers/ToggleThemeProvider';
 import CachedProvider from 'providers/CachedProvider';
-import { AuthProvider as OIDCAuthProvider } from 'oidc-react';
 import { ToastContainer } from 'react-toastify';
-import configAWS from 'consts/configAWS';
 import 'react-toastify/dist/ReactToastify.css';
 import AuthenticationProvider from 'providers/AuthenticationProvider';
 import { GlobalStyles } from '@mui/material';
+import locationService from 'services/locationService';
 
 const queryClient = new QueryClient();
 
+locationService.setInitialPathname();
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <CachedProvider>
     <QueryClientProvider client={queryClient}>
       <I18nextProvider i18n={i18n}>
         <ToggleThemeProvider>
-          <OIDCAuthProvider {...configAWS}>
-            <GlobalStyles
-              styles={{
-                a: {
-                  textDecoration: 'none',
-                },
-              }}
-            />
-            <AuthenticationProvider>
-              <App />
-            </AuthenticationProvider>
-            <ToastContainer theme='light' />
-          </OIDCAuthProvider>
+          <GlobalStyles
+            styles={{
+              a: {
+                textDecoration: 'none',
+              },
+            }}
+          />
+          <AuthenticationProvider>
+            <App />
+          </AuthenticationProvider>
+          <ToastContainer theme='light' />
         </ToggleThemeProvider>
       </I18nextProvider>
     </QueryClientProvider>

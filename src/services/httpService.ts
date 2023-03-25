@@ -1,7 +1,9 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import { User } from 'oidc-client-ts';
 import { AuthContextProps } from 'oidc-react';
 
 export const TOKEN_KEY = 'token';
+export const USER_KEY = 'user';
 
 class Services {
   axios: AxiosInstance;
@@ -84,13 +86,27 @@ class Services {
     localStorage.setItem(TOKEN_KEY, token);
   }
 
+  saveUserStorage(user: User) {
+    localStorage.setItem(USER_KEY, JSON.stringify(user));
+  }
+
   getTokenStorage() {
     const token = localStorage.getItem(TOKEN_KEY);
     return token || '';
   }
 
+  getUserStorage() {
+    const user = localStorage.getItem(USER_KEY);
+    if (user && user !== 'null') {
+      return JSON.parse(user);
+    }
+
+    return null;
+  }
+
   clearTokenStorage() {
     localStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem(USER_KEY);
   }
 }
 

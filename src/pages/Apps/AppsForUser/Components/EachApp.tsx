@@ -97,10 +97,10 @@ const EachApp = ({ item, isInstalled }: EachAppProps) => {
         boxShadow: 3,
         borderRadius: 1,
         p: 2,
-        width: 'calc(100% / 4 - 18px)',
+        width: 'calc(100% / 3 - 16px)',
 
         [theme.breakpoints.down('lg')]: {
-          width: 'calc(100% / 3 - 16px)',
+          width: 'calc(100% / 2 - 16px)',
         },
 
         [theme.breakpoints.down('md')]: {

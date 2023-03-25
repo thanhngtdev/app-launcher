@@ -4,20 +4,29 @@ import CommonStyles from 'components/CommonStyles';
 import { Form, Formik } from 'formik';
 import { useTheme } from '@mui/material';
 import { useAuth } from 'providers/AuthenticationProvider';
-import { useAuth as useAuthOIDC } from 'oidc-react';
+import locationService from 'services/locationService';
+import BaseUrl from 'consts/baseUrl';
 
 const Login = () => {
   //! State
   const theme = useTheme();
   const auth = useAuth();
-  const authOkta = useAuthOIDC();
 
   //! Function
 
   //! Render
 
   if (auth.isLogged) {
-    return <Navigate to='/' replace />;
+    return (
+      <Navigate
+        to={
+          locationService.initialPathname === '/login'
+            ? BaseUrl.Homepage
+            : locationService.initialPathname
+        }
+        replace
+      />
+    );
   }
 
   if (auth.loading) {
@@ -89,7 +98,7 @@ const Login = () => {
                       variant='outlined'
                       fullWidth
                       onClick={() => {
-                        authOkta.signInPopup();
+                        auth.loginPopup();
                       }}
                     >
                       Sign In by AWS
