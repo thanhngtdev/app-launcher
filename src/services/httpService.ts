@@ -1,5 +1,7 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { User } from 'oidc-client-ts';
+import AuthService from './authService';
+// import AuthService from './authService';
 
 export const TOKEN_KEY = 'token';
 export const USER_KEY = 'user';
@@ -28,6 +30,21 @@ class Services {
       },
       function (error) {
         return Promise.reject(error);
+      }
+    );
+  }
+
+  setupInterceptors(authService: AuthService) {
+    this.axios.interceptors.response.use(
+      (response) => {
+        return response;
+      },
+      (error) => {
+        const { status } = error?.response || {};
+        if (status === 401) {
+          authService.removeUser();
+          this.clearAuthStorage();
+        }
       }
     );
   }

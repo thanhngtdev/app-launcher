@@ -121,6 +121,8 @@ interface TableCommonProps<T> {
   showCheckBox?: boolean;
   keyPrimary?: string;
   isLoading?: boolean;
+  // index row
+  invisibleCheckBox?: number[];
 }
 
 function TableCommon<T>({
@@ -135,6 +137,7 @@ function TableCommon<T>({
   showCheckBox,
   keyPrimary = 'id',
   isLoading,
+  invisibleCheckBox,
   handleCheckBox,
   handleChangePage,
   handleSelectAllClick,
@@ -160,7 +163,7 @@ function TableCommon<T>({
                 handleSelectAllClick(e, rows, keyPrimary);
               }}
               onRequestSort={handleRequestSort}
-              rowCount={totalCount}
+              rowCount={rows.length}
               headCells={headCells}
               showCheckBox={showCheckBox}
             />
@@ -180,7 +183,12 @@ function TableCommon<T>({
                       selected={isItemSelected}
                     >
                       {showCheckBox && (
-                        <TableCell padding='checkbox'>
+                        <TableCell
+                          padding='checkbox'
+                          sx={{
+                            visibility: invisibleCheckBox?.includes(index) ? 'hidden' : 'visible',
+                          }}
+                        >
                           <Checkbox
                             color='primary'
                             checked={isItemSelected}

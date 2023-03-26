@@ -1,3 +1,4 @@
+import queryString from 'query-string';
 import { APP_INTEGRATION_URL, APP_MANAGEMENT_URL } from 'consts/apiUrl';
 import { App, AppIntegration } from 'interfaces/apps';
 import { PromiseResponseBase, RequestPagingCommon } from 'interfaces/common';
@@ -42,13 +43,15 @@ class AppManagementService {
     );
   }
 
-  getInstalledListApp({
-    skip,
-    take,
-    filter,
-  }: RequestPagingCommon): PromiseResponseBase<ResponseListApp> {
+  getListAppManager(body: RequestPagingCommon): PromiseResponseBase<ResponseListApp> {
     return httpService.get(
-      `${APP_MANAGEMENT_URL}/installed-application-listing?filter=${filter}&skip=${skip}&take=${take}`
+      `${APP_MANAGEMENT_URL}/manager-application-listing?${queryString.stringify(body)}`
+    );
+  }
+
+  getInstalledListApp(body: RequestPagingCommon): PromiseResponseBase<ResponseListApp> {
+    return httpService.get(
+      `${APP_MANAGEMENT_URL}/installed-application-listing?${queryString.stringify(body)}`
     );
   }
 

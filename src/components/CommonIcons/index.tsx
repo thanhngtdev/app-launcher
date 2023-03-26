@@ -1,3 +1,4 @@
+import PersonOffIcon from '@mui/icons-material/PersonOff';
 import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
 import CloseIcon from '@mui/icons-material/Close';
 import CheckIcon from '@mui/icons-material/Check';
@@ -43,6 +44,7 @@ export default {
   SettingsIcon,
   SaveIcon,
   AssignIcon: PersonAddOutlinedIcon,
+  UnAssignIcon: PersonOffIcon,
   CheckIcon,
   CloseIcon,
   SendIcon: SendOutlinedIcon,

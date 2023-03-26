@@ -1,4 +1,6 @@
+import queryString from 'query-string';
 import { USER_URL } from 'consts/apiUrl';
+import { PERMISSION_ENUM } from 'consts/index';
 import { PromiseResponseBase, RequestPagingCommon, ResponsePagingCommon } from 'interfaces/common';
 import { UserInfo } from 'interfaces/user';
 import httpService from './httpService';
@@ -14,6 +16,12 @@ export interface RequestUpdateUserInfo {
 export interface RequestAssignUser {
   username: string;
   role: string;
+  appId?: string;
+}
+
+export interface RequestGetListUser extends RequestPagingCommon {
+  role?: PERMISSION_ENUM;
+  appId?: string;
 }
 
 class UserService {
@@ -29,12 +37,12 @@ class UserService {
     return httpService.post(`${USER_URL}/assign-user`, body);
   }
 
-  getListUser({
-    skip,
-    take,
-    filter,
-  }: RequestPagingCommon): PromiseResponseBase<ResponsePagingCommon<UserInfo[]>> {
-    return httpService.get(`${USER_URL}/list-user?filter=${filter}&skip=${skip}&take=${take}`);
+  unAssignUser(body: RequestAssignUser) {
+    return httpService.post(`${USER_URL}/unassign-user`, body);
+  }
+
+  getListUser(body: RequestGetListUser): PromiseResponseBase<ResponsePagingCommon<UserInfo[]>> {
+    return httpService.get(`${USER_URL}/list-user?${queryString.stringify(body)}`);
   }
 
   getUserDetail({ username }: { username: string }) {

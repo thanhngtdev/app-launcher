@@ -19,6 +19,7 @@ function useFiltersHandler<T>(initialFilters?: T & CommonFilters) {
 
   const handleChangePage = useCallback((event: unknown, newPage: number) => {
     setFilters((prev) => {
+      setSelected([]);
       return (
         prev && {
           ...prev,
@@ -75,6 +76,10 @@ function useFiltersHandler<T>(initialFilters?: T & CommonFilters) {
     setSelected([]);
   }, [initialFilters]);
 
+  const handleResetSelected = useCallback(() => {
+    setSelected([]);
+  }, []);
+
   return {
     filters,
     selected,
@@ -85,6 +90,7 @@ function useFiltersHandler<T>(initialFilters?: T & CommonFilters) {
     handleChangeRowsPerPage,
     handleResetToInitial,
     handleCheckBox,
+    handleResetSelected,
   };
 }
 

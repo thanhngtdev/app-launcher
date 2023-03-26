@@ -11,6 +11,13 @@ export const useGetListApp = (filters: RequestPagingCommon) => {
   });
 };
 
+export const useGetListAppForManager = (filters: RequestPagingCommon) => {
+  return useQuery({
+    queryKey: [queryKeys.getAppListManager, filters],
+    queryFn: () => appManagementService.getListAppManager(filters),
+  });
+};
+
 export const useGetListInstalledApp = (filters: RequestPagingCommon) => {
   return useQuery({
     queryKey: [queryKeys.getAppInstalledList, filters],

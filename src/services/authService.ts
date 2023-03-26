@@ -12,6 +12,7 @@ class AuthService {
       scope: 'openid email profile aws.cognito.signin.user.admin',
       response_type: 'code',
       loadUserInfo: true,
+      automaticSilentRenew: true,
     };
 
     this.userManager = new UserManager(settings);
@@ -35,6 +36,10 @@ class AuthService {
 
   logout(): Promise<void> {
     return this.userManager.signoutRedirect();
+  }
+
+  removeUser(): Promise<void> {
+    return this.userManager.removeUser();
   }
 }
 

@@ -3,6 +3,7 @@ export const isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV === '
 export const queryKeys = {
   getTodos: 'getTodos',
   getAppList: 'getAppList',
+  getAppListManager: 'getAppListManager',
   getAppDetail: 'getAppDetai',
   getAppInstalledList: 'getAppInstalledList',
 

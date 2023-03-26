@@ -65,10 +65,6 @@ const AppManagement = () => {
       </CommonStyles.Box>
 
       <TableListApp />
-
-      {/* <CommonStyles.Box sx={{ mt: 4 }}>
-        <TableInstalledApp />
-      </CommonStyles.Box> */}
     </CommonStyles.Box>
   );
 };

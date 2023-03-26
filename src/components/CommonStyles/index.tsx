@@ -7,8 +7,10 @@ import Avatar from './Avatar';
 import Tooltip from './Tooltip';
 import TabPanel from './TabPanel';
 import Chip from './Chip';
+import Tabs from './Tabs';
 
 export default {
+  Tabs,
   Chip,
   TabPanel,
   Avatar,

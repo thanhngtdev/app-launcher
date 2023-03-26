@@ -11,6 +11,7 @@ import { App } from 'interfaces/apps';
 import { useGenerateAppCredentials, useGetAppIntegrationDetail } from 'hooks/app/useAppHooks';
 import CommonIcons from 'components/CommonIcons';
 import { showError, showSuccess } from 'helpers/toast';
+import { validateCreateApp } from '../CreateApp';
 
 interface Props extends DialogI<RequestCreateApp> {
   item?: App;
@@ -63,6 +64,7 @@ const DialogAddOrEditApp = (props: Props) => {
     <Formik
       enableReinitialize={isEdit}
       initialValues={initialValues}
+      validationSchema={validateCreateApp}
       validateOnChange={false}
       validateOnBlur={false}
       onSubmit={onSubmit ? onSubmit : () => {}}
@@ -143,19 +145,45 @@ const DialogAddOrEditApp = (props: Props) => {
                     Information
                   </CommonStyles.Typography>
                   <CommonStyles.Box sx={{ pl: 2, '& > div': { mb: 2 } }}>
-                    <FastField component={TextField} name='name' label='Name' fullWidth />
-                    <FastField component={TextField} name='phone' label='Phone' fullWidth />
-                    <FastField component={TextField} name='homepage' label='Homepage' fullWidth />
+                    <FastField component={TextField} required name='name' label='Name' fullWidth />
                     <FastField
                       component={TextField}
+                      required
+                      name='phone'
+                      label='Phone'
+                      fullWidth
+                    />
+                    <FastField
+                      component={TextField}
+                      required
+                      name='homepage'
+                      label='Homepage'
+                      fullWidth
+                    />
+                    <FastField
+                      component={TextField}
+                      required
                       name='supportEmail'
                       label='Support Email'
                       fullWidth
                     />
-                    <FastField component={TextField} name='scopes' label='Scope' fullWidth />
-                    <FastField component={TextField} name='summary' label='Summary' fullWidth />
                     <FastField
                       component={TextField}
+                      required
+                      name='scopes'
+                      label='Scope'
+                      fullWidth
+                    />
+                    <FastField
+                      component={TextField}
+                      required
+                      name='summary'
+                      label='Summary'
+                      fullWidth
+                    />
+                    <FastField
+                      component={TextField}
+                      required
                       multiline
                       name='description'
                       label='Description'
@@ -167,33 +195,44 @@ const DialogAddOrEditApp = (props: Props) => {
                     Config URI
                   </CommonStyles.Typography>
                   <CommonStyles.Box sx={{ pl: 2, '& > div': { mb: 2 } }}>
-                    <FastField component={TextField} name='icon' label='Icon URI' fullWidth />
                     <FastField
                       component={TextField}
+                      required
+                      name='icon'
+                      label='Icon URI'
+                      fullWidth
+                    />
+                    <FastField
+                      component={TextField}
+                      required
                       name='launchUri'
                       label='Launch URI'
                       fullWidth
                     />
                     <FastField
                       component={TextField}
+                      required
                       name='termsConditionsUri'
                       label='Terms & Conditions URI'
                       fullWidth
                     />
                     <FastField
                       component={TextField}
+                      required
                       name='privacyPolicyUri'
                       label='Privacy & Policy URI'
                       fullWidth
                     />
                     <FastField
                       component={TextField}
+                      required
                       name='loginRedirectUri'
                       label='Login Redirect URI'
                       fullWidth
                     />
                     <FastField
                       component={TextField}
+                      required
                       name='logoutRedirectUri'
                       label='Logout Redirect URI'
                       fullWidth

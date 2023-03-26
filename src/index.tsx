@@ -15,7 +15,14 @@ import 'react-toastify/dist/ReactToastify.css';
 import AuthenticationProvider from 'providers/AuthenticationProvider';
 import { GlobalStyles } from '@mui/material';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
+
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <CachedProvider>
     <QueryClientProvider client={queryClient}>

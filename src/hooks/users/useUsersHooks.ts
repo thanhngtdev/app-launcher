@@ -1,7 +1,10 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { queryKeys } from 'consts/index';
-import { RequestPagingCommon } from 'interfaces/common';
-import userService, { RequestAssignUser, RequestUpdateUserInfo } from 'services/userService';
+import userService, {
+  RequestAssignUser,
+  RequestGetListUser,
+  RequestUpdateUserInfo,
+} from 'services/userService';
 
 export const useGetUserInfo = (isTrigger?: boolean) => {
   return useQuery({
@@ -23,7 +26,13 @@ export const useAssignUser = () => {
   });
 };
 
-export const useGetUserList = (filters: RequestPagingCommon) => {
+export const useUnAssignUser = () => {
+  return useMutation({
+    mutationFn: (body: RequestAssignUser) => userService.unAssignUser(body),
+  });
+};
+
+export const useGetUserList = (filters: RequestGetListUser) => {
   return useQuery({
     queryKey: [queryKeys.getListUser, filters],
     queryFn: () => userService.getListUser(filters),

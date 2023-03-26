@@ -13,7 +13,6 @@ const Login = () => {
   //! Function
 
   //! Render
-  console.log('authauth', auth);
   if (auth.isLogged) {
     return <Navigate to={auth.initialPathName} replace />;
   }

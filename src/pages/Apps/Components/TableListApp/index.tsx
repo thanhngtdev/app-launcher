@@ -1,6 +1,6 @@
 import React from 'react';
 import CommonStyles from 'components/CommonStyles';
-import { useGetListApp } from 'hooks/app/useAppHooks';
+import { useGetListApp, useGetListAppForManager } from 'hooks/app/useAppHooks';
 import useFiltersHandler from 'hooks/useFiltersHandler';
 import CellActions from './Cells/CellActions';
 import { Order } from 'interfaces/common';
@@ -10,6 +10,7 @@ import SearchAndFilters from 'components/SearchAndFilters';
 import { FastField } from 'formik';
 import TextField from 'components/CustomFields/TextField';
 import { cloneDeep } from 'lodash';
+import { useAuth } from 'providers/AuthenticationProvider';
 
 const initialValues = {
   search: '',
@@ -21,6 +22,7 @@ const initialValues = {
 
 const TableListApp = () => {
   //! State
+  const { isAppManager } = useAuth();
   const {
     filters,
     selected,
@@ -32,7 +34,9 @@ const TableListApp = () => {
     handleResetToInitial,
   } = useFiltersHandler(initialValues);
 
-  const { data: resListApp, isLoading } = useGetListApp({
+  const useGetListData = isAppManager ? useGetListAppForManager : useGetListApp;
+
+  const { data: resListApp, isLoading } = useGetListData({
     skip:
       (filters?.page || NUMBER_DEFAULT_PAGE) *
       (filters?.rowsPerPage || NUMBER_DEFAULT_ROW_PER_PAGE),

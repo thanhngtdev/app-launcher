@@ -8,6 +8,8 @@ import { useUpdateAppIntegration } from 'hooks/app/useAppHooks';
 import { showError, showSuccess } from 'helpers/toast';
 import { useQueryClient } from '@tanstack/react-query';
 import { queryKeys } from 'consts/index';
+import DialogAssignUserToApp from 'pages/Apps/Dialogs/DialogAssignUserToApp';
+import cachedService from 'services/cachedService';
 
 interface CellActionsProps {
   item: App;
@@ -20,8 +22,16 @@ const CellActions = ({ item }: CellActionsProps) => {
     toggle: toggleEditApp,
     shouldRender: shouldRenderEditApp,
   } = useToggleDialog();
+
+  const {
+    open: openAssign,
+    toggle: toggleAssign,
+    shouldRender: shoulRenderAssign,
+  } = useToggleDialog();
+
   const { mutateAsync: updateApp } = useUpdateAppIntegration();
   const queryClient = useQueryClient();
+  cachedService.setValue('app', item);
 
   //! Function
 
@@ -54,9 +64,17 @@ const CellActions = ({ item }: CellActionsProps) => {
         />
       )}
 
+      {shoulRenderAssign && <DialogAssignUserToApp isOpen={openAssign} toggle={toggleAssign} />}
+
       <CommonStyles.Tooltip title='Edit'>
         <CommonStyles.Button isIconButton onClick={toggleEditApp}>
           <CommonIcons.EditIcon />
+        </CommonStyles.Button>
+      </CommonStyles.Tooltip>
+
+      <CommonStyles.Tooltip title='Assign'>
+        <CommonStyles.Button isIconButton onClick={toggleAssign}>
+          <CommonIcons.AssignIcon />
         </CommonStyles.Button>
       </CommonStyles.Tooltip>
     </Fragment>

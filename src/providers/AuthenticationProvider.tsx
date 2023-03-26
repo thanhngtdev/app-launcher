@@ -9,6 +9,7 @@ import AuthService from 'services/authService';
 import { User } from 'oidc-client-ts';
 import { showError } from 'helpers/toast';
 import locationService from 'services/locationService';
+import cachedService from 'services/cachedService';
 
 interface AuthenticationContextI {
   loading: boolean;
@@ -40,6 +41,9 @@ export const useAuth = () => useContext(AuthenticationContext);
 
 locationService.setInitialPathname();
 const authService = new AuthService();
+httpService.setupInterceptors(authService);
+cachedService.initialState();
+
 const AuthenticationProvider = ({ children }: { children: any }) => {
   //! State
   const [isTokenAttached, setTokenAttached] = useState(false);
@@ -96,6 +100,7 @@ const AuthenticationProvider = ({ children }: { children: any }) => {
   const logout = useCallback(async () => {
     try {
       await logoutUser(userData?.access_token || '');
+      authService.removeUser();
       window.location.href = LOGOUT_REDIRECT_URI;
 
       httpService.clearAuthStorage();
