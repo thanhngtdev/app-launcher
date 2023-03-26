@@ -11,6 +11,7 @@ import { FastField } from 'formik';
 import TextField from 'components/CustomFields/TextField';
 import { cloneDeep } from 'lodash';
 import { useAuth } from 'providers/AuthenticationProvider';
+import CellApproval from './Cells/CellApproval';
 
 const initialValues = {
   search: '',
@@ -100,10 +101,17 @@ const TableListApp = () => {
             id: 'summary',
           },
           {
-            label: 'Active',
-            id: 'active',
+            label: 'Live',
+            id: 'isLive',
             Cell: (row) => {
               return <CellActive item={row} />;
+            },
+          },
+          {
+            label: 'Approved',
+            id: 'isApproved',
+            Cell: (row) => {
+              return <CellApproval item={row} />;
             },
           },
           {

@@ -1,5 +1,6 @@
 import { AxiosResponse } from 'axios';
 import { FormikHelpers } from 'formik';
+import React from 'react';
 
 //* Common interface
 export interface List<T> extends Array<T> {
@@ -76,3 +77,18 @@ export interface User {
 
 export type SetOptionsValue = React.Dispatch<React.SetStateAction<SelectOption[]>>;
 export type SetBooleanState = React.Dispatch<React.SetStateAction<boolean>>;
+
+export interface Route {
+  name: string;
+  path: string;
+  layout:
+    | React.LazyExoticComponent<React.MemoExoticComponent<any>>
+    | React.ExoticComponent<any>
+    | typeof React.Component;
+  routeChild: {
+    name: string;
+    path: string;
+    component: typeof React.Component | React.FC;
+    isPrivateRoute?: boolean;
+  }[];
+}

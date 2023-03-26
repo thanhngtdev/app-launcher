@@ -55,7 +55,9 @@ const CellActions = ({ user }: CellActionsProps) => {
                 });
                 setSubmitting(false);
                 showSuccess(
-                  `Assign [${user?.username}] to ${getNameRole(values.role)} App successfully!`
+                  `Assign [${user?.username}] to ${getNameRole(
+                    values?.role || ''
+                  )} App successfully!`
                 );
                 toggleAssignUser();
               } catch (error) {

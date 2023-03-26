@@ -8,11 +8,11 @@ import { showError } from './toast';
 
 const promiseUserHandler = new PromiseHandler();
 export const loadOptionUsers =
-  (role?: PERMISSION_ENUM, filterOptions?: (el: UserInfo) => boolean) =>
+  (role?: string | PERMISSION_ENUM, filterOptions?: (el: UserInfo) => boolean) =>
   (text: string, setOptions: SetOptionsValue, setLoading: SetBooleanState) => {
     setLoading(true);
     promiseUserHandler
-      .takeLatest(userService.getListUser({ skip: 0, take: 20, filter: text, role }))
+      .takeLatest(userService.getListUser({ skip: 0, take: 20, filter: text, role: role || '' }))
       .then((res) => {
         const data = res?.data?.items || [];
         const dataFiltered = filterOptions ? data.filter(filterOptions) : data;

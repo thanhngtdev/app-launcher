@@ -2,7 +2,7 @@ import React, { Suspense } from 'react';
 import { BrowserRouter as Router, Outlet, Route, Routes } from 'react-router-dom';
 
 import Page404 from 'pages/Page404';
-import routes from 'routes/routes';
+import routes from 'routes/routesPrivate';
 import PrivateRoute from 'components/PrivateRoute';
 
 import CssBaseline from '@mui/material/CssBaseline';
@@ -11,6 +11,7 @@ import { theme } from './theme';
 import { useToggleTheme } from 'providers/ToggleThemeProvider';
 import { ErrorBoundary } from 'react-error-boundary';
 import CommonStyles from 'components/CommonStyles';
+import routesPublic from 'routes/routesPublic';
 
 const ErrorFallback = ({ error, resetErrorBoundary }: any) => {
   return (
@@ -69,6 +70,9 @@ const App = () => {
             );
           })}
 
+          {routesPublic.map((route) => (
+            <Route key={route.name} path={route.path} element={<route.component />} />
+          ))}
           <Route path='*' element={<Page404 />} />
         </Routes>
       </Router>

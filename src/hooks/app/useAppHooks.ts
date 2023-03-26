@@ -1,7 +1,10 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { queryKeys } from 'consts/index';
 import { RequestPagingCommon } from 'interfaces/common';
-import appManagementService, { RequestCreateApp } from 'services/appManagementService';
+import appManagementService, {
+  RequestCreateApp,
+  RequestLiveApp,
+} from 'services/appManagementService';
 import { RequestApproveApp, RequestCheckAppCredential } from 'services/appManagementService';
 
 export const useGetListApp = (filters: RequestPagingCommon) => {
@@ -62,6 +65,13 @@ export const useApproveApp = () => {
   return useMutation({
     mutationFn: ({ appId, isApproved }: RequestApproveApp) =>
       appManagementService.setApproveState({ appId, isApproved }),
+  });
+};
+
+export const useSetLiveApp = () => {
+  return useMutation({
+    mutationFn: ({ appId, isLive }: RequestLiveApp) =>
+      appManagementService.setLiveState({ appId, isLive }),
   });
 };
 

@@ -7,15 +7,17 @@ import { a11yProps } from 'helpers';
 interface TabsProps {
   defaultTab?: number;
   tabs: { label: string; component: any }[];
+  onChangeTab?: (tab: number) => void;
 }
 
-const Tabs = ({ tabs, defaultTab = 0 }: TabsProps) => {
+const Tabs = ({ tabs, defaultTab = 0, onChangeTab }: TabsProps) => {
   //! State
   const [value, setValue] = useState(defaultTab);
 
   //! Function
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
+    onChangeTab && onChangeTab(newValue);
   };
 
   //! Render

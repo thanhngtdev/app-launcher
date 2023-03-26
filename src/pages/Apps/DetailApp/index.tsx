@@ -1,16 +1,16 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import CommonIcons from 'components/CommonIcons';
 import CommonStyles from 'components/CommonStyles';
-import Tab1 from './Tabs/Tab1';
+import TabInformation from './Tabs/TabInformation';
 import { Form, Formik } from 'formik';
-import { RequestCreateApp } from 'services/appManagementService';
 import { showError, showSuccess } from 'helpers/toast';
-import { useCreateAppIntegration } from 'hooks/app/useAppHooks';
-import BaseUrl from 'consts/baseUrl';
+import { useGetAppIntegrationDetail, useUpdateAppIntegration } from 'hooks/app/useAppHooks';
 import * as Yup from 'yup';
+import cachedService from 'services/cachedService';
+import TabAuthentication from './Tabs/TabAuthentication';
 
-export const validateCreateApp = Yup.object().shape({
+const validateUpdateApp = Yup.object().shape({
   appType: Yup.string().required('App type is required field!'),
   loginRedirectUri: Yup.string().required('Login Redirect URL is required field!'),
   logoutRedirectUri: Yup.string().required('Logout Redirect URL is required field!'),
@@ -27,12 +27,16 @@ export const validateCreateApp = Yup.object().shape({
   description: Yup.string().required('Description is required field!'),
 });
 
-const CreateApp = () => {
+const DetailApp = () => {
   //! State
-  const { mutateAsync: createAppIntegration } = useCreateAppIntegration();
-  const navigate = useNavigate();
+  const { id } = useParams();
+  const { mutateAsync: updateAppIntegration } = useUpdateAppIntegration();
+  const { data: resDetailApp, isLoading: isLoadingApp } = useGetAppIntegrationDetail(id || '');
+  const itemFound = resDetailApp?.data;
+  cachedService.setValue('detail-app', itemFound);
 
-  const itemFound = {} as RequestCreateApp;
+  const [activeTab, setActiveTab] = useState(0);
+
   const initialValues = {
     appType: itemFound?.appType || 0,
     loginRedirectUri: itemFound?.loginRedirectUri || '',
@@ -54,19 +58,21 @@ const CreateApp = () => {
   //! Function
 
   //! Render
+  if (isLoadingApp) {
+    return <CommonStyles.Loading />;
+  }
 
   return (
     <Formik
       initialValues={initialValues}
-      validationSchema={validateCreateApp}
+      validationSchema={validateUpdateApp}
       onSubmit={(values, { setSubmitting }) => {
         (async () => {
           try {
             setSubmitting(true);
-            await createAppIntegration(values);
-            showSuccess('Add new Application successfully!');
+            await updateAppIntegration({ id: itemFound?.id || '', body: values });
+            showSuccess('Save successfully!');
             setSubmitting(false);
-            navigate(BaseUrl.AppManagement);
           } catch (error) {
             setSubmitting(false);
             showError(error);
@@ -81,21 +87,30 @@ const CreateApp = () => {
               <CommonStyles.Tabs
                 tabs={[
                   {
+                    label: 'App Authentication',
+                    component: TabAuthentication,
+                  },
+                  {
                     label: 'App Information',
-                    component: Tab1,
+                    component: TabInformation,
                   },
                 ]}
+                onChangeTab={(tab) => {
+                  setActiveTab(tab);
+                }}
               />
 
-              <CommonStyles.Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                <CommonStyles.Button
-                  loading={isSubmitting}
-                  type='submit'
-                  startIcon={<CommonIcons.AddIcon />}
-                >
-                  Create APP
-                </CommonStyles.Button>
-              </CommonStyles.Box>
+              {activeTab !== 0 && (
+                <CommonStyles.Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                  <CommonStyles.Button
+                    loading={isSubmitting}
+                    type='submit'
+                    startIcon={<CommonIcons.SaveIcon />}
+                  >
+                    Save
+                  </CommonStyles.Button>
+                </CommonStyles.Box>
+              )}
             </CommonStyles.Box>
           </Form>
         );
@@ -104,4 +119,4 @@ const CreateApp = () => {
   );
 };
 
-export default React.memo(CreateApp);
+export default React.memo(DetailApp);

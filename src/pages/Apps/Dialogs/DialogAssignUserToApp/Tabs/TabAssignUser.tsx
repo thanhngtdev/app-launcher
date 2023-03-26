@@ -61,6 +61,7 @@ const TabAssignUser = () => {
 
   const data = resUserList?.data?.items || [];
   const totalCount = resUserList?.data?.totalCount || 0;
+  const roleAssign = `${PERMISSION_ENUM.USER},${PERMISSION_ENUM.APP_MANAGER}`;
 
   //! Function
   const onClickAssign = async () => {
@@ -68,10 +69,14 @@ const TabAssignUser = () => {
       setAssigning(true);
       const listUsers = users as UserInfo[];
       const listReq = listUsers.map((user) =>
-        userService.assignUser({ username: user.username, role: user.roles[0], appId: app.id })
+        userService.assignUser({
+          username: user.username,
+          role: user?.roles?.[0] || '',
+          appId: app.id,
+        })
       );
 
-      await Promise.allSettled(listReq);
+      await Promise.all(listReq);
       await refetch();
       setUsers([]);
       setAssigning(false);
@@ -124,10 +129,7 @@ const TabAssignUser = () => {
           onChange={(e, values) => {
             setUsers(values);
           }}
-          loadOptions={loadOptionUsers(
-            PERMISSION_ENUM.USER,
-            (el) => !data.map((d) => d.id).includes(el.id)
-          )}
+          loadOptions={loadOptionUsers(roleAssign, (el) => !data.map((d) => d.id).includes(el.id))}
           disableCloseOnSelect
           fullWidth
         />

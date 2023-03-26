@@ -45,6 +45,8 @@ class Services {
           authService.removeUser();
           this.clearAuthStorage();
         }
+
+        return Promise.reject(error);
       }
     );
   }

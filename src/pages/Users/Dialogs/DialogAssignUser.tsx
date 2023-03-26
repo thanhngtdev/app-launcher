@@ -5,12 +5,11 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { DialogI } from 'interfaces/common';
 import { FastField, Form, Formik } from 'formik';
 import CommonStyles from 'components/CommonStyles';
-import { RequestAssignUser } from 'services/userService';
 import SelectField from 'components/CustomFields/SelectField';
 import { PermissionOptions } from 'consts';
 import { UserInfo } from 'interfaces/user';
 
-interface Props extends DialogI<Omit<RequestAssignUser, 'appId'>> {
+interface Props extends DialogI<any> {
   user: UserInfo;
 }
 

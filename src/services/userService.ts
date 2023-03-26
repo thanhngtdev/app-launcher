@@ -15,12 +15,12 @@ export interface RequestUpdateUserInfo {
 
 export interface RequestAssignUser {
   username: string;
-  role: string;
+  role?: string;
   appId?: string;
 }
 
 export interface RequestGetListUser extends RequestPagingCommon {
-  role?: PERMISSION_ENUM;
+  role?: PERMISSION_ENUM | string;
   appId?: string;
 }
 

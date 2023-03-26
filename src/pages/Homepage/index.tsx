@@ -5,6 +5,9 @@ import { useAuth } from 'providers/AuthenticationProvider';
 import CommonIcons from 'components/CommonIcons';
 import BaseUrl from 'consts/baseUrl';
 import { Link } from 'react-router-dom';
+import useToggleDialog from 'hooks/useToggleDialog';
+import DialogOptionCreateApp from 'pages/Apps/Dialogs/DialogOptionCreateApp';
+import DialogCreateApp from 'pages/Apps/Dialogs/DialogCreateApp';
 
 // interface AppsProps {}
 
@@ -12,6 +15,17 @@ const Apps = () => {
   //! State
   const theme = useTheme();
   const { isUser, user } = useAuth();
+  const {
+    open: openOptionsCreateApp,
+    toggle: toggleOptionCreateApp,
+    shouldRender: shouldRenderOptionCreateApp,
+  } = useToggleDialog();
+
+  const {
+    open: openCreateApp,
+    toggle: toggleCreateApp,
+    shouldRender: shouldRenderCreateApp,
+  } = useToggleDialog();
 
   //! Function
 
@@ -81,11 +95,13 @@ const Apps = () => {
             </CommonStyles.Typography>
 
             <CommonStyles.Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-              <Link to={BaseUrl.CreateApp}>
-                <CommonStyles.Button sx={{ mt: 2 }} startIcon={<CommonIcons.AddIcon />}>
-                  CREATE APP
-                </CommonStyles.Button>
-              </Link>
+              <CommonStyles.Button
+                sx={{ mt: 2 }}
+                startIcon={<CommonIcons.AddIcon />}
+                onClick={toggleOptionCreateApp}
+              >
+                CREATE APP
+              </CommonStyles.Button>
             </CommonStyles.Box>
           </CommonStyles.Box>
           {/*  */}
@@ -131,6 +147,22 @@ const Apps = () => {
 
   return (
     <CommonStyles.Box sx={{ display: 'flex', gap: 5 }}>
+      {shouldRenderOptionCreateApp && (
+        <DialogOptionCreateApp
+          isOpen={openOptionsCreateApp}
+          toggle={toggleOptionCreateApp}
+          onClickOption={({ value }) => {
+            if (value === 0) {
+              toggleCreateApp();
+            }
+
+            toggleOptionCreateApp();
+          }}
+        />
+      )}
+
+      {shouldRenderCreateApp && <DialogCreateApp isOpen={openCreateApp} toggle={toggleCreateApp} />}
+
       {renderLeft()}
       {renderRight()}
     </CommonStyles.Box>

@@ -53,3 +53,13 @@ export const getNameRole = (role: string) => {
 
   return result;
 };
+
+export const copyToClipboard = (text = '') => {
+  const el = document.createElement('textarea');
+  el.value = text;
+  document.body.appendChild(el);
+  el.select();
+  el.setSelectionRange(0, 99999);
+  navigator.clipboard.writeText(text);
+  document.body.removeChild(el);
+};

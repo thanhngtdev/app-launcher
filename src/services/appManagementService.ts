@@ -25,6 +25,11 @@ export interface RequestApproveApp {
   isApproved: boolean;
 }
 
+export interface RequestLiveApp {
+  appId: string;
+  isLive: boolean;
+}
+
 export interface RequestCheckAppCredential {
   userId: string;
   appClientId: string;
@@ -77,6 +82,10 @@ class AppManagementService {
 
   setApproveState({ appId, isApproved }: RequestApproveApp) {
     return httpService.post(`${APP_INTEGRATION_URL}/set-app-approval-state`, { appId, isApproved });
+  }
+
+  setLiveState({ appId, isLive }: RequestLiveApp) {
+    return httpService.post(`${APP_INTEGRATION_URL}/set-app-live-state`, { appId, isLive });
   }
 
   generateAppCredentials(appId: string): PromiseResponseBase<ResponseGenerateAppCredentials> {

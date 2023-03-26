@@ -10,6 +10,8 @@ import { useQueryClient } from '@tanstack/react-query';
 import { queryKeys } from 'consts/index';
 import DialogAssignUserToApp from 'pages/Apps/Dialogs/DialogAssignUserToApp';
 import cachedService from 'services/cachedService';
+import { Link } from 'react-router-dom';
+import BaseUrl from 'consts/baseUrl';
 
 interface CellActionsProps {
   item: App;
@@ -67,9 +69,11 @@ const CellActions = ({ item }: CellActionsProps) => {
       {shoulRenderAssign && <DialogAssignUserToApp isOpen={openAssign} toggle={toggleAssign} />}
 
       <CommonStyles.Tooltip title='Edit'>
-        <CommonStyles.Button isIconButton onClick={toggleEditApp}>
-          <CommonIcons.EditIcon />
-        </CommonStyles.Button>
+        <Link to={BaseUrl.AppDetailWithID(item.id)}>
+          <CommonStyles.Button isIconButton>
+            <CommonIcons.EditIcon />
+          </CommonStyles.Button>
+        </Link>
       </CommonStyles.Tooltip>
 
       <CommonStyles.Tooltip title='Assign'>

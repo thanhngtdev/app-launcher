@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import CommonStyles from 'components/CommonStyles';
 import useFiltersHandler from 'hooks/useFiltersHandler';
-import { useGetListApp } from 'hooks/app/useAppHooks';
+import { useGetListApp, useGetListAppForManager } from 'hooks/app/useAppHooks';
 import { NUMBER_DEFAULT_ROW_PER_PAGE, NUMBER_DEFAULT_PAGE } from 'consts';
 import { useTheme } from '@mui/material';
 import EachApp from './Components/EachApp';
@@ -9,6 +9,7 @@ import SearchAndFilters from 'components/SearchAndFilters';
 import { FastField } from 'formik';
 import TextField from 'components/CustomFields/TextField';
 import { cloneDeep } from 'lodash';
+import { useAuth } from 'providers/AuthenticationProvider';
 
 const initialValues = {
   page: NUMBER_DEFAULT_PAGE,
@@ -18,10 +19,12 @@ const initialValues = {
 
 const ListAvailableApps = () => {
   //! State
+  const { isAppManager } = useAuth();
   const theme = useTheme();
   const { filters, setFilters, handleResetToInitial } = useFiltersHandler(initialValues);
+  const useGetListData = isAppManager ? useGetListAppForManager : useGetListApp;
 
-  const { data: resData, isLoading: isInstalledLoading } = useGetListApp({
+  const { data: resData, isLoading: isInstalledLoading } = useGetListData({
     skip:
       (filters?.page || NUMBER_DEFAULT_PAGE) *
       (filters?.rowsPerPage || NUMBER_DEFAULT_ROW_PER_PAGE),

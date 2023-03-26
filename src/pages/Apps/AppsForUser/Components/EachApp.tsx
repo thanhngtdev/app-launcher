@@ -55,7 +55,7 @@ const EachApp = ({ item, isInstalled }: EachAppProps) => {
     if (isInstalled) {
       return (
         <CommonStyles.Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-          <a href={item?.launchUri || ''} target={'_blank'} rel='noreferrer'>
+          <a href={`${item?.launchUri}?app_launcher=true` || ''} target={'_blank'} rel='noreferrer'>
             <CommonStyles.Button startIcon={<CommonIcons.SendIcon />}>Launch</CommonStyles.Button>
           </a>
           <CommonStyles.Button

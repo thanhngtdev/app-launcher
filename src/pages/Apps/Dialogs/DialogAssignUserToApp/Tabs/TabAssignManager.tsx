@@ -68,7 +68,11 @@ const TabAssignManager = () => {
       setAssigning(true);
       const listUsers = users as UserInfo[];
       const listReq = listUsers.map((user) =>
-        userService.assignUser({ username: user.username, role: user.roles[0], appId: app.id })
+        userService.assignUser({
+          username: user.username,
+          role: user?.roles?.[0] || '',
+          appId: app.id,
+        })
       );
 
       await Promise.allSettled(listReq);

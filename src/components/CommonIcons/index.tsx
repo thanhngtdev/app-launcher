@@ -1,3 +1,8 @@
+import AppsIcon from '@mui/icons-material/Apps';
+import LockIcon from '@mui/icons-material/Lock';
+import KeyIcon from '@mui/icons-material/Key';
+import SettingsAccessibilityIcon from '@mui/icons-material/SettingsAccessibility';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import PersonOffIcon from '@mui/icons-material/PersonOff';
 import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
 import CloseIcon from '@mui/icons-material/Close';
@@ -48,4 +53,9 @@ export default {
   CheckIcon,
   CloseIcon,
   SendIcon: SendOutlinedIcon,
+  AdminPanelSettingsIcon,
+  SettingsAccessibilityIcon,
+  KeyIcon,
+  LockIcon,
+  AppsIcon,
 };
