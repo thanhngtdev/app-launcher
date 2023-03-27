@@ -4,7 +4,7 @@ import useFiltersHandler from 'hooks/useFiltersHandler';
 import { useGetListApp, useGetListAppForManager } from 'hooks/app/useAppHooks';
 import { NUMBER_DEFAULT_ROW_PER_PAGE, NUMBER_DEFAULT_PAGE } from 'consts';
 import { useTheme } from '@mui/material';
-import EachApp from './Components/EachApp';
+import EachApp from '../../pages/Apps/AppsForUser/Components/EachApp';
 import SearchAndFilters from 'components/SearchAndFilters';
 import { FastField } from 'formik';
 import TextField from 'components/CustomFields/TextField';

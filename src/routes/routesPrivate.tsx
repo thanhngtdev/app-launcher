@@ -12,7 +12,7 @@ const Settings = lazy(() => import('pages/Settings'));
 const Laucher = lazy(() => import('pages/Launcher'));
 
 const AppManagement = lazy(() => import('pages/Apps'));
-const DetailApp = lazy(() => import('pages/Apps/DetailApp'));
+const DetailApp = lazy(() => import('pages/DetailApp'));
 
 const routes: Route[] = [
   {

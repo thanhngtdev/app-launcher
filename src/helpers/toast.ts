@@ -24,7 +24,7 @@ export const showError = (error: any, options?: ToastOptions) => {
   }
 
   if (isString(error) || isString(error.toString())) {
-    toast.error(error, options);
+    toast.error(error.toString(), options);
     return;
   }
 

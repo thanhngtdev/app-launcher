@@ -46,6 +46,7 @@ class Services {
           this.clearAuthStorage();
         }
 
+        console.log('123123', error);
         return Promise.reject(error);
       }
     );

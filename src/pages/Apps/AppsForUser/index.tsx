@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 import CommonStyles from 'components/CommonStyles';
-import ListAvailableApps from './ListAvailableApps';
-import ListInstalledApps from './ListInstalledApps';
+import ListInstalledApps from '../../../components/ListInstalledApps';
 
 const AppsForUser = () => {
   //! State
@@ -14,7 +13,6 @@ const AppsForUser = () => {
       <CommonStyles.Box sx={{ mb: 8 }}>
         <ListInstalledApps />
       </CommonStyles.Box>
-      <ListAvailableApps />
     </Fragment>
   );
 };

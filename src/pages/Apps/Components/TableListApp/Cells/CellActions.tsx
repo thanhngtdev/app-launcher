@@ -12,6 +12,8 @@ import DialogAssignUserToApp from 'pages/Apps/Dialogs/DialogAssignUserToApp';
 import cachedService from 'services/cachedService';
 import { Link } from 'react-router-dom';
 import BaseUrl from 'consts/baseUrl';
+import { Badge } from '@mui/material';
+import DialogListRequesting from 'pages/Apps/Dialogs/DialogListRequesting';
 
 interface CellActionsProps {
   item: App;
@@ -29,6 +31,12 @@ const CellActions = ({ item }: CellActionsProps) => {
     open: openAssign,
     toggle: toggleAssign,
     shouldRender: shoulRenderAssign,
+  } = useToggleDialog();
+
+  const {
+    open: openRequesting,
+    toggle: toggleRequesting,
+    shouldRender: shoulRenderRequesting,
   } = useToggleDialog();
 
   const { mutateAsync: updateApp } = useUpdateAppIntegration();
@@ -68,6 +76,10 @@ const CellActions = ({ item }: CellActionsProps) => {
 
       {shoulRenderAssign && <DialogAssignUserToApp isOpen={openAssign} toggle={toggleAssign} />}
 
+      {shoulRenderRequesting && (
+        <DialogListRequesting isOpen={openRequesting} toggle={toggleRequesting} />
+      )}
+
       <CommonStyles.Tooltip title='Edit'>
         <Link to={BaseUrl.AppDetailWithID(item.id)}>
           <CommonStyles.Button isIconButton>
@@ -79,6 +91,14 @@ const CellActions = ({ item }: CellActionsProps) => {
       <CommonStyles.Tooltip title='Assign'>
         <CommonStyles.Button isIconButton onClick={toggleAssign}>
           <CommonIcons.AssignIcon />
+        </CommonStyles.Button>
+      </CommonStyles.Tooltip>
+
+      <CommonStyles.Tooltip title='Requesting App'>
+        <CommonStyles.Button isIconButton onClick={toggleRequesting}>
+          <Badge badgeContent={4} color='error'>
+            <CommonIcons.AssignmentChecked />
+          </Badge>
         </CommonStyles.Button>
       </CommonStyles.Tooltip>
     </Fragment>

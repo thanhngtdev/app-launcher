@@ -10,3 +10,11 @@ export interface UserInfo {
   roles: string[];
   isFirstTimeLogin: boolean;
 }
+
+export interface UserRequestingApp {
+  id: string;
+  userId: string;
+  username: string;
+  firstname: string;
+  lastname: string;
+}

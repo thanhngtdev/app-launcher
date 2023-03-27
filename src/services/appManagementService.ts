@@ -1,13 +1,11 @@
 import queryString from 'query-string';
 import { APP_INTEGRATION_URL, APP_MANAGEMENT_URL } from 'consts/apiUrl';
 import { App, AppIntegration } from 'interfaces/apps';
-import { PromiseResponseBase, RequestPagingCommon } from 'interfaces/common';
+import { PromiseResponseBase, RequestPagingCommon, ResponseCommonPaging } from 'interfaces/common';
 import httpService from './httpService';
+import { UserRequestingApp } from 'interfaces/user';
 
-interface ResponseListApp {
-  totalCount: number;
-  items: App[];
-}
+type ResponseListApp = ResponseCommonPaging<App[]>;
 
 export type RequestCreateApp = Omit<
   AppIntegration,
@@ -33,6 +31,15 @@ export interface RequestLiveApp {
 export interface RequestCheckAppCredential {
   userId: string;
   appClientId: string;
+}
+
+export interface RequestApproval {
+  requestId: string;
+  isApproved: boolean;
+}
+
+export interface RequestListAppRequesting extends RequestPagingCommon {
+  appId: string;
 }
 
 export interface ResponseGenerateAppCredentials {
@@ -68,6 +75,17 @@ class AppManagementService {
     return httpService.post(`${APP_MANAGEMENT_URL}/uninstall`, { id });
   }
 
+  getListAppRequesting(
+    body: RequestListAppRequesting
+  ): PromiseResponseBase<ResponseCommonPaging<UserRequestingApp[]>> {
+    return httpService.get(`${APP_MANAGEMENT_URL}/request-listing?${queryString.stringify(body)}`);
+  }
+
+  requestApproval(body: RequestApproval) {
+    return httpService.post(`${APP_MANAGEMENT_URL}/request-approval`, body);
+  }
+
+  //* APP INTEGRATION
   getAppIntegration({ id }: { id: string }): PromiseResponseBase<AppIntegration> {
     return httpService.get(`${APP_INTEGRATION_URL}?id=${id}`);
   }

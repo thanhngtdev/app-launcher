@@ -2,7 +2,9 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { queryKeys } from 'consts/index';
 import { RequestPagingCommon } from 'interfaces/common';
 import appManagementService, {
+  RequestApproval,
   RequestCreateApp,
+  RequestListAppRequesting,
   RequestLiveApp,
 } from 'services/appManagementService';
 import { RequestApproveApp, RequestCheckAppCredential } from 'services/appManagementService';
@@ -25,6 +27,13 @@ export const useGetListInstalledApp = (filters: RequestPagingCommon) => {
   return useQuery({
     queryKey: [queryKeys.getAppInstalledList, filters],
     queryFn: () => appManagementService.getInstalledListApp(filters),
+  });
+};
+
+export const useGetListRequestingApp = (filters: RequestListAppRequesting) => {
+  return useQuery({
+    queryKey: [queryKeys.getAppRequesting, filters],
+    queryFn: () => appManagementService.getListAppRequesting(filters),
   });
 };
 
@@ -85,5 +94,11 @@ export const useGenerateAppCredentials = () => {
 export const useCheckCredentials = () => {
   return useMutation({
     mutationFn: (body: RequestCheckAppCredential) => appManagementService.checkAppCredential(body),
+  });
+};
+
+export const useRequestApproval = () => {
+  return useMutation({
+    mutationFn: (body: RequestApproval) => appManagementService.requestApproval(body),
   });
 };

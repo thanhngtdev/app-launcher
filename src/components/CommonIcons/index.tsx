@@ -1,3 +1,5 @@
+import AddTaskIcon from '@mui/icons-material/AddTask';
+import AssignmentTurnedInOutlinedIcon from '@mui/icons-material/AssignmentTurnedInOutlined';
 import AppsIcon from '@mui/icons-material/Apps';
 import LockIcon from '@mui/icons-material/Lock';
 import KeyIcon from '@mui/icons-material/Key';
@@ -58,4 +60,6 @@ export default {
   KeyIcon,
   LockIcon,
   AppsIcon,
+  AssignmentChecked: AssignmentTurnedInOutlinedIcon,
+  CheckedAndAdd: AddTaskIcon,
 };
