@@ -7,7 +7,6 @@ import { useAuth } from 'providers/AuthenticationProvider';
 import AppsForUser from './AppsForUser';
 import DialogCreateApp from './Dialogs/DialogCreateApp';
 import ListInstalledApps from './AppsForUser/ListInstalledApps';
-import ListAvailableApps from './AppsForUser/ListAvailableApps';
 
 const AppManagement = () => {
   //! State
@@ -40,9 +39,9 @@ const AppManagement = () => {
 
       {isAppManager && (
         <Fragment>
-          <ListInstalledApps />
-
-          <ListAvailableApps />
+          <CommonStyles.Box sx={{ mt: 10, mb: 10 }}>
+            <ListInstalledApps />
+          </CommonStyles.Box>
         </Fragment>
       )}
     </CommonStyles.Box>

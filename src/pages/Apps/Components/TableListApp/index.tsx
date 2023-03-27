@@ -53,7 +53,7 @@ const TableListApp = () => {
   return (
     <CommonStyles.Box>
       <CommonStyles.Typography variant='h4' sx={{ mb: 2 }}>
-        Application Listing
+        App(s) Management
       </CommonStyles.Typography>
       <CommonStyles.Typography sx={{ mb: 2 }} variant='h6'>
         Total: {totalCount}

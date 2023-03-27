@@ -7,6 +7,7 @@ import { showError, showSuccess } from 'helpers/toast';
 import { useSetLiveApp } from 'hooks/app/useAppHooks';
 import { useQueryClient } from '@tanstack/react-query';
 import { queryKeys } from 'consts';
+import { useAuth } from 'providers/AuthenticationProvider';
 
 interface CellActiveProps {
   item: App;
@@ -16,6 +17,7 @@ const CellActive = (props: CellActiveProps) => {
   //! State
   const { item } = props;
   const isLive = !!item?.isLive;
+  const { isAppManager } = useAuth();
   const queryClient = useQueryClient();
   const { mutateAsync: setLiveApp } = useSetLiveApp();
 
@@ -42,6 +44,10 @@ const CellActive = (props: CellActiveProps) => {
               showSuccess(`Turn [${item.name}] on successfully!`);
             } else {
               showSuccess(`Turn [${item.name}] off successfully!`);
+            }
+
+            if (isAppManager) {
+              await queryClient.refetchQueries({ queryKey: [queryKeys.getAppInstalledList] });
             }
 
             setSubmitting(false);

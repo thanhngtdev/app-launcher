@@ -10,13 +10,20 @@ import { loadOptionUsers } from 'helpers/loadOptionsAsync';
 import CommonIcons from 'components/CommonIcons';
 import cachedService from 'services/cachedService';
 import { App } from 'interfaces/apps';
-import { NUMBER_DEFAULT_PAGE, NUMBER_DEFAULT_ROW_PER_PAGE, PERMISSION_ENUM } from 'consts';
+import {
+  NUMBER_DEFAULT_PAGE,
+  NUMBER_DEFAULT_ROW_PER_PAGE,
+  PERMISSION_ENUM,
+  queryKeys,
+} from 'consts';
 import { useGetUserList } from 'hooks/users/useUsersHooks';
 import { showError, showSuccess } from 'helpers/toast';
 import { UserInfo } from 'interfaces/user';
 import userService from 'services/userService';
 import { cloneDeep } from 'lodash';
 import CellActions from '../Cells/CellActions';
+import { useAuth } from 'providers/AuthenticationProvider';
+import { useQueryClient } from '@tanstack/react-query';
 
 const initialValues = {
   username: '',
@@ -40,6 +47,8 @@ const TabAssignUser = () => {
     handleCheckBox,
     handleResetSelected,
   } = useFiltersHandler(initialValues);
+  const { isAppManager } = useAuth();
+  const queryClient = useQueryClient();
   const app = cachedService.getValue('app') as App;
   const [users, setUsers] = useState([]);
   const [isAssigning, setAssigning] = useState(false);
@@ -71,13 +80,23 @@ const TabAssignUser = () => {
       const listReq = listUsers.map((user) =>
         userService.assignUser({
           username: user.username,
-          role: user?.roles?.[0] || '',
+          role: PERMISSION_ENUM.USER,
           appId: app.id,
         })
       );
 
       await Promise.all(listReq);
       await refetch();
+
+      if (isAppManager) {
+        await queryClient.refetchQueries({
+          queryKey: [queryKeys.getAppListManager],
+        });
+        await queryClient.refetchQueries({
+          queryKey: [queryKeys.getAppInstalledList],
+        });
+      }
+
       setUsers([]);
       setAssigning(false);
       showSuccess('Assign manager successfully!');
@@ -97,13 +116,23 @@ const TabAssignUser = () => {
       const listReq = listUsers.map((user) =>
         userService.unAssignUser({
           username: user?.username || '',
-          role: user?.roles?.[0] || '',
+          role: PERMISSION_ENUM.USER,
           appId: app.id,
         })
       );
 
       await Promise.allSettled(listReq);
       await refetch();
+
+      if (isAppManager) {
+        await queryClient.refetchQueries({
+          queryKey: [queryKeys.getAppListManager],
+        });
+        await queryClient.refetchQueries({
+          queryKey: [queryKeys.getAppInstalledList],
+        });
+      }
+
       handleResetSelected();
       setUnAssigning(false);
       showSuccess('Unassign manager successfully!');

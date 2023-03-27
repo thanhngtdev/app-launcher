@@ -45,7 +45,7 @@ const ListInstalledApps = () => {
           }}
         >
           <CommonStyles.Typography variant='h4' sx={{ mb: 2 }}>
-            Installed App(s) ({totalCountInstallApp})
+            App(s) ({totalCountInstallApp})
           </CommonStyles.Typography>
           <SearchAndFilters
             sxContainer={{ mb: 2 }}

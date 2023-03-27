@@ -70,7 +70,7 @@ const TabAssignManager = () => {
       const listReq = listUsers.map((user) =>
         userService.assignUser({
           username: user.username,
-          role: user?.roles?.[0] || '',
+          role: PERMISSION_ENUM.APP_MANAGER,
           appId: app.id,
         })
       );
@@ -96,7 +96,7 @@ const TabAssignManager = () => {
       const listReq = listUsers.map((user) =>
         userService.unAssignUser({
           username: user?.username || '',
-          role: user?.roles?.[0] || '',
+          role: PERMISSION_ENUM.APP_MANAGER,
           appId: app.id,
         })
       );
