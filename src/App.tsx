@@ -82,7 +82,6 @@ const App = () => {
   return (
     <ThemeProvider theme={theme(mode)}>
       <CssBaseline />
-
       {renderContent()}
     </ThemeProvider>
   );

@@ -115,7 +115,7 @@ const TabAssignManager = () => {
   //! Render
   return (
     <CommonStyles.Box>
-      <CommonStyles.Typography variant='h4' sx={{ mb: 3 }}>
+      <CommonStyles.Typography variant='h5' sx={{ mb: 3 }}>
         {`Assign manager(s) -> [${app.name}]`}
       </CommonStyles.Typography>
 

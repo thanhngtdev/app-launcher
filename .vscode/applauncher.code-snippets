@@ -283,7 +283,7 @@
       "            <Form>",
       "              <DialogTitle>Subscribe</DialogTitle>",
       "              <DialogContent>",
-      "                <CommonStyles.Typography variant='h4' sx={{ mb: 3 }}>",
+      "                <CommonStyles.Typography variant='h5' sx={{ mb: 3 }}>",
       "                  ListRequesting management",
       "                </CommonStyles.Typography>",
       "",

@@ -22,6 +22,7 @@ interface AuthenticationContextI {
   isAppManager: boolean;
   isUser: boolean;
   initialPathName: string;
+  accessToken: string;
 }
 
 const AuthenticationContext = createContext<AuthenticationContextI>({
@@ -35,6 +36,7 @@ const AuthenticationContext = createContext<AuthenticationContextI>({
   isAppManager: false,
   isUser: false,
   initialPathName: '',
+  accessToken: '',
 });
 
 export const useAuth = () => useContext(AuthenticationContext);
@@ -51,9 +53,8 @@ const AuthenticationProvider = ({ children }: { children: any }) => {
   const [isCheckingAuth, setCheckingAuth] = useState(false);
   const { mutateAsync: logoutUser } = useLogoutUser();
 
-  const { data: resUser, isInitialLoading } = useGetUserInfo(
-    !!userData?.access_token && isTokenAttached
-  );
+  const accessToken = userData?.access_token || '';
+  const { data: resUser, isInitialLoading } = useGetUserInfo(!!accessToken && isTokenAttached);
   const user = resUser?.data || null;
 
   const onGetUserDataSuccess = useCallback((user: User | null) => {
@@ -113,6 +114,7 @@ const AuthenticationProvider = ({ children }: { children: any }) => {
   //! Return
   const value = useMemo(() => {
     return {
+      accessToken,
       loading: isCheckingAuth || isInitialLoading,
       isLogged: !isEmpty(user),
       user,
@@ -124,7 +126,7 @@ const AuthenticationProvider = ({ children }: { children: any }) => {
       isUser: !!user?.roles?.includes(PERMISSION_ENUM.USER),
       initialPathName: locationService.initialPathname,
     };
-  }, [user, isCheckingAuth, isInitialLoading, authService, loginPopup, logout]);
+  }, [user, isCheckingAuth, isInitialLoading, authService, loginPopup, accessToken, logout]);
 
   return <AuthenticationContext.Provider value={value}>{children}</AuthenticationContext.Provider>;
 };

@@ -1,16 +1,16 @@
 import React, { useLayoutEffect } from 'react';
-import { useParams } from 'react-router-dom';
 import CommonStyles from 'components/CommonStyles';
 import { useCheckCredentials, useGetAppIntegrationDetail } from 'hooks/app/useAppHooks';
 import { useTheme } from '@mui/material';
 import { showError } from 'helpers/toast';
 import { useAuth } from 'providers/AuthenticationProvider';
-import { Link } from 'react-router-dom';
-import BaseUrl from 'consts/baseUrl';
 
-const Launcher = () => {
+interface LauncherProps {
+  idApp: string;
+}
+
+const Launcher = ({ idApp }: LauncherProps) => {
   //! State
-  const { id } = useParams();
   const theme = useTheme();
   const auth = useAuth();
   const {
@@ -19,24 +19,11 @@ const Launcher = () => {
     data: resCredentialApp,
   } = useCheckCredentials();
 
-  const { data: resDetailApp, isLoading, error } = useGetAppIntegrationDetail(id || '');
+  const { data: resDetailApp, isLoading, error } = useGetAppIntegrationDetail(idApp || '');
   const item = resDetailApp?.data;
   const isItemHasCredential = !!resCredentialApp?.data;
 
   //! Function
-  useLayoutEffect(() => {
-    const mainRoot = document.querySelector('main');
-    if (mainRoot) {
-      mainRoot.classList.add('p-0');
-    }
-
-    return () => {
-      if (mainRoot) {
-        mainRoot.classList.remove('p-0');
-      }
-    };
-  }, []);
-
   useLayoutEffect(() => {
     if (item?.appClientId) {
       (async () => {
@@ -67,10 +54,6 @@ const Launcher = () => {
         <CommonStyles.Typography sx={{ color: theme.colors?.red }}>
           This APP not has Credentials
         </CommonStyles.Typography>
-
-        <Link to={BaseUrl.AppManagement}>
-          <CommonStyles.Button sx={{ mt: 2 }}>Back to Apps</CommonStyles.Button>
-        </Link>
       </CommonStyles.Box>
     );
   }
@@ -94,7 +77,7 @@ const Launcher = () => {
       }}
     >
       <iframe
-        src={item?.launchUri || ''}
+        src={`${item?.launchUri}?token=${auth.accessToken}` || ''}
         frameBorder={0}
         sandbox='allow-same-origin allow-scripts allow-popups allow-forms'
       />

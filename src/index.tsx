@@ -14,6 +14,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AuthenticationProvider from 'providers/AuthenticationProvider';
 import { GlobalStyles } from '@mui/material';
+import TabHandlerProvider from 'providers/TabHandlerProvider';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -37,7 +38,9 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
             }}
           />
           <AuthenticationProvider>
-            <App />
+            <TabHandlerProvider>
+              <App />
+            </TabHandlerProvider>
           </AuthenticationProvider>
           <ToastContainer theme='light' />
         </ToggleThemeProvider>

@@ -8,6 +8,8 @@ import { useInstallApp, useUninstallApp } from 'hooks/app/useAppHooks';
 import { useQueryClient } from '@tanstack/react-query';
 import { queryKeys } from 'consts';
 import { useAuth } from 'providers/AuthenticationProvider';
+import { useTabHandler } from 'providers/TabHandlerProvider';
+import Launcher from 'pages/Launcher';
 
 interface EachAppProps {
   item: App;
@@ -17,6 +19,7 @@ interface EachAppProps {
 const EachApp = ({ item, isInstalled }: EachAppProps) => {
   //! State
   const theme = useTheme();
+  const { addNewTab } = useTabHandler();
   const { isAppManager } = useAuth();
   const queryClient = useQueryClient();
   const { mutateAsync: installApp } = useInstallApp();
@@ -69,9 +72,20 @@ const EachApp = ({ item, isInstalled }: EachAppProps) => {
     if (isInstalled) {
       return (
         <CommonStyles.Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-          <a href={`${item?.launchUri}` || ''} target={'_blank'} rel='noreferrer'>
-            <CommonStyles.Button startIcon={<CommonIcons.SendIcon />}>Launch</CommonStyles.Button>
-          </a>
+          <CommonStyles.Button
+            onClick={() => {
+              addNewTab({
+                label: item.name,
+                value: item.id,
+                content: <Launcher idApp={item.id} />,
+                openNewTab: true,
+              });
+            }}
+            startIcon={<CommonIcons.SendIcon />}
+          >
+            Launch
+          </CommonStyles.Button>
+
           <CommonStyles.Button
             startIcon={<CommonIcons.UninstallIcon />}
             variant='outlined'
