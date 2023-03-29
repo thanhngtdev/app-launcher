@@ -77,7 +77,7 @@ const CellActions = ({ item }: CellActionsProps) => {
       {shoulRenderAssign && <DialogAssignUserToApp isOpen={openAssign} toggle={toggleAssign} />}
 
       {shoulRenderRequesting && (
-        <DialogListRequesting isOpen={openRequesting} toggle={toggleRequesting} />
+        <DialogListRequesting isOpen={openRequesting} toggle={toggleRequesting} appId={item.id} />
       )}
 
       <CommonStyles.Tooltip title='Edit'>
@@ -96,7 +96,7 @@ const CellActions = ({ item }: CellActionsProps) => {
 
       <CommonStyles.Tooltip title='Requesting App'>
         <CommonStyles.Button isIconButton onClick={toggleRequesting}>
-          <Badge badgeContent={4} color='error'>
+          <Badge badgeContent={item?.requestCount || 0} color='error'>
             <CommonIcons.AssignmentChecked />
           </Badge>
         </CommonStyles.Button>

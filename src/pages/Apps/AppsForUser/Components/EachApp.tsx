@@ -4,10 +4,9 @@ import CommonStyles from 'components/CommonStyles';
 import { App } from 'interfaces/apps';
 import { useTheme } from '@mui/material';
 import { showError, showSuccess } from 'helpers/toast';
-import { useInstallApp, useUninstallApp } from 'hooks/app/useAppHooks';
+import { useInstallApp, useUninstallApp, useCreateApproval } from 'hooks/app/useAppHooks';
 import { useQueryClient } from '@tanstack/react-query';
 import { queryKeys } from 'consts';
-import { useAuth } from 'providers/AuthenticationProvider';
 import { useTabHandler } from 'providers/TabHandlerProvider';
 import Launcher from 'pages/Launcher';
 
@@ -20,10 +19,10 @@ const EachApp = ({ item, isInstalled }: EachAppProps) => {
   //! State
   const theme = useTheme();
   const { addNewTab } = useTabHandler();
-  const { isAppManager } = useAuth();
   const queryClient = useQueryClient();
   const { mutateAsync: installApp } = useInstallApp();
   const { mutateAsync: uninstallApp } = useUninstallApp();
+  const { mutateAsync: createRequest } = useCreateApproval();
   const [loading, setLoading] = useState(false);
 
   //! Function
@@ -32,12 +31,7 @@ const EachApp = ({ item, isInstalled }: EachAppProps) => {
       setLoading(true);
       await installApp({ id: item?.id });
       await queryClient.refetchQueries({ queryKey: [queryKeys.getAppInstalledList] });
-
-      if (isAppManager) {
-        await queryClient.refetchQueries({ queryKey: [queryKeys.getAppListManager] });
-      } else {
-        await queryClient.refetchQueries({ queryKey: [queryKeys.getAppList] });
-      }
+      await queryClient.refetchQueries({ queryKey: [queryKeys.getAppList] });
 
       showSuccess('Install app successfully!');
       setLoading(false);
@@ -52,14 +46,24 @@ const EachApp = ({ item, isInstalled }: EachAppProps) => {
       setLoading(true);
       await uninstallApp({ id: item?.id });
       await queryClient.refetchQueries({ queryKey: [queryKeys.getAppInstalledList] });
-
-      if (isAppManager) {
-        await queryClient.refetchQueries({ queryKey: [queryKeys.getAppListManager] });
-      } else {
-        await queryClient.refetchQueries({ queryKey: [queryKeys.getAppList] });
-      }
+      await queryClient.refetchQueries({ queryKey: [queryKeys.getAppList] });
 
       showSuccess('Uninstall app successfully!');
+      setLoading(false);
+    } catch (error) {
+      showError(error);
+      setLoading(false);
+    }
+  };
+
+  const onClickRequestAccess = async () => {
+    try {
+      setLoading(true);
+      await createRequest({ appId: item?.id });
+      await queryClient.refetchQueries({ queryKey: [queryKeys.getAppStore] });
+      await queryClient.refetchQueries({ queryKey: [queryKeys.getAppList] });
+
+      showSuccess('Request access successfully!');
       setLoading(false);
     } catch (error) {
       showError(error);
@@ -95,6 +99,18 @@ const EachApp = ({ item, isInstalled }: EachAppProps) => {
             Uninstall
           </CommonStyles.Button>
         </CommonStyles.Box>
+      );
+    }
+
+    if (!item.isAssigned) {
+      return (
+        <CommonStyles.Button
+          loading={loading}
+          startIcon={<CommonIcons.RequestAccess />}
+          onClick={onClickRequestAccess}
+        >
+          Request Access
+        </CommonStyles.Button>
       );
     }
 

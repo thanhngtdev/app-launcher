@@ -39,6 +39,8 @@ const Launcher = ({ idApp }: LauncherProps) => {
     }
   }, [item, checkCredentialsApp]);
 
+  console.log('launcher');
+
   //! Render
   if (isLoading || isCheckingApp) {
     return (
@@ -77,7 +79,8 @@ const Launcher = ({ idApp }: LauncherProps) => {
       }}
     >
       <iframe
-        src={`${item?.launchUri}?token=${auth.accessToken}` || ''}
+        // src={`${item?.launchUri}?token=${auth.accessToken}` || ''}
+        src={`http://localhost:3001?token=${auth.accessToken}` || ''}
         frameBorder={0}
         sandbox='allow-same-origin allow-scripts allow-popups allow-forms'
       />

@@ -7,6 +7,7 @@ export const queryKeys = {
   getAppDetail: 'getAppDetai',
   getAppInstalledList: 'getAppInstalledList',
   getAppRequesting: 'getAppRequesting',
+  getAppStore: 'getAppStore',
 
   getUserInfo: 'getUserInfo',
   updateUserInfo: 'updateUserInfo',

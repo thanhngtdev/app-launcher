@@ -4,6 +4,7 @@ import CommonStyles from 'components/CommonStyles';
 import { Form, Formik } from 'formik';
 import { useTheme } from '@mui/material';
 import { useAuth } from 'providers/AuthenticationProvider';
+import Logo from 'assets/logo.svg';
 
 const Login = () => {
   //! State
@@ -40,11 +41,14 @@ const Login = () => {
               sx={{
                 display: 'flex',
                 height: '100vh',
+                flexDirection: 'column',
+                gap: 4,
                 alignItems: 'center',
                 justifyContent: 'center',
-                background: theme.colors?.purple,
+                background: theme.palette.primary.main,
               }}
             >
+              <img alt='Logo' src={Logo} />
               <CommonStyles.Box
                 sx={{
                   boxShadow: 4,

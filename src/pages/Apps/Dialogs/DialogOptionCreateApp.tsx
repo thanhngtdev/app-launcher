@@ -51,9 +51,7 @@ const DialogOptionCreateApp = (props: Props) => {
               <DialogTitle>What do you want to do today?</DialogTitle>
               <DialogContent>
                 <CommonStyles.Box sx={{ display: 'flex', gap: 4, mb: 3 }}>
-                  <CommonIcons.SettingsAccessibilityIcon
-                    sx={{ fontSize: 120, color: theme.colors?.purple }}
-                  />
+                  <CommonIcons.SettingsAccessibilityIcon sx={{ fontSize: 120 }} />
 
                   <CommonStyles.Typography>
                     First tell us about kind of app or integration you are building to ensure we get

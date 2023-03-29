@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import CommonStyles from 'components/CommonStyles';
 import useFiltersHandler from 'hooks/useFiltersHandler';
-import { useGetListInstalledApp } from 'hooks/app/useAppHooks';
+import { useGetAppStore } from 'hooks/app/useAppHooks';
 import { NUMBER_DEFAULT_ROW_PER_PAGE, NUMBER_DEFAULT_PAGE } from 'consts';
 import { useTheme } from '@mui/material';
 import EachApp from '../../pages/Apps/AppsForUser/Components/EachApp';
@@ -16,25 +16,25 @@ const initialValues = {
   search: '',
 };
 
-const ListInstalledApps = () => {
+const ListStoreApps = () => {
   //! State
   const theme = useTheme();
   const { filters, setFilters, handleResetToInitial } = useFiltersHandler(initialValues);
 
-  const { data: resListInstalledApp, isLoading: isInstalledLoading } = useGetListInstalledApp({
+  const { data: resList, isLoading: isLoadingList } = useGetAppStore({
     skip:
       (filters?.page || NUMBER_DEFAULT_PAGE) *
       (filters?.rowsPerPage || NUMBER_DEFAULT_ROW_PER_PAGE),
     take: filters?.rowsPerPage || NUMBER_DEFAULT_ROW_PER_PAGE,
     filter: filters?.search,
   });
-  const dataInstallApp = resListInstalledApp?.data?.items || [];
-  const totalCountInstallApp = resListInstalledApp?.data?.totalCount || 0;
+  const data = resList?.data?.items || [];
+  const totalCount = resList?.data?.totalCount || 0;
 
   //! Function
 
   //! Render
-  const renderListAppInstalled = () => {
+  const renderContent = () => {
     return (
       <Fragment>
         <CommonStyles.Box
@@ -45,7 +45,7 @@ const ListInstalledApps = () => {
           }}
         >
           <CommonStyles.Typography variant='h4' sx={{ mb: 2 }}>
-            My App(s) ({totalCountInstallApp})
+            Store ({totalCount})
           </CommonStyles.Typography>
           <SearchAndFilters
             sxContainer={{ mb: 2 }}
@@ -62,15 +62,13 @@ const ListInstalledApps = () => {
           />
         </CommonStyles.Box>
 
-        {isInstalledLoading ? (
+        {isLoadingList ? (
           <CommonStyles.Loading />
         ) : (
           <CommonStyles.Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 3 }}>
-            {dataInstallApp.length <= 0 && (
-              <CommonStyles.Typography>No app found...</CommonStyles.Typography>
-            )}
-            {dataInstallApp?.map((el) => {
-              return <EachApp key={el.id} item={el} isInstalled />;
+            {data.length <= 0 && <CommonStyles.Typography>No app found...</CommonStyles.Typography>}
+            {data?.map((el) => {
+              return <EachApp key={el.id} item={el} />;
             })}
           </CommonStyles.Box>
         )}
@@ -86,9 +84,9 @@ const ListInstalledApps = () => {
         },
       }}
     >
-      <CommonStyles.Box sx={{ mb: 2 }}>{renderListAppInstalled()}</CommonStyles.Box>
+      <CommonStyles.Box sx={{ mb: 2 }}>{renderContent()}</CommonStyles.Box>
     </CommonStyles.Box>
   );
 };
 
-export default React.memo(ListInstalledApps);
+export default React.memo(ListStoreApps);

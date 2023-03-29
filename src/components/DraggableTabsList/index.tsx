@@ -4,12 +4,12 @@ import TabList from '@mui/lab/TabList';
 import { DragDropContext, Droppable, DroppableProvided } from 'react-beautiful-dnd';
 import Tab from '@mui/material/Tab';
 import Stack from '@mui/material/Stack';
-import CommonStyles from 'components/CommonStyles';
 import TabContext from '@mui/lab/TabContext';
-import DraggableTab from './DragableTab';
+import DraggableTab from './DraggableTab';
 import { useTheme } from '@mui/material';
 import { Tab as TabI } from 'providers/TabHandlerProvider';
 import TabLabel from './TabLabel';
+import DraggableContent from './DraggableContent';
 
 interface DraggableTabsListProps {
   tabs: TabI[];
@@ -90,6 +90,7 @@ function DraggableTabsList(props: DraggableTabsListProps) {
             backgroundColor: theme.palette.primary.main,
             top: 0,
             position: 'sticky',
+            zIndex: 999,
 
             //* Hide indicator
             '& .MuiTabs-indicator': {
@@ -99,14 +100,9 @@ function DraggableTabsList(props: DraggableTabsListProps) {
         >
           <Stack direction='column'>{_renderTabListWrappedInDroppable()}</Stack>
         </Box>
-        {props.tabs.map((tab, index) => (
-          <CommonStyles.Box
-            key={`${tab.value}-${index}`}
-            sx={{ display: tab.value === props.currentTab ? '' : 'none' }}
-          >
-            {tab.content}
-          </CommonStyles.Box>
-        ))}
+        {props.tabs.map((tab) => {
+          return <DraggableContent key={`${tab.value}`} tab={tab} currentTab={props.currentTab} />;
+        })}
       </TabContext>
     </Box>
   );

@@ -370,5 +370,20 @@
       ""
     ],
     "description": "genDialogTableComponent"
+  },
+  "genQueryList": {
+    "prefix": "genQueryList",
+    "body": [
+      "  const { data: resList, isLoading: isLoadingList } = useGetAppStore({",
+      "    skip:",
+      "      (filters?.page || NUMBER_DEFAULT_PAGE) *",
+      "      (filters?.rowsPerPage || NUMBER_DEFAULT_ROW_PER_PAGE),",
+      "    take: filters?.rowsPerPage || NUMBER_DEFAULT_ROW_PER_PAGE,",
+      "    filter: filters?.search,",
+      "  });",
+      "  const data = resList?.data?.items || [];",
+      "  const totalCount = resList?.data?.totalCount || 0;"
+    ],
+    "description": "genQueryList"
   }
 }

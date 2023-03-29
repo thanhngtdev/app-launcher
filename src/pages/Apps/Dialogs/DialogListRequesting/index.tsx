@@ -11,12 +11,14 @@ import CommonStyles from 'components/CommonStyles';
 import TextField from 'components/CustomFields/TextField';
 import { NUMBER_DEFAULT_PAGE, NUMBER_DEFAULT_ROW_PER_PAGE } from 'consts';
 import CellActions from './Cells/CellActions';
+import { useGetListRequestingApp } from 'hooks/app/useAppHooks';
 
-interface Props extends DialogI<{ username: string }> {}
+interface Props extends DialogI<{ username: string }> {
+  appId: string;
+}
 
 const initialValues = {
-  username: '',
-  email: '',
+  search: '',
   page: NUMBER_DEFAULT_PAGE,
   rowsPerPage: NUMBER_DEFAULT_ROW_PER_PAGE + 5,
   order: Order.desc,
@@ -24,7 +26,7 @@ const initialValues = {
 };
 
 const DialogListRequesting = (props: Props) => {
-  const { isOpen, toggle } = props;
+  const { isOpen, toggle, appId } = props;
 
   const {
     filters,
@@ -37,31 +39,24 @@ const DialogListRequesting = (props: Props) => {
     handleResetToInitial,
     handleCheckBox,
   } = useFiltersHandler(initialValues);
+  const { data: resList, isLoading: isLoadingList } = useGetListRequestingApp({
+    appId,
+    skip:
+      (filters?.page || NUMBER_DEFAULT_PAGE) *
+      (filters?.rowsPerPage || NUMBER_DEFAULT_ROW_PER_PAGE),
+    take: filters?.rowsPerPage || NUMBER_DEFAULT_ROW_PER_PAGE,
+    filter: filters?.search,
+  });
+  const data = resList?.data?.items || [];
+  const totalCount = resList?.data?.totalCount || 0;
 
   //! Function
-  const totalCount = 1;
-
-  const data = [
-    {
-      id: 'abcxyz-asiofjfsa-asokvkjasb-asvcoiasv-asvjiav',
-      userId: 'ajkcnasd-asfioaspjg-asfiopasjgoi-asiogjasg',
-      username: 'appuser01',
-      firstname: 'string',
-      lastname: 'string',
-    },
-  ];
 
   return (
     <DialogMui open={isOpen} onClose={toggle} fullWidth maxWidth='xl'>
       <DialogContent>
         <CommonStyles.Typography variant='h5' sx={{ mb: 3 }}>
           User(s) Requesting
-        </CommonStyles.Typography>
-
-        <CommonStyles.Typography sx={{ mb: 2 }}>
-          <code style={{ backgroundColor: 'rgba(0, 0, 0, 0.1)', padding: 12 }}>
-            {JSON.stringify({ filters: { ...filters, selected } })}
-          </code>
         </CommonStyles.Typography>
 
         <SearchAndFilters
@@ -77,11 +72,10 @@ const DialogListRequesting = (props: Props) => {
               <CommonStyles.Box sx={{ gap: 2, display: 'flex' }}>
                 <FastField
                   component={TextField}
-                  name='username'
-                  placeholder='Username'
-                  label='Username'
+                  name='search'
+                  placeholder='Input search'
+                  label='Search'
                 />
-                <FastField component={TextField} name='email' placeholder='Email' label='Email' />
               </CommonStyles.Box>
             );
           }}
@@ -92,6 +86,7 @@ const DialogListRequesting = (props: Props) => {
             Total record(s): {totalCount}
           </CommonStyles.Typography>
           <CommonStyles.Table
+            isLoading={isLoadingList}
             order={filters?.order || Order.desc}
             orderBy={filters?.orderBy}
             selected={selected}

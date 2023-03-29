@@ -1,7 +1,6 @@
-import CommonStyles from 'components/CommonStyles';
-import ListInstalledApps from 'components/ListInstalledApps';
+import React, { createContext, useCallback, useContext, useMemo, useState } from 'react';
 import { cloneDeep } from 'lodash';
-import { createContext, useCallback, useContext, useMemo, useState } from 'react';
+import DefaultApps from 'components/DefaultApps';
 
 export interface Tab {
   id: string;
@@ -37,14 +36,6 @@ const TabHandlerContext = createContext<TabHandlerContextI>({
 
 export const useTabHandler = () => useContext(TabHandlerContext);
 
-const DefaultApps = () => {
-  return (
-    <CommonStyles.Box sx={{ p: 2 }}>
-      <ListInstalledApps />
-    </CommonStyles.Box>
-  );
-};
-
 const TabHandlerProvider = ({ children }: { children: any }) => {
   //! State
   const [currentTab, setTab] = useState('0');
@@ -71,11 +62,12 @@ const TabHandlerProvider = ({ children }: { children: any }) => {
   const onCloseTab = useCallback((index: number) => {
     setTabs((prevTabs) => {
       const newTabs = cloneDeep(prevTabs);
+
       setTab((prevCurrentTab) => {
         //* If close itself
-        const indexCurrentValue = prevTabs.findIndex((el) => el.value === prevCurrentTab);
+        const indexCurrentValue = newTabs.findIndex((el) => el.value === prevCurrentTab);
         if (`${indexCurrentValue}` === `${index}`) {
-          return prevTabs[indexCurrentValue - 1].value;
+          return newTabs[indexCurrentValue - 1].value;
         }
 
         return prevCurrentTab;

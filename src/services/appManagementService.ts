@@ -38,6 +38,10 @@ export interface RequestApproval {
   isApproved: boolean;
 }
 
+export interface RequestCreateApproval {
+  appId: string;
+}
+
 export interface RequestListAppRequesting extends RequestPagingCommon {
   appId: string;
 }
@@ -81,8 +85,18 @@ class AppManagementService {
     return httpService.get(`${APP_MANAGEMENT_URL}/request-listing?${queryString.stringify(body)}`);
   }
 
+  getListAppStore(body: RequestPagingCommon): PromiseResponseBase<ResponseCommonPaging<App[]>> {
+    return httpService.get(
+      `${APP_MANAGEMENT_URL}/store-application-listing?${queryString.stringify(body)}`
+    );
+  }
+
   requestApproval(body: RequestApproval) {
-    return httpService.post(`${APP_MANAGEMENT_URL}/request-approval`, body);
+    return httpService.post(`${APP_MANAGEMENT_URL}/request-approve`, body);
+  }
+
+  requestCreate(body: RequestCreateApproval) {
+    return httpService.post(`${APP_MANAGEMENT_URL}/request-create`, body);
   }
 
   //* APP INTEGRATION

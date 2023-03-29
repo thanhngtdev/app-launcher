@@ -4,6 +4,7 @@ import { RequestPagingCommon } from 'interfaces/common';
 import appManagementService, {
   RequestApproval,
   RequestCreateApp,
+  RequestCreateApproval,
   RequestListAppRequesting,
   RequestLiveApp,
 } from 'services/appManagementService';
@@ -34,6 +35,13 @@ export const useGetListRequestingApp = (filters: RequestListAppRequesting) => {
   return useQuery({
     queryKey: [queryKeys.getAppRequesting, filters],
     queryFn: () => appManagementService.getListAppRequesting(filters),
+  });
+};
+
+export const useGetAppStore = (filters: RequestPagingCommon) => {
+  return useQuery({
+    queryKey: [queryKeys.getAppStore, filters],
+    queryFn: () => appManagementService.getListAppStore(filters),
   });
 };
 
@@ -100,5 +108,11 @@ export const useCheckCredentials = () => {
 export const useRequestApproval = () => {
   return useMutation({
     mutationFn: (body: RequestApproval) => appManagementService.requestApproval(body),
+  });
+};
+
+export const useCreateApproval = () => {
+  return useMutation({
+    mutationFn: (body: RequestCreateApproval) => appManagementService.requestCreate(body),
   });
 };

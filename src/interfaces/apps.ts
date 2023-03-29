@@ -19,12 +19,23 @@ export interface AppIntegration {
   description: string;
   isLive?: boolean;
   isApproved?: boolean;
+  isAssigned?: boolean;
   appClientName?: string;
   appClientId?: string;
   appClientSecret?: string;
+  requestCount?: number;
 }
 
 export type App = Pick<
   AppIntegration,
-  'id' | 'name' | 'developerName' | 'summary' | 'icon' | 'isLive' | 'isApproved' | 'launchUri'
+  | 'id'
+  | 'name'
+  | 'developerName'
+  | 'summary'
+  | 'icon'
+  | 'isLive'
+  | 'isApproved'
+  | 'launchUri'
+  | 'requestCount'
+  | 'isAssigned'
 >;
