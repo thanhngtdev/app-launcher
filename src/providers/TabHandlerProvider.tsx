@@ -1,6 +1,7 @@
 import React, { createContext, useCallback, useContext, useMemo, useState } from 'react';
-import { cloneDeep } from 'lodash';
+import { cloneDeep, uniqBy } from 'lodash';
 import DefaultApps from 'components/DefaultApps';
+import cachedService from 'services/cachedService';
 
 export interface Tab {
   id: string;
@@ -36,27 +37,33 @@ const TabHandlerContext = createContext<TabHandlerContextI>({
 
 export const useTabHandler = () => useContext(TabHandlerContext);
 
+const defaultAppsTab = [
+  {
+    id: '1',
+    label: 'Apps',
+    value: '0',
+    content: <DefaultApps />,
+    prenventClose: true,
+  },
+];
+
+cachedService.setValue('tabs', defaultAppsTab);
+
 const TabHandlerProvider = ({ children }: { children: any }) => {
   //! State
   const [currentTab, setTab] = useState('0');
-  const [tabs, setTabs] = useState<Tab[]>([
-    {
-      id: '1',
-      label: 'Apps',
-      value: '0',
-      content: <DefaultApps />,
-      prenventClose: true,
-    },
-  ]);
+  const [tabs, setTabs] = useState<Tab[]>(defaultAppsTab);
 
   //! Function
   const onDragEnd = useCallback((result: any) => {
-    setTabs((prevTabs) => {
-      const newTabs = cloneDeep(prevTabs);
-      const draggedTab = newTabs.splice(result.source.index, 1)[0];
-      newTabs.splice(result.destination.index, 0, draggedTab);
-      return newTabs;
-    });
+    if (result?.destination) {
+      setTabs((prevTabs) => {
+        const newTabs = cloneDeep(prevTabs);
+        const draggedTab = newTabs.splice(result.source.index, 1)[0];
+        newTabs.splice(result.destination.index, 0, draggedTab);
+        return newTabs;
+      });
+    }
   }, []);
 
   const onCloseTab = useCallback((index: number) => {
@@ -73,8 +80,7 @@ const TabHandlerProvider = ({ children }: { children: any }) => {
         return prevCurrentTab;
       });
 
-      newTabs.splice(index, 1);
-      return newTabs;
+      return newTabs.filter((el, indexNext) => index !== indexNext);
     });
   }, []);
 
@@ -99,6 +105,22 @@ const TabHandlerProvider = ({ children }: { children: any }) => {
       }
 
       const id = `${prevTabs.length + 1}`;
+      cachedService.setValue(
+        'tabs',
+        uniqBy(
+          [
+            ...prevTabs,
+            {
+              id,
+              label,
+              value,
+              content,
+            },
+          ],
+          'value'
+        )
+      );
+
       return [
         ...prevTabs,
         {

@@ -39,8 +39,6 @@ const Launcher = ({ idApp }: LauncherProps) => {
     }
   }, [item, checkCredentialsApp]);
 
-  console.log('launcher');
-
   //! Render
   if (isLoading || isCheckingApp) {
     return (
@@ -73,7 +71,7 @@ const Launcher = ({ idApp }: LauncherProps) => {
     <CommonStyles.Box
       sx={{
         overflow: 'hidden',
-        height: '100vh',
+        height: 'calc(100vh - 48px)',
         width: '100%',
         '& > iframe': { height: '100% ', width: '100%' },
       }}

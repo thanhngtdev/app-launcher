@@ -282,7 +282,13 @@ const DefaultLayout = ({ children }: { children: React.ReactNode }) => {
         </DrawerHeader>
 
         <Divider /> */}
-        <CommonStyles.Box>
+        <CommonStyles.Box
+          sx={{
+            [theme.breakpoints.down('sm')]: {
+              display: 'flex',
+            },
+          }}
+        >
           <CommonStyles.Box sx={{ p: 1, pt: 2 }}>
             <img alt='logo' src={Logo} style={{ width: '100%', height: '100%' }} />
           </CommonStyles.Box>

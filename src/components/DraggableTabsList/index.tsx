@@ -83,7 +83,7 @@ function DraggableTabsList(props: DraggableTabsListProps) {
   );
 
   return (
-    <Box sx={{ width: '100%', typography: 'body1' }}>
+    <Box sx={{ width: '100%' }}>
       <TabContext value={props.currentTab}>
         <Box
           sx={{
@@ -91,6 +91,10 @@ function DraggableTabsList(props: DraggableTabsListProps) {
             top: 0,
             position: 'sticky',
             zIndex: 999,
+
+            [theme.breakpoints.down('sm')]: {
+              top: 80,
+            },
 
             //* Hide indicator
             '& .MuiTabs-indicator': {

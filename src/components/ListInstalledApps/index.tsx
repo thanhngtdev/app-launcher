@@ -79,13 +79,7 @@ const ListInstalledApps = () => {
   };
 
   return (
-    <CommonStyles.Box
-      sx={{
-        [theme.breakpoints.down('sm')]: {
-          paddingTop: '70px',
-        },
-      }}
-    >
+    <CommonStyles.Box>
       <CommonStyles.Box sx={{ mb: 2 }}>{renderListAppInstalled()}</CommonStyles.Box>
     </CommonStyles.Box>
   );

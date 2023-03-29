@@ -4,9 +4,12 @@ import ListInstalledApps from 'components/ListInstalledApps';
 import { useAuth } from 'providers/AuthenticationProvider';
 import TableListApp from 'pages/Apps/Components/TableListApp';
 import ListStoreApps from 'components/ListStoreApps';
+import useRootNonePadding from 'hooks/useRootNonePadding';
 
 const DefaultApps = React.memo(() => {
   const { isUser, isAppManager } = useAuth();
+
+  useRootNonePadding();
 
   if (isUser) {
     return (
