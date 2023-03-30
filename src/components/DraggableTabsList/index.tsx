@@ -7,9 +7,10 @@ import Stack from '@mui/material/Stack';
 import TabContext from '@mui/lab/TabContext';
 import DraggableTab from './DraggableTab';
 import { useTheme } from '@mui/material';
-import { Tab as TabI } from 'providers/TabHandlerProvider';
+import { Tab as TabI, TAB_KEY } from 'providers/TabHandlerProvider';
 import TabLabel from './TabLabel';
 import DraggableContent from './DraggableContent';
+import cachedService from 'services/cachedService';
 
 interface DraggableTabsListProps {
   tabs: TabI[];
@@ -104,9 +105,12 @@ function DraggableTabsList(props: DraggableTabsListProps) {
         >
           <Stack direction='column'>{_renderTabListWrappedInDroppable()}</Stack>
         </Box>
-        {props.tabs.map((tab) => {
+        {cachedService.getValue(TAB_KEY).map((tab: TabI) => {
           return <DraggableContent key={`${tab.value}`} tab={tab} currentTab={props.currentTab} />;
         })}
+        {/* {props.tabs.map((tab) => {
+          return <DraggableContent key={`${tab.value}`} tab={tab} currentTab={props.currentTab} />;
+        })} */}
       </TabContext>
     </Box>
   );

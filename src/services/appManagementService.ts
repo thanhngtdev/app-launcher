@@ -4,6 +4,7 @@ import { App, AppIntegration } from 'interfaces/apps';
 import { PromiseResponseBase, RequestPagingCommon, ResponseCommonPaging } from 'interfaces/common';
 import httpService from './httpService';
 import { UserRequestingApp } from 'interfaces/user';
+import { get } from 'lodash';
 
 type ResponseListApp = ResponseCommonPaging<App[]>;
 
@@ -105,11 +106,19 @@ class AppManagementService {
   }
 
   createApp(body: RequestCreateApp) {
-    return httpService.post(`${APP_INTEGRATION_URL}/create`, body);
+    const formData = new FormData();
+    for (const key in body) {
+      formData.append(key, get(body, key));
+    }
+    return httpService.post(`${APP_INTEGRATION_URL}/create`, formData);
   }
 
   updateApp(id: string, body: RequestCreateApp) {
-    return httpService.put(`${APP_INTEGRATION_URL}/update?Id=${id}`, body);
+    const formData = new FormData();
+    for (const key in body) {
+      formData.append(key, get(body, key));
+    }
+    return httpService.put(`${APP_INTEGRATION_URL}/update?Id=${id}`, formData);
   }
 
   setApproveState({ appId, isApproved }: RequestApproveApp) {

@@ -1,5 +1,5 @@
 import React, { createContext, useCallback, useContext, useMemo, useState } from 'react';
-import { cloneDeep, uniqBy } from 'lodash';
+import { cloneDeep, isString, uniqBy } from 'lodash';
 import DefaultApps from 'components/DefaultApps';
 import cachedService from 'services/cachedService';
 
@@ -11,6 +11,8 @@ export interface Tab {
   prenventClose?: boolean;
 }
 
+export const TAB_KEY = 'tabs';
+
 export type AddNewTab = Pick<Tab, 'label' | 'content' | 'value'> & {
   openNewTab?: boolean;
 };
@@ -19,7 +21,7 @@ interface TabHandlerContextI {
   tabs: Tab[];
   currentTab: string;
   onDragEnd: (result: any) => void;
-  onCloseTab: (index: number) => void;
+  onCloseTab: (index: string | number) => void;
   addNewTab: (tab: AddNewTab) => void;
   handleChangeTab: (event: React.SyntheticEvent<Element, Event>, newValue: any) => void;
   setInitialTabs: (newTabs: any[]) => void;
@@ -37,7 +39,7 @@ const TabHandlerContext = createContext<TabHandlerContextI>({
 
 export const useTabHandler = () => useContext(TabHandlerContext);
 
-const defaultAppsTab = [
+export const defaultAppsTab = [
   {
     id: '1',
     label: 'Apps',
@@ -47,7 +49,7 @@ const defaultAppsTab = [
   },
 ];
 
-cachedService.setValue('tabs', defaultAppsTab);
+cachedService.setValue(TAB_KEY, defaultAppsTab);
 
 const TabHandlerProvider = ({ children }: { children: any }) => {
   //! State
@@ -66,7 +68,29 @@ const TabHandlerProvider = ({ children }: { children: any }) => {
     }
   }, []);
 
-  const onCloseTab = useCallback((index: number) => {
+  const onCloseTab = useCallback((index: string | number) => {
+    //* If index is value / appId / string / ...
+    if (isString(index) && index !== '') {
+      const valueArg = index;
+
+      setTabs((prevTabs) => {
+        const newTabs = cloneDeep(prevTabs);
+        const indexFound = newTabs.findIndex((el) => el.value === valueArg);
+
+        setTab((prevCurrentTab) => {
+          //* If close itself
+          if (`${valueArg}` === `${prevCurrentTab}`) {
+            return newTabs[indexFound - 1].value;
+          }
+
+          return prevCurrentTab;
+        });
+
+        return newTabs.filter((el, indexNext) => indexFound !== indexNext);
+      });
+      return;
+    }
+
     setTabs((prevTabs) => {
       const newTabs = cloneDeep(prevTabs);
 
@@ -106,7 +130,7 @@ const TabHandlerProvider = ({ children }: { children: any }) => {
 
       const id = `${prevTabs.length + 1}`;
       cachedService.setValue(
-        'tabs',
+        TAB_KEY,
         uniqBy(
           [
             ...prevTabs,

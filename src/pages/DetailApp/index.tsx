@@ -30,8 +30,12 @@ const validateUpdateApp = Yup.object().shape({
 const DetailApp = () => {
   //! State
   const { id } = useParams();
+  const {
+    data: resDetailApp,
+    isLoading: isLoadingApp,
+    refetch,
+  } = useGetAppIntegrationDetail(id || '');
   const { mutateAsync: updateAppIntegration } = useUpdateAppIntegration();
-  const { data: resDetailApp, isLoading: isLoadingApp } = useGetAppIntegrationDetail(id || '');
   const itemFound = resDetailApp?.data;
   cachedService.setValue('detail-app', itemFound);
 
@@ -64,6 +68,7 @@ const DetailApp = () => {
 
   return (
     <Formik
+      enableReinitialize
       initialValues={initialValues}
       validationSchema={validateUpdateApp}
       onSubmit={(values, { setSubmitting }) => {
@@ -71,6 +76,7 @@ const DetailApp = () => {
           try {
             setSubmitting(true);
             await updateAppIntegration({ id: itemFound?.id || '', body: values });
+            await refetch();
             showSuccess('Save successfully!');
             setSubmitting(false);
           } catch (error) {

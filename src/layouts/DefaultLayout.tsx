@@ -15,7 +15,7 @@ import { NavLink } from 'react-router-dom';
 import useHandleAsideMenu from 'hooks/useHandleAsideMenu';
 import useCheckWidth from 'hooks/useCheckWidth';
 import { useAuth } from 'providers/AuthenticationProvider';
-import Logo from 'assets/logo.svg';
+import { useSettingsTheme } from 'providers/SettingsThemeProvider';
 
 const drawerWidth = 90;
 
@@ -98,6 +98,7 @@ const DefaultLayout = ({ children }: { children: React.ReactNode }) => {
   ] = React.useState(true);
   const asideMenu = useHandleAsideMenu();
   const { isMobile } = useCheckWidth();
+  const { settings } = useSettingsTheme();
 
   //! Function
   // const handleDrawerOpen = () => {
@@ -290,7 +291,11 @@ const DefaultLayout = ({ children }: { children: React.ReactNode }) => {
           }}
         >
           <CommonStyles.Box sx={{ p: 1, pt: 2 }}>
-            <img alt='logo' src={Logo} style={{ width: '100%', height: '100%' }} />
+            <img
+              alt='logo'
+              src={settings?.launcherLogo || ''}
+              style={{ width: '100%', height: '100%' }}
+            />
           </CommonStyles.Box>
 
           {renderAsideMenu()}

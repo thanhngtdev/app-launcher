@@ -1,7 +1,8 @@
 import React from 'react';
 import CommonStyles from 'components/CommonStyles';
-import { FastField } from 'formik';
+import { FastField, useFormikContext } from 'formik';
 import TextField from 'components/CustomFields/TextField';
+import { AppIntegration } from 'interfaces/apps';
 
 interface Tab1Props {
   value: number;
@@ -9,6 +10,7 @@ interface Tab1Props {
 
 const Tab1 = ({ value }: Tab1Props) => {
   //! State
+  const { values, setFieldValue, handleSubmit } = useFormikContext<AppIntegration>();
 
   //! Function
 
@@ -22,54 +24,87 @@ const Tab1 = ({ value }: Tab1Props) => {
           },
         }}
       >
-        <FastField component={TextField} required name='name' label='Name' fullWidth />
-
-        <CommonStyles.Box sx={{ display: 'flex', gap: 4 }}>
-          <FastField
-            component={TextField}
-            required
-            name='supportEmail'
-            label='Support Email'
-            fullWidth
+        <CommonStyles.Box sx={{ display: 'flex', gap: 5 }}>
+          <CommonStyles.Avatar
+            id='logo-icon'
+            isEdit
+            sx={{ width: 60, height: 60 }}
+            src={values.icon}
+            onChangeImage={(e) => {
+              const file = e?.target?.files?.[0];
+              if (file) {
+                setFieldValue('icon', file);
+                handleSubmit();
+              }
+            }}
           />
-          <FastField component={TextField} required name='phone' label='Number Phone' fullWidth />
-          <FastField component={TextField} required name='homepage' label='Homepage' fullWidth />
-          <FastField component={TextField} required name='launchUri' label='Launch URI' fullWidth />
+          <CommonStyles.Box sx={{ flexGrow: 1 }}>
+            <FastField component={TextField} required name='name' label='Name' fullWidth />
+
+            <CommonStyles.Box sx={{ display: 'flex', gap: 4, mb: 2, mt: 2 }}>
+              <FastField
+                component={TextField}
+                required
+                name='supportEmail'
+                label='Support Email'
+                fullWidth
+              />
+              <FastField
+                component={TextField}
+                required
+                name='phone'
+                label='Number Phone'
+                fullWidth
+              />
+              <FastField
+                component={TextField}
+                required
+                name='homepage'
+                label='Homepage'
+                fullWidth
+              />
+              <FastField
+                component={TextField}
+                required
+                name='launchUri'
+                label='Launch URI'
+                fullWidth
+              />
+            </CommonStyles.Box>
+
+            <CommonStyles.Box sx={{ display: 'flex', gap: 4 }}>
+              <FastField
+                component={TextField}
+                required
+                name='termsConditionsUri'
+                label='Terms & Conditions URI'
+                fullWidth
+              />
+
+              <FastField
+                component={TextField}
+                required
+                name='privacyPolicyUri'
+                label='Privacy & Policy URI'
+                fullWidth
+              />
+              <FastField
+                component={TextField}
+                required
+                name='loginRedirectUri'
+                label='Login Redirect URI'
+                fullWidth
+              />
+              <FastField
+                component={TextField}
+                required
+                name='logoutRedirectUri'
+                label='Logout Redirect URI'
+                fullWidth
+              />
+            </CommonStyles.Box>
+          </CommonStyles.Box>
         </CommonStyles.Box>
-
-        <CommonStyles.Box sx={{ display: 'flex', gap: 4 }}>
-          <FastField
-            component={TextField}
-            required
-            name='termsConditionsUri'
-            label='Terms & Conditions URI'
-            fullWidth
-          />
-
-          <FastField
-            component={TextField}
-            required
-            name='privacyPolicyUri'
-            label='Privacy & Policy URI'
-            fullWidth
-          />
-          <FastField
-            component={TextField}
-            required
-            name='loginRedirectUri'
-            label='Login Redirect URI'
-            fullWidth
-          />
-          <FastField
-            component={TextField}
-            required
-            name='logoutRedirectUri'
-            label='Logout Redirect URI'
-            fullWidth
-          />
-        </CommonStyles.Box>
-
-        <FastField component={TextField} required name='icon' label='Icon URI' fullWidth />
 
         <FastField component={TextField} required name='scopes' label='Scope' fullWidth />
         <FastField component={TextField} required name='summary' label='Summary' fullWidth />

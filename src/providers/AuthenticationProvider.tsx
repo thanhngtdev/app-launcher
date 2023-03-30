@@ -11,6 +11,15 @@ import { showError } from 'helpers/toast';
 import locationService from 'services/locationService';
 import cachedService from 'services/cachedService';
 
+type ActionPostMessage = 'logout';
+export interface EventListenerI {
+  data: {
+    action: ActionPostMessage;
+    idApp: string;
+    value: any;
+  };
+}
+
 interface AuthenticationContextI {
   loading: boolean;
   isLogged: boolean;
@@ -23,6 +32,7 @@ interface AuthenticationContextI {
   isUser: boolean;
   initialPathName: string;
   accessToken: string;
+  eventListener: (e: any) => void;
 }
 
 const AuthenticationContext = createContext<AuthenticationContextI>({
@@ -37,6 +47,7 @@ const AuthenticationContext = createContext<AuthenticationContextI>({
   isUser: false,
   initialPathName: '',
   accessToken: '',
+  eventListener: () => {},
 });
 
 export const useAuth = () => useContext(AuthenticationContext);
@@ -111,6 +122,15 @@ const AuthenticationProvider = ({ children }: { children: any }) => {
     }
   }, [userData, logoutUser]);
 
+  const eventListener = useCallback((cb: (e: any) => void) => {
+    const addEventListener = window.addEventListener as any;
+    const eventMethod = addEventListener ? 'addEventListener' : ('attachEvent' as any);
+    const eventer = window[eventMethod] as any;
+    const messageEvent = eventMethod == 'attachEvent' ? 'onmessage' : 'message';
+
+    eventer(messageEvent, cb, false);
+  }, []);
+
   //! Return
   const value = useMemo(() => {
     return {
@@ -125,8 +145,18 @@ const AuthenticationProvider = ({ children }: { children: any }) => {
       isAppManager: !!user?.roles?.includes(PERMISSION_ENUM.APP_MANAGER),
       isUser: !!user?.roles?.includes(PERMISSION_ENUM.USER),
       initialPathName: locationService.initialPathname,
+      eventListener,
     };
-  }, [user, isCheckingAuth, isInitialLoading, authService, loginPopup, accessToken, logout]);
+  }, [
+    user,
+    isCheckingAuth,
+    isInitialLoading,
+    authService,
+    loginPopup,
+    accessToken,
+    eventListener,
+    logout,
+  ]);
 
   return <AuthenticationContext.Provider value={value}>{children}</AuthenticationContext.Provider>;
 };

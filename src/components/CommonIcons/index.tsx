@@ -31,6 +31,7 @@ import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DownloadingIcon from '@mui/icons-material/Downloading';
 import RestoreFromTrashIcon from '@mui/icons-material/RestoreFromTrash';
+import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
 
 export default {
   InboxIcon,
@@ -44,6 +45,7 @@ export default {
   AddIcon,
   EditIcon,
   DownloadingIcon,
+  UploadingIcon: CloudUploadOutlinedIcon,
   UninstallIcon: RestoreFromTrashIcon,
   NoteAddIcon: NoteAddOutlinedIcon,
   BookIcon: MenuBookIcon,

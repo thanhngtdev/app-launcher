@@ -81,7 +81,7 @@ const EachApp = ({ item, isInstalled }: EachAppProps) => {
               addNewTab({
                 label: item.name,
                 value: item.id,
-                content: <Launcher idApp={item.id} />,
+                content: <Launcher idApp={item.id} launchUri={item.launchUri} />,
                 openNewTab: true,
               });
             }}

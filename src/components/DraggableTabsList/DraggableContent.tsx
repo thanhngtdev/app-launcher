@@ -1,15 +1,11 @@
 import * as React from 'react';
 import CommonStyles from 'components/CommonStyles';
-import { Tab, Tab as TabI } from 'providers/TabHandlerProvider';
+import { Tab as TabI } from 'providers/TabHandlerProvider';
 import { useTheme } from '@mui/material';
-import cachedService from 'services/cachedService';
 
 const DraggableContent = React.memo(({ tab, currentTab }: { tab: TabI; currentTab: string }) => {
   const theme = useTheme();
   const isActiveTab = tab.value === currentTab;
-
-  const listTab = cachedService.getValue('tabs') as Tab[];
-  const contentFound = listTab.find((el) => el.value === tab.value)?.content;
 
   return (
     <CommonStyles.Box
@@ -20,9 +16,10 @@ const DraggableContent = React.memo(({ tab, currentTab }: { tab: TabI; currentTa
         },
         height: isActiveTab ? '100%' : 0,
         visibility: isActiveTab ? 'visible' : 'hidden',
+        overflow: isActiveTab ? '' : 'hidden',
       }}
     >
-      {contentFound}
+      {tab.content}
     </CommonStyles.Box>
   );
 });

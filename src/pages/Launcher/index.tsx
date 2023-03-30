@@ -1,72 +1,30 @@
-import React, { useLayoutEffect } from 'react';
+import React, { useEffect } from 'react';
 import CommonStyles from 'components/CommonStyles';
-import { useCheckCredentials, useGetAppIntegrationDetail } from 'hooks/app/useAppHooks';
-import { useTheme } from '@mui/material';
-import { showError } from 'helpers/toast';
-import { useAuth } from 'providers/AuthenticationProvider';
+import { EventListenerI, useAuth } from 'providers/AuthenticationProvider';
+import { useTabHandler } from 'providers/TabHandlerProvider';
 
 interface LauncherProps {
-  idApp: string;
+  idApp?: string;
+  launchUri?: string;
 }
 
-const Launcher = ({ idApp }: LauncherProps) => {
+const Launcher = ({ idApp, launchUri }: LauncherProps) => {
   //! State
-  const theme = useTheme();
   const auth = useAuth();
-  const {
-    mutateAsync: checkCredentialsApp,
-    isLoading: isCheckingApp,
-    data: resCredentialApp,
-  } = useCheckCredentials();
+  const { onCloseTab } = useTabHandler();
 
-  const { data: resDetailApp, isLoading, error } = useGetAppIntegrationDetail(idApp || '');
-  const item = resDetailApp?.data;
-  const isItemHasCredential = !!resCredentialApp?.data;
+  useEffect(() => {
+    auth.eventListener((e: EventListenerI) => {
+      const { action, idApp } = e.data;
+      if (action === 'logout') {
+        onCloseTab(idApp || '');
+      }
+    });
+  }, []);
 
   //! Function
-  useLayoutEffect(() => {
-    if (item?.appClientId) {
-      (async () => {
-        try {
-          await checkCredentialsApp({
-            appClientId: item?.appClientId || '',
-            userId: auth.user?.id || '',
-          });
-        } catch (error) {
-          showError(error);
-        }
-      })();
-    }
-  }, [item, checkCredentialsApp]);
 
   //! Render
-  if (isLoading || isCheckingApp) {
-    return (
-      <CommonStyles.Box sx={{ p: 2 }}>
-        <CommonStyles.Loading />
-      </CommonStyles.Box>
-    );
-  }
-
-  if (!isItemHasCredential) {
-    return (
-      <CommonStyles.Box sx={{ p: 2 }}>
-        <CommonStyles.Typography sx={{ color: theme.colors?.red }}>
-          This APP not has Credentials
-        </CommonStyles.Typography>
-      </CommonStyles.Box>
-    );
-  }
-
-  if (error) {
-    showError(error);
-    return (
-      <CommonStyles.Typography sx={{ color: theme.colors?.red }}>
-        Something wrong here!
-      </CommonStyles.Typography>
-    );
-  }
-
   return (
     <CommonStyles.Box
       sx={{
@@ -77,8 +35,8 @@ const Launcher = ({ idApp }: LauncherProps) => {
       }}
     >
       <iframe
-        // src={`${item?.launchUri}?token=${auth.accessToken}` || ''}
-        src={`http://localhost:3001?token=${auth.accessToken}` || ''}
+        src={`${launchUri}?token=${auth.accessToken}&id=${idApp}` || ''}
+        // src={`http://localhost:3001?token=${auth.accessToken}&id=${idApp}` || ''}
         frameBorder={0}
         sandbox='allow-same-origin allow-scripts allow-popups allow-forms'
       />

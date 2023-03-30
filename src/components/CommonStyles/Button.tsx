@@ -5,6 +5,7 @@ import CommonStyles from '.';
 type TypeButton = IconButtonProps & LoadingButtonProps;
 interface Props extends TypeButton {
   isIconButton?: boolean;
+  component?: string;
 }
 
 const Button = ({ isIconButton, ...props }: Props) => {
