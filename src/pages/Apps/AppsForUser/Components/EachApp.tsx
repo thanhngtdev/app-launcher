@@ -9,6 +9,8 @@ import { useQueryClient } from '@tanstack/react-query';
 import { queryKeys } from 'consts';
 import { useTabHandler } from 'providers/TabHandlerProvider';
 import Launcher from 'pages/Launcher';
+import { useLocation, useNavigate } from 'react-router-dom';
+import BaseUrl from 'consts/baseUrl';
 
 interface EachAppProps {
   item: App;
@@ -18,6 +20,8 @@ interface EachAppProps {
 const EachApp = ({ item, isInstalled }: EachAppProps) => {
   //! State
   const theme = useTheme();
+  const location = useLocation();
+  const navigate = useNavigate();
   const { addNewTab } = useTabHandler();
   const queryClient = useQueryClient();
   const { mutateAsync: installApp } = useInstallApp();
@@ -71,22 +75,25 @@ const EachApp = ({ item, isInstalled }: EachAppProps) => {
     }
   };
 
+  const onClickLaunch = () => {
+    addNewTab({
+      label: item.name,
+      value: item.id,
+      content: <Launcher idApp={item.id} launchUri={item.launchUri} />,
+      openNewTab: true,
+    });
+
+    if (!location.pathname.includes(BaseUrl.AppManagement)) {
+      navigate(BaseUrl.AppManagement);
+    }
+  };
+
   //! Render
   const renderButton = () => {
     if (isInstalled) {
       return (
         <CommonStyles.Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-          <CommonStyles.Button
-            onClick={() => {
-              addNewTab({
-                label: item.name,
-                value: item.id,
-                content: <Launcher idApp={item.id} launchUri={item.launchUri} />,
-                openNewTab: true,
-              });
-            }}
-            startIcon={<CommonIcons.SendIcon />}
-          >
+          <CommonStyles.Button onClick={onClickLaunch} startIcon={<CommonIcons.SendIcon />}>
             Launch
           </CommonStyles.Button>
 

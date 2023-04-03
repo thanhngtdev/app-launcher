@@ -52,9 +52,8 @@ const AuthenticationContext = createContext<AuthenticationContextI>({
 
 export const useAuth = () => useContext(AuthenticationContext);
 
-locationService.setInitialPathname();
 const authService = new AuthService();
-httpService.setupInterceptors(authService);
+locationService.setInitialPathname();
 cachedService.initialState();
 
 const AuthenticationProvider = ({ children }: { children: any }) => {

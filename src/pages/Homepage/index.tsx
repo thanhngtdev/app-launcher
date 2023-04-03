@@ -8,11 +8,13 @@ import DialogCreateApp from 'pages/Apps/Dialogs/DialogCreateApp';
 import { useSettingsTheme } from 'providers/SettingsThemeProvider';
 import { useGetListInstalledApp } from 'hooks/app/useAppHooks';
 import EachApp from 'pages/Apps/AppsForUser/Components/EachApp';
+import { useTheme } from '@mui/material';
 
 // interface AppsProps {}
 
 const Apps = () => {
   //! State
+  const theme = useTheme();
   const { isUser } = useAuth();
   const { settings } = useSettingsTheme();
   const { data: resInstalled, isLoading } = useGetListInstalledApp({
@@ -44,21 +46,30 @@ const Apps = () => {
     }
 
     return (
-      <CommonStyles.Box
-        sx={{
-          display: 'flex',
-          gap: 2,
-          '& > div': {
-            width: 'calc(100% / 2) !important',
-          },
-        }}
-      >
-        {installedApps.length <= 0 && (
-          <CommonStyles.Typography>No app(s) installed!</CommonStyles.Typography>
-        )}
-        {installedApps.map((app) => {
-          return <EachApp key={app.id} item={app} isInstalled />;
-        })}
+      <CommonStyles.Box>
+        <CommonStyles.Typography variant='h6' sx={{ mb: 2 }}>
+          Installed app(s)
+        </CommonStyles.Typography>
+        <CommonStyles.Box
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: 2,
+            '& > div': {
+              width: 'calc(100%) !important',
+            },
+            [theme.breakpoints.down('sm')]: { gridTemplateColumns: '1fr', '& > div': {} },
+          }}
+        >
+          {installedApps.length <= 0 && (
+            <CommonStyles.Typography variant='caption'>
+              No app(s) installed!
+            </CommonStyles.Typography>
+          )}
+          {installedApps.map((app) => {
+            return <EachApp key={app.id} item={app} isInstalled />;
+          })}
+        </CommonStyles.Box>
       </CommonStyles.Box>
     );
   };
@@ -101,7 +112,14 @@ const Apps = () => {
 
       {shouldRenderCreateApp && <DialogCreateApp isOpen={openCreateApp} toggle={toggleCreateApp} />}
 
-      <CommonStyles.Box sx={{ display: 'grid', gridTemplateColumns: '300px 1fr', gap: 6 }}>
+      <CommonStyles.Box
+        sx={{
+          display: 'grid',
+          gridTemplateColumns: '300px 1fr',
+          gap: 6,
+          [theme.breakpoints.down('sm')]: { gridTemplateColumns: '1fr', '& > div': {} },
+        }}
+      >
         <CommonStyles.Box sx={{ width: '100%' }}>
           <img src={settings?.brandLogo} alt='brand-logo' style={{ width: '100%' }} />
         </CommonStyles.Box>
@@ -109,7 +127,14 @@ const Apps = () => {
         {renderSummaryHeading()}
       </CommonStyles.Box>
 
-      <CommonStyles.Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 3 }}>
+      <CommonStyles.Box
+        sx={{
+          display: 'grid',
+          gridTemplateColumns: '1fr 1.5fr',
+          gap: 4,
+          [theme.breakpoints.down('sm')]: { gridTemplateColumns: '1fr', '& > div': {} },
+        }}
+      >
         <CommonStyles.Box>
           <CommonStyles.Typography
             dangerouslySetInnerHTML={{ __html: settings?.detailText || '' }}
