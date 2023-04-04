@@ -92,7 +92,18 @@ const EachApp = ({ item, isInstalled }: EachAppProps) => {
   const renderButton = () => {
     if (isInstalled) {
       return (
-        <CommonStyles.Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+        <CommonStyles.Box
+          sx={{
+            display: 'flex',
+            gap: 1,
+            flexWrap: 'wrap',
+            [theme.breakpoints.down('lg')]: {
+              display: 'flex',
+              flexDirection: 'column',
+              flexGrow: 1,
+            },
+          }}
+        >
           <CommonStyles.Button onClick={onClickLaunch} startIcon={<CommonIcons.SendIcon />}>
             Launch
           </CommonStyles.Button>
@@ -134,6 +145,7 @@ const EachApp = ({ item, isInstalled }: EachAppProps) => {
 
   return (
     <CommonStyles.Box
+      className='each-app'
       key={item.id}
       sx={{
         display: 'flex',
@@ -153,10 +165,28 @@ const EachApp = ({ item, isInstalled }: EachAppProps) => {
 
         [theme.breakpoints.down('sm')]: {
           width: 'calc(100%)',
+          flexDirection: 'column',
+
+          '& .avatar': {
+            display: 'flex',
+            justifyContent: 'center',
+          },
+
+          '& .button-container': {
+            width: '100% !important',
+            '& button': {
+              width: '100%',
+            },
+
+            '& > div': {
+              flexGrow: 1,
+              flexDirection: 'column',
+            },
+          },
         },
       }}
     >
-      <CommonStyles.Box>
+      <CommonStyles.Box className='avatar'>
         <CommonStyles.Avatar src={item?.icon || ''} sx={{ width: 70, height: 70 }} />
       </CommonStyles.Box>
 
@@ -180,7 +210,10 @@ const EachApp = ({ item, isInstalled }: EachAppProps) => {
           </CommonStyles.Typography>
         </CommonStyles.Box>
 
-        <CommonStyles.Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+        <CommonStyles.Box
+          className='button-container'
+          sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}
+        >
           {renderButton()}
         </CommonStyles.Box>
       </CommonStyles.Box>

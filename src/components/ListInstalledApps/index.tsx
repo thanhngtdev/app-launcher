@@ -48,7 +48,15 @@ const ListInstalledApps = () => {
             My App(s) ({totalCountInstallApp})
           </CommonStyles.Typography>
           <SearchAndFilters
-            sxContainer={{ mb: 2 }}
+            sxContainer={{
+              mb: 2,
+              [theme.breakpoints.down('sm')]: {
+                flexDirection: 'column',
+                '& > div:nth-child(2)': {
+                  display: 'grid',
+                },
+              },
+            }}
             initialValues={initialValues}
             onSubmit={(values) => {
               setFilters(cloneDeep(values));
