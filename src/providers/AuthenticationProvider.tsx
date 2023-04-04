@@ -102,11 +102,13 @@ const AuthenticationProvider = ({ children }: { children: any }) => {
     try {
       const loginPopupBinded = authService.loginPopup.bind(authService);
       const user = await loginPopupBinded();
-      onGetUserDataSuccess(user);
+      if (user) {
+        window.location.reload();
+      }
     } catch (error) {
       showError(error);
     }
-  }, [onGetUserDataSuccess]);
+  }, []);
 
   const logout = useCallback(async () => {
     try {

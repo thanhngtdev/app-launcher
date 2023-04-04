@@ -12,7 +12,7 @@ const DraggableContent = React.memo(({ tab, currentTab }: { tab: TabI; currentTa
       key={`${tab.value}`}
       sx={{
         [theme.breakpoints.down('sm')]: {
-          paddingTop: 10,
+          paddingTop: isActiveTab ? 10 : 0,
         },
         height: isActiveTab ? '100%' : 0,
         visibility: isActiveTab ? 'visible' : 'hidden',
