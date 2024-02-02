@@ -86,7 +86,10 @@ const TabHandlerProvider = ({ children }: { children: any }) => {
           return prevCurrentTab;
         });
 
-        return newTabs.filter((el, indexNext) => indexFound !== indexNext);
+        const result = newTabs.filter((el, indexNext) => indexFound !== indexNext);
+        cachedService.setValue(TAB_KEY, result);
+
+        return result;
       });
       return;
     }

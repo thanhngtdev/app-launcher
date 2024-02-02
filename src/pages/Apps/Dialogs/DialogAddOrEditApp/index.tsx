@@ -12,6 +12,7 @@ import CommonIcons from 'components/CommonIcons';
 import { showError, showSuccess } from 'helpers/toast';
 import { Fragment } from 'react';
 import * as Yup from 'yup';
+import { useAuth } from 'providers/AuthenticationProvider';
 
 interface Props extends DialogI<RequestCreateApp> {
   item?: App;
@@ -37,6 +38,7 @@ export const validateCreateApp = Yup.object().shape({
 const DialogAddOrEditApp = (props: Props) => {
   //! State
   const { isOpen, toggle, onSubmit, item } = props;
+  const { isAdmin } = useAuth();
   const isEdit = !!item;
   const isCreate = !isEdit;
 
@@ -133,16 +135,18 @@ const DialogAddOrEditApp = (props: Props) => {
       <Fragment>
         {isInitialLoading && <CommonStyles.Loading />}
 
-        <CommonStyles.Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <CommonStyles.Button
-            startIcon={<CommonIcons.Reset />}
-            variant='outlined'
-            onClick={onClickGenerate}
-            loading={isGenerating}
-          >
-            Generate App Credentials
-          </CommonStyles.Button>
-        </CommonStyles.Box>
+        {isAdmin && (
+          <CommonStyles.Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <CommonStyles.Button
+              startIcon={<CommonIcons.Reset />}
+              variant='outlined'
+              onClick={onClickGenerate}
+              loading={isGenerating}
+            >
+              Generate App Credentials
+            </CommonStyles.Button>
+          </CommonStyles.Box>
+        )}
 
         <CommonStyles.Box sx={{ width: '100%', pt: 2 }}>
           <CommonStyles.Typography variant='h5' sx={{ mb: 2 }}>

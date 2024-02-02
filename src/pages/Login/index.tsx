@@ -90,7 +90,7 @@ const Login = () => {
                       variant='outlined'
                       fullWidth
                       onClick={() => {
-                        auth.loginPopup();
+                        auth.loginRedirect();
                       }}
                     >
                       Sign In by AWS

@@ -1,8 +1,7 @@
 import { isDevelopment } from 'consts';
 
-const ROOT_URL = `${
-  isDevelopment ? 'https://betterhome-mvp.twenty-tech.com' : window.location.origin
-}/api`;
+// const ROOT_URL = `${isDevelopment ? 'http://123.30.145.70:10000' : window.location.origin}/api`;
+const ROOT_URL = 'http://123.30.145.70:10000';
 
 // Dont remove this command
 // ImportAPIURL

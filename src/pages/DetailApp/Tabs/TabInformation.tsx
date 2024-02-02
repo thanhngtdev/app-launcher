@@ -3,6 +3,7 @@ import CommonStyles from 'components/CommonStyles';
 import { FastField, useFormikContext } from 'formik';
 import TextField from 'components/CustomFields/TextField';
 import { AppIntegration } from 'interfaces/apps';
+import { file2Base64 } from 'helpers';
 
 interface Tab1Props {
   value: number;
@@ -10,7 +11,7 @@ interface Tab1Props {
 
 const Tab1 = ({ value }: Tab1Props) => {
   //! State
-  const { values, setFieldValue, handleSubmit } = useFormikContext<AppIntegration>();
+  const { values, setFieldValue } = useFormikContext<AppIntegration>();
 
   //! Function
 
@@ -29,12 +30,11 @@ const Tab1 = ({ value }: Tab1Props) => {
             id='logo-icon'
             isEdit
             sx={{ width: 60, height: 60 }}
-            src={values.icon}
+            src={file2Base64(values.icon)}
             onChangeImage={(e) => {
               const file = e?.target?.files?.[0];
               if (file) {
                 setFieldValue('icon', file);
-                handleSubmit();
               }
             }}
           />

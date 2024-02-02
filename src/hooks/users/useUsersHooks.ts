@@ -11,6 +11,7 @@ export const useGetUserInfo = (isTrigger?: boolean) => {
     queryKey: [queryKeys.getUserInfo],
     queryFn: () => userService.getUserInfo(),
     enabled: isTrigger,
+    retry: 1,
   });
 };
 

@@ -41,6 +41,14 @@ class AuthService {
   removeUser(): Promise<void> {
     return this.userManager.removeUser();
   }
+
+  loginRedirect(): Promise<void> {
+    return this.userManager.signinRedirect();
+  }
+
+  loginRedirectCallback(url?: string): Promise<User> {
+    return this.userManager.signinRedirectCallback(url);
+  }
 }
 
 export default AuthService;

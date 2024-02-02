@@ -3,6 +3,7 @@ import { createTheme } from '@mui/material/styles';
 import { useGetPlatformSettings } from 'hooks/platform/usePlatformHooks';
 import { Theme } from '@mui/material';
 import { Platform } from 'services/platformService';
+import { isEmpty, isEqual, isObject } from 'lodash';
 
 export enum ModeThemeEnum {
   light = 'light',
@@ -28,13 +29,34 @@ const ToggleThemeContext = createContext<ToggleThemeContextI>({
 export const useSettingsTheme = () => useContext(ToggleThemeContext);
 
 const KEY_THEME = 'theme';
+const KEY_SETTINGS = 'settings';
 const SettingsThemeProvider = ({ children }: { children: any }) => {
   //! State
   const { data: resPlatform, isLoading: loadingTheme } = useGetPlatformSettings();
   const theme = (localStorage.getItem(KEY_THEME) as ModeThemeEnum) || ModeThemeEnum.light;
   const [mode, setMode] = useState(theme);
 
-  const settings = resPlatform?.data;
+  const settingsCached =
+    localStorage.getItem(KEY_SETTINGS) !== 'undefined' &&
+    localStorage.getItem(KEY_SETTINGS) !== null
+      ? JSON.parse(localStorage.getItem(KEY_SETTINGS) || '')
+      : null;
+
+  const settings = useMemo(() => {
+    if (isObject(resPlatform?.data) && isObject(settingsCached)) {
+      if (!isEqual(settingsCached, resPlatform?.data)) {
+        localStorage.setItem(KEY_SETTINGS, JSON.stringify(resPlatform?.data));
+        return resPlatform?.data;
+      }
+    }
+
+    if (!isEmpty(settingsCached)) {
+      return settingsCached;
+    }
+
+    return resPlatform?.data;
+  }, [settingsCached, resPlatform?.data]) as Platform;
+
   const mainColour = settings?.mainColour || '#000000';
 
   //! Funtion

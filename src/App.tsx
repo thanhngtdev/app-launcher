@@ -24,7 +24,7 @@ const ErrorFallback = ({ error, resetErrorBoundary }: any) => {
 
 const App = () => {
   //! State
-  const { themeOfApp, loadingTheme } = useSettingsTheme();
+  const { themeOfApp } = useSettingsTheme();
 
   //! Function
 
@@ -33,6 +33,10 @@ const App = () => {
     return (
       <Router>
         <Routes>
+          {routesPublic.map((route) => (
+            <Route key={route.name} path={route.path} element={<route.component />} />
+          ))}
+
           {routes.map((route) => {
             return (
               <Route
@@ -66,19 +70,11 @@ const App = () => {
               </Route>
             );
           })}
-
-          {routesPublic.map((route) => (
-            <Route key={route.name} path={route.path} element={<route.component />} />
-          ))}
           <Route path='*' element={<Page404 />} />
         </Routes>
       </Router>
     );
   };
-
-  if (loadingTheme) {
-    return <CommonStyles.Loading />;
-  }
 
   return (
     <Suspense fallback={<CommonStyles.Loading />}>

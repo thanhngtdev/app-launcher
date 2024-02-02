@@ -24,29 +24,33 @@ interface AuthenticationContextI {
   loading: boolean;
   isLogged: boolean;
   user: UserInfo | null;
-  logout: () => void;
-  loginPopup: () => void;
-  loginPopupCallback: () => any;
   isAdmin: boolean;
   isAppManager: boolean;
   isUser: boolean;
   initialPathName: string;
   accessToken: string;
+  logout: () => void;
+  loginPopup: () => void;
+  loginPopupCallback: () => any;
   eventListener: (e: any) => void;
+  loginRedirect: () => void;
+  loginRedirectCallback: () => Promise<UserInfo | unknown>;
 }
 
 const AuthenticationContext = createContext<AuthenticationContextI>({
   loading: false,
   isLogged: false,
   user: {} as any,
-  logout: () => {},
-  loginPopup: () => {},
-  loginPopupCallback: () => Promise.resolve({} as any),
   isAdmin: false,
   isAppManager: false,
   isUser: false,
   initialPathName: '',
   accessToken: '',
+  logout: () => {},
+  loginPopup: () => {},
+  loginPopupCallback: () => Promise.resolve({} as any),
+  loginRedirect: () => {},
+  loginRedirectCallback: () => Promise.resolve({} as any),
   eventListener: () => {},
 });
 
@@ -68,6 +72,7 @@ const AuthenticationProvider = ({ children }: { children: any }) => {
   const user = resUser?.data || null;
 
   const onGetUserDataSuccess = useCallback((user: User | null) => {
+    setTokenAttached(false);
     if (user) {
       const accessToken = user?.access_token;
       httpService.saveUserStorage(user);
@@ -110,6 +115,23 @@ const AuthenticationProvider = ({ children }: { children: any }) => {
     }
   }, []);
 
+  const loginRedirectCallback = useCallback(() => {
+    return new Promise((resolve, reject) => {
+      (async () => {
+        try {
+          const user = await authService.loginRedirectCallback();
+          if (user) {
+            onGetUserDataSuccess(user);
+            resolve(user);
+          }
+        } catch (error) {
+          console.error(error);
+          reject(error);
+        }
+      })();
+    });
+  }, []);
+
   const logout = useCallback(async () => {
     try {
       await logoutUser(userData?.access_token || '');
@@ -139,13 +161,15 @@ const AuthenticationProvider = ({ children }: { children: any }) => {
       loading: isCheckingAuth || isInitialLoading,
       isLogged: !isEmpty(user),
       user,
-      loginPopupCallback: authService.loginPopupCallback.bind(authService),
-      loginPopup,
-      logout,
       isAdmin: !!user?.roles?.includes(PERMISSION_ENUM.ADMIN),
       isAppManager: !!user?.roles?.includes(PERMISSION_ENUM.APP_MANAGER),
       isUser: !!user?.roles?.includes(PERMISSION_ENUM.USER),
       initialPathName: locationService.initialPathname,
+      loginRedirect: authService.loginRedirect.bind(authService),
+      loginRedirectCallback,
+      loginPopupCallback: authService.loginPopupCallback.bind(authService),
+      loginPopup,
+      logout,
       eventListener,
     };
   }, [
@@ -153,8 +177,9 @@ const AuthenticationProvider = ({ children }: { children: any }) => {
     isCheckingAuth,
     isInitialLoading,
     authService,
-    loginPopup,
     accessToken,
+    loginPopup,
+    loginRedirectCallback,
     eventListener,
     logout,
   ]);
