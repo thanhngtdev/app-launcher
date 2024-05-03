@@ -26,7 +26,7 @@ function SearchAndFilters<T extends FormikValues = FormikValues>({
     <Formik initialValues={initialValues} onSubmit={onSubmit}>
       {({ resetForm }) => {
         return (
-          <Form>
+          <Form className='search-n-filters'>
             <CommonStyles.Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, ...sxContainer }}>
               {renderFilterFields && renderFilterFields()}
 

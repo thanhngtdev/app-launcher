@@ -8,10 +8,12 @@ import { useGenerateAppCredentials, useGetAppIntegrationDetail } from 'hooks/app
 import { useQueryClient } from '@tanstack/react-query';
 import { queryKeys } from 'consts';
 import { useParams } from 'react-router-dom';
+import { useAuth } from 'providers/AuthenticationProvider';
 
 const TabAuthentication = () => {
   //! State
   const { id } = useParams();
+  const { isAdmin } = useAuth();
   const { data: resDetailApp, isLoading } = useGetAppIntegrationDetail(id || '');
   const app = resDetailApp?.data;
 
@@ -77,14 +79,16 @@ const TabAuthentication = () => {
       <CommonStyles.Box sx={{ mb: 3, display: 'flex', justifyContent: 'space-between' }}>
         <CommonStyles.Typography variant='h6'>Authentication your app</CommonStyles.Typography>
 
-        <CommonStyles.Button
-          startIcon={<CommonIcons.Reset />}
-          variant='outlined'
-          onClick={onClickGenerate}
-          loading={isGenerating}
-        >
-          Generate App Credentials
-        </CommonStyles.Button>
+        {isAdmin && (
+          <CommonStyles.Button
+            startIcon={<CommonIcons.Reset />}
+            variant='outlined'
+            onClick={onClickGenerate}
+            loading={isGenerating}
+          >
+            Generate App Credentials
+          </CommonStyles.Button>
+        )}
       </CommonStyles.Box>
 
       <CommonStyles.Box sx={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>

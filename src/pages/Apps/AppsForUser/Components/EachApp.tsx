@@ -4,10 +4,13 @@ import CommonStyles from 'components/CommonStyles';
 import { App } from 'interfaces/apps';
 import { useTheme } from '@mui/material';
 import { showError, showSuccess } from 'helpers/toast';
-import { useInstallApp } from 'hooks/app/useAppHooks';
+import { useInstallApp, useUninstallApp, useCreateApproval } from 'hooks/app/useAppHooks';
 import { useQueryClient } from '@tanstack/react-query';
 import { queryKeys } from 'consts';
-import { useAuth } from 'providers/AuthenticationProvider';
+import { useTabHandler } from 'providers/TabHandlerProvider';
+import Launcher from 'pages/Launcher';
+import { useLocation, useNavigate } from 'react-router-dom';
+import BaseUrl from 'consts/baseUrl';
 
 interface EachAppProps {
   item: App;
@@ -17,10 +20,13 @@ interface EachAppProps {
 const EachApp = ({ item, isInstalled }: EachAppProps) => {
   //! State
   const theme = useTheme();
-  const { isAppManager } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { addNewTab } = useTabHandler();
   const queryClient = useQueryClient();
   const { mutateAsync: installApp } = useInstallApp();
-  // const { mutateAsync: uninstallApp } = useUninstallApp();
+  const { mutateAsync: uninstallApp } = useUninstallApp();
+  const { mutateAsync: createRequest } = useCreateApproval();
   const [loading, setLoading] = useState(false);
 
   //! Function
@@ -29,12 +35,7 @@ const EachApp = ({ item, isInstalled }: EachAppProps) => {
       setLoading(true);
       await installApp({ id: item?.id });
       await queryClient.refetchQueries({ queryKey: [queryKeys.getAppInstalledList] });
-
-      if (isAppManager) {
-        await queryClient.refetchQueries({ queryKey: [queryKeys.getAppListManager] });
-      } else {
-        await queryClient.refetchQueries({ queryKey: [queryKeys.getAppList] });
-      }
+      await queryClient.refetchQueries({ queryKey: [queryKeys.getAppList] });
 
       showSuccess('Install app successfully!');
       setLoading(false);
@@ -44,43 +45,90 @@ const EachApp = ({ item, isInstalled }: EachAppProps) => {
     }
   };
 
-  // const onClickUninstall = async () => {
-  //   try {
-  //     setLoading(true);
-  //     await uninstallApp({ id: item?.id });
-  //     await queryClient.refetchQueries({ queryKey: [queryKeys.getAppInstalledList] });
+  const onClickUninstall = async () => {
+    try {
+      setLoading(true);
+      await uninstallApp({ id: item?.id });
+      await queryClient.refetchQueries({ queryKey: [queryKeys.getAppInstalledList] });
+      await queryClient.refetchQueries({ queryKey: [queryKeys.getAppList] });
 
-  //     if (isAppManager) {
-  //       await queryClient.refetchQueries({ queryKey: [queryKeys.getAppListManager] });
-  //     } else {
-  //       await queryClient.refetchQueries({ queryKey: [queryKeys.getAppList] });
-  //     }
+      showSuccess('Uninstall app successfully!');
+      setLoading(false);
+    } catch (error) {
+      showError(error);
+      setLoading(false);
+    }
+  };
 
-  //     showSuccess('Uninstall app successfully!');
-  //     setLoading(false);
-  //   } catch (error) {
-  //     showError(error);
-  //     setLoading(false);
-  //   }
-  // };
+  const onClickRequestAccess = async () => {
+    try {
+      setLoading(true);
+      await createRequest({ appId: item?.id });
+      await queryClient.refetchQueries({ queryKey: [queryKeys.getAppStore] });
+      await queryClient.refetchQueries({ queryKey: [queryKeys.getAppList] });
+
+      showSuccess('Request access successfully!');
+      setLoading(false);
+    } catch (error) {
+      showError(error);
+      setLoading(false);
+    }
+  };
+
+  const onClickLaunch = () => {
+    addNewTab({
+      label: item.name,
+      value: item.id,
+      content: <Launcher idApp={item.id} launchUri={item.launchUri} />,
+      openNewTab: true,
+    });
+
+    if (!location.pathname.includes(BaseUrl.AppManagement)) {
+      navigate(BaseUrl.AppManagement);
+    }
+  };
 
   //! Render
   const renderButton = () => {
     if (isInstalled) {
       return (
-        <CommonStyles.Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-          <a href={`${item?.launchUri}?app_launcher=true` || ''} target={'_blank'} rel='noreferrer'>
-            <CommonStyles.Button startIcon={<CommonIcons.SendIcon />}>Launch</CommonStyles.Button>
-          </a>
-          {/* <CommonStyles.Button
+        <CommonStyles.Box
+          sx={{
+            display: 'flex',
+            gap: 1,
+            flexWrap: 'wrap',
+            [theme.breakpoints.down('lg')]: {
+              display: 'flex',
+              flexDirection: 'column',
+              flexGrow: 1,
+            },
+          }}
+        >
+          <CommonStyles.Button onClick={onClickLaunch} startIcon={<CommonIcons.SendIcon />}>
+            Launch
+          </CommonStyles.Button>
+
+          <CommonStyles.Button
             startIcon={<CommonIcons.UninstallIcon />}
             variant='outlined'
             loading={loading}
             onClick={onClickUninstall}
           >
             Uninstall
-          </CommonStyles.Button> */}
+          </CommonStyles.Button>
         </CommonStyles.Box>
+      );
+    }
+
+    if (!item.isAssigned) {
+      return (
+        <CommonStyles.Button
+          loading={loading}
+          startIcon={<CommonIcons.RequestAccess />}
+          onClick={onClickRequestAccess}
+        >
+          Request Access
+        </CommonStyles.Button>
       );
     }
 
@@ -97,6 +145,7 @@ const EachApp = ({ item, isInstalled }: EachAppProps) => {
 
   return (
     <CommonStyles.Box
+      className='each-app'
       key={item.id}
       sx={{
         display: 'flex',
@@ -116,10 +165,28 @@ const EachApp = ({ item, isInstalled }: EachAppProps) => {
 
         [theme.breakpoints.down('sm')]: {
           width: 'calc(100%)',
+          flexDirection: 'column',
+
+          '& .avatar': {
+            display: 'flex',
+            justifyContent: 'center',
+          },
+
+          '& .button-container': {
+            width: '100% !important',
+            '& button': {
+              width: '100%',
+            },
+
+            '& > div': {
+              flexGrow: 1,
+              flexDirection: 'column',
+            },
+          },
         },
       }}
     >
-      <CommonStyles.Box>
+      <CommonStyles.Box className='avatar'>
         <CommonStyles.Avatar src={item?.icon || ''} sx={{ width: 70, height: 70 }} />
       </CommonStyles.Box>
 
@@ -143,7 +210,10 @@ const EachApp = ({ item, isInstalled }: EachAppProps) => {
           </CommonStyles.Typography>
         </CommonStyles.Box>
 
-        <CommonStyles.Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+        <CommonStyles.Box
+          className='button-container'
+          sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}
+        >
           {renderButton()}
         </CommonStyles.Box>
       </CommonStyles.Box>

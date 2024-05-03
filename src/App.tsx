@@ -7,8 +7,7 @@ import PrivateRoute from 'components/PrivateRoute';
 
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
-import { theme } from './theme';
-import { useToggleTheme } from 'providers/ToggleThemeProvider';
+import { useSettingsTheme } from 'providers/SettingsThemeProvider';
 import { ErrorBoundary } from 'react-error-boundary';
 import CommonStyles from 'components/CommonStyles';
 import routesPublic from 'routes/routesPublic';
@@ -25,7 +24,7 @@ const ErrorFallback = ({ error, resetErrorBoundary }: any) => {
 
 const App = () => {
   //! State
-  const { mode } = useToggleTheme();
+  const { themeOfApp } = useSettingsTheme();
 
   //! Function
 
@@ -34,6 +33,10 @@ const App = () => {
     return (
       <Router>
         <Routes>
+          {routesPublic.map((route) => (
+            <Route key={route.name} path={route.path} element={<route.component />} />
+          ))}
+
           {routes.map((route) => {
             return (
               <Route
@@ -51,17 +54,15 @@ const App = () => {
                       key={`${child.path}-${idx}`}
                       path={child.path}
                       element={
-                        <Suspense fallback={<CommonStyles.Loading />}>
-                          <ErrorBoundary FallbackComponent={ErrorFallback}>
-                            {child.isPrivateRoute ? (
-                              <PrivateRoute>
-                                <child.component />
-                              </PrivateRoute>
-                            ) : (
+                        <ErrorBoundary FallbackComponent={ErrorFallback}>
+                          {child.isPrivateRoute ? (
+                            <PrivateRoute>
                               <child.component />
-                            )}
-                          </ErrorBoundary>
-                        </Suspense>
+                            </PrivateRoute>
+                          ) : (
+                            <child.component />
+                          )}
+                        </ErrorBoundary>
                       }
                     />
                   );
@@ -69,10 +70,6 @@ const App = () => {
               </Route>
             );
           })}
-
-          {routesPublic.map((route) => (
-            <Route key={route.name} path={route.path} element={<route.component />} />
-          ))}
           <Route path='*' element={<Page404 />} />
         </Routes>
       </Router>
@@ -80,11 +77,12 @@ const App = () => {
   };
 
   return (
-    <ThemeProvider theme={theme(mode)}>
-      <CssBaseline />
-
-      {renderContent()}
-    </ThemeProvider>
+    <Suspense fallback={<CommonStyles.Loading />}>
+      <ThemeProvider theme={themeOfApp}>
+        <CssBaseline />
+        {renderContent()}
+      </ThemeProvider>
+    </Suspense>
   );
 };
 

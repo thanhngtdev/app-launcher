@@ -11,37 +11,53 @@ import { showError } from 'helpers/toast';
 import locationService from 'services/locationService';
 import cachedService from 'services/cachedService';
 
+type ActionPostMessage = 'logout';
+export interface EventListenerI {
+  data: {
+    action: ActionPostMessage;
+    idApp: string;
+    value: any;
+  };
+}
+
 interface AuthenticationContextI {
   loading: boolean;
   isLogged: boolean;
   user: UserInfo | null;
-  logout: () => void;
-  loginPopup: () => void;
-  loginPopupCallback: () => any;
   isAdmin: boolean;
   isAppManager: boolean;
   isUser: boolean;
   initialPathName: string;
+  accessToken: string;
+  logout: () => void;
+  loginPopup: () => void;
+  loginPopupCallback: () => any;
+  eventListener: (e: any) => void;
+  loginRedirect: () => void;
+  loginRedirectCallback: () => Promise<UserInfo | unknown>;
 }
 
 const AuthenticationContext = createContext<AuthenticationContextI>({
   loading: false,
   isLogged: false,
   user: {} as any,
-  logout: () => {},
-  loginPopup: () => {},
-  loginPopupCallback: () => Promise.resolve({} as any),
   isAdmin: false,
   isAppManager: false,
   isUser: false,
   initialPathName: '',
+  accessToken: '',
+  logout: () => {},
+  loginPopup: () => {},
+  loginPopupCallback: () => Promise.resolve({} as any),
+  loginRedirect: () => {},
+  loginRedirectCallback: () => Promise.resolve({} as any),
+  eventListener: () => {},
 });
 
 export const useAuth = () => useContext(AuthenticationContext);
 
-locationService.setInitialPathname();
 const authService = new AuthService();
-httpService.setupInterceptors(authService);
+locationService.setInitialPathname();
 cachedService.initialState();
 
 const AuthenticationProvider = ({ children }: { children: any }) => {
@@ -51,12 +67,12 @@ const AuthenticationProvider = ({ children }: { children: any }) => {
   const [isCheckingAuth, setCheckingAuth] = useState(false);
   const { mutateAsync: logoutUser } = useLogoutUser();
 
-  const { data: resUser, isInitialLoading } = useGetUserInfo(
-    !!userData?.access_token && isTokenAttached
-  );
+  const accessToken = userData?.access_token || '';
+  const { data: resUser, isInitialLoading } = useGetUserInfo(!!accessToken && isTokenAttached);
   const user = resUser?.data || null;
 
   const onGetUserDataSuccess = useCallback((user: User | null) => {
+    setTokenAttached(false);
     if (user) {
       const accessToken = user?.access_token;
       httpService.saveUserStorage(user);
@@ -91,11 +107,30 @@ const AuthenticationProvider = ({ children }: { children: any }) => {
     try {
       const loginPopupBinded = authService.loginPopup.bind(authService);
       const user = await loginPopupBinded();
-      onGetUserDataSuccess(user);
+      if (user) {
+        window.location.reload();
+      }
     } catch (error) {
       showError(error);
     }
-  }, [onGetUserDataSuccess]);
+  }, []);
+
+  const loginRedirectCallback = useCallback(() => {
+    return new Promise((resolve, reject) => {
+      (async () => {
+        try {
+          const user = await authService.loginRedirectCallback();
+          if (user) {
+            onGetUserDataSuccess(user);
+            resolve(user);
+          }
+        } catch (error) {
+          console.error(error);
+          reject(error);
+        }
+      })();
+    });
+  }, []);
 
   const logout = useCallback(async () => {
     try {
@@ -110,21 +145,44 @@ const AuthenticationProvider = ({ children }: { children: any }) => {
     }
   }, [userData, logoutUser]);
 
+  const eventListener = useCallback((cb: (e: any) => void) => {
+    const addEventListener = window.addEventListener as any;
+    const eventMethod = addEventListener ? 'addEventListener' : ('attachEvent' as any);
+    const eventer = window[eventMethod] as any;
+    const messageEvent = eventMethod == 'attachEvent' ? 'onmessage' : 'message';
+
+    eventer(messageEvent, cb, false);
+  }, []);
+
   //! Return
   const value = useMemo(() => {
     return {
+      accessToken,
       loading: isCheckingAuth || isInitialLoading,
       isLogged: !isEmpty(user),
       user,
-      loginPopupCallback: authService.loginPopupCallback.bind(authService),
-      loginPopup,
-      logout,
       isAdmin: !!user?.roles?.includes(PERMISSION_ENUM.ADMIN),
       isAppManager: !!user?.roles?.includes(PERMISSION_ENUM.APP_MANAGER),
       isUser: !!user?.roles?.includes(PERMISSION_ENUM.USER),
       initialPathName: locationService.initialPathname,
+      loginRedirect: authService.loginRedirect.bind(authService),
+      loginRedirectCallback,
+      loginPopupCallback: authService.loginPopupCallback.bind(authService),
+      loginPopup,
+      logout,
+      eventListener,
     };
-  }, [user, isCheckingAuth, isInitialLoading, authService, loginPopup, logout]);
+  }, [
+    user,
+    isCheckingAuth,
+    isInitialLoading,
+    authService,
+    accessToken,
+    loginPopup,
+    loginRedirectCallback,
+    eventListener,
+    logout,
+  ]);
 
   return <AuthenticationContext.Provider value={value}>{children}</AuthenticationContext.Provider>;
 };

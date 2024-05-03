@@ -1,4 +1,5 @@
 import { PERMISSION_ENUM } from 'consts/index';
+import { isString } from 'lodash';
 export function a11yProps(index: number) {
   return {
     id: `simple-tab-${index}`,
@@ -62,4 +63,12 @@ export const copyToClipboard = (text = '') => {
   el.setSelectionRange(0, 99999);
   navigator.clipboard.writeText(text);
   document.body.removeChild(el);
+};
+
+export const file2Base64 = (file: File | string): string => {
+  if (isString(file)) {
+    return file;
+  }
+
+  return window.URL.createObjectURL(file);
 };

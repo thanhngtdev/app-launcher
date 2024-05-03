@@ -15,6 +15,7 @@ import { NavLink } from 'react-router-dom';
 import useHandleAsideMenu from 'hooks/useHandleAsideMenu';
 import useCheckWidth from 'hooks/useCheckWidth';
 import { useAuth } from 'providers/AuthenticationProvider';
+import { useSettingsTheme } from 'providers/SettingsThemeProvider';
 
 const drawerWidth = 90;
 
@@ -97,6 +98,7 @@ const DefaultLayout = ({ children }: { children: React.ReactNode }) => {
   ] = React.useState(true);
   const asideMenu = useHandleAsideMenu();
   const { isMobile } = useCheckWidth();
+  const { settings } = useSettingsTheme();
 
   //! Function
   // const handleDrawerOpen = () => {
@@ -264,7 +266,8 @@ const DefaultLayout = ({ children }: { children: React.ReactNode }) => {
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-between',
-            backgroundColor: theme?.colors?.purple,
+            boxShadow: 2,
+            backgroundColor: theme?.palette.primary.main,
 
             [theme.breakpoints.down('sm')]: {
               width: '100% !important',
@@ -280,7 +283,23 @@ const DefaultLayout = ({ children }: { children: React.ReactNode }) => {
         </DrawerHeader>
 
         <Divider /> */}
-        {renderAsideMenu()}
+        <CommonStyles.Box
+          sx={{
+            [theme.breakpoints.down('sm')]: {
+              display: 'flex',
+            },
+          }}
+        >
+          <CommonStyles.Box sx={{ p: 1, pt: 2 }}>
+            <img
+              alt='logo'
+              src={settings?.launcherLogo || ''}
+              style={{ width: '100%', height: '100%' }}
+            />
+          </CommonStyles.Box>
+
+          {renderAsideMenu()}
+        </CommonStyles.Box>
 
         {!auth.loading && renderBtnLogout()}
       </Drawer>

@@ -1,4 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import { LOGOUT_REDIRECT_URI } from 'consts/configAWS';
 import { User } from 'oidc-client-ts';
 import AuthService from './authService';
 // import AuthService from './authService';
@@ -44,8 +45,12 @@ class Services {
         if (status === 401) {
           authService.removeUser();
           this.clearAuthStorage();
+
+          window.location.href = LOGOUT_REDIRECT_URI;
+          window.sessionStorage.clear();
         }
 
+        console.log('123123', error);
         return Promise.reject(error);
       }
     );

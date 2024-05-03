@@ -6,6 +6,8 @@ export const queryKeys = {
   getAppListManager: 'getAppListManager',
   getAppDetail: 'getAppDetai',
   getAppInstalledList: 'getAppInstalledList',
+  getAppRequesting: 'getAppRequesting',
+  getAppStore: 'getAppStore',
 
   getUserInfo: 'getUserInfo',
   updateUserInfo: 'updateUserInfo',
@@ -13,6 +15,8 @@ export const queryKeys = {
   getListUser: 'getListUser',
   getUserDetail: 'getUserDetail',
   updateUser: 'updateUser',
+
+  getPlatformSettings: 'getPlatformSettings',
 };
 
 export const LANG_ENUM = {
@@ -42,3 +46,4 @@ export const PermissionOptions = Object.entries(PERMISSION_ENUM)
 
 export const NUMBER_DEFAULT_ROW_PER_PAGE = 5;
 export const NUMBER_DEFAULT_PAGE = 0;
+export const API_KEY_TINY_EDITOR = 'pyfe4ygo4uskbsupyjwkvj16peu92u1qlp1liqki0rnv1zct';

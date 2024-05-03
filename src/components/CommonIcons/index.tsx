@@ -1,3 +1,7 @@
+import DoDisturbOffOutlinedIcon from '@mui/icons-material/DoDisturbOffOutlined';
+import FileOpenOutlinedIcon from '@mui/icons-material/FileOpenOutlined';
+import AddTaskIcon from '@mui/icons-material/AddTask';
+import AssignmentTurnedInOutlinedIcon from '@mui/icons-material/AssignmentTurnedInOutlined';
 import AppsIcon from '@mui/icons-material/Apps';
 import LockIcon from '@mui/icons-material/Lock';
 import KeyIcon from '@mui/icons-material/Key';
@@ -27,6 +31,7 @@ import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DownloadingIcon from '@mui/icons-material/Downloading';
 import RestoreFromTrashIcon from '@mui/icons-material/RestoreFromTrash';
+import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
 
 export default {
   InboxIcon,
@@ -40,6 +45,7 @@ export default {
   AddIcon,
   EditIcon,
   DownloadingIcon,
+  UploadingIcon: CloudUploadOutlinedIcon,
   UninstallIcon: RestoreFromTrashIcon,
   NoteAddIcon: NoteAddOutlinedIcon,
   BookIcon: MenuBookIcon,
@@ -58,4 +64,8 @@ export default {
   KeyIcon,
   LockIcon,
   AppsIcon,
+  AssignmentChecked: AssignmentTurnedInOutlinedIcon,
+  CheckedAndAdd: AddTaskIcon,
+  DenyAccess: DoDisturbOffOutlinedIcon,
+  RequestAccess: FileOpenOutlinedIcon,
 };

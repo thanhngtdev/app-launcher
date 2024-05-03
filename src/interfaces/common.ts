@@ -25,10 +25,9 @@ export interface SelectOption {
   value: any;
 }
 
-export interface ResponseCommon<T> {
-  data: T;
-  message: string;
-  status?: number;
+export interface ResponseCommonPaging<T> {
+  items: T;
+  totalCount: number;
 }
 
 export type PromiseResponseBase<T> = Promise<AxiosResponse<T>>;
