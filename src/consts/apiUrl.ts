@@ -1,7 +1,7 @@
 import { isDevelopment } from 'consts';
 
 const ROOT_URL = `${
-  isDevelopment ? 'https://betterhome-mvp.twenty-tech.com' : window.location.origin
+  isDevelopment ? 'http://103.104.122.210:10000/api' : window.location.origin
 }/api`;
 
 // Dont remove this command
