@@ -7,7 +7,7 @@ import { I18nextProvider } from 'react-i18next';
 import i18n from './i18n';
 
 import './index.css';
-import './styles/temp.scss';
+import './styles/root.scss';
 import ToggleThemeProvider from 'providers/SettingsThemeProvider';
 import CachedProvider from 'providers/CachedProvider';
 import { ToastContainer } from 'react-toastify';

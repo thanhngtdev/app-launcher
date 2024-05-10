@@ -16,6 +16,7 @@ import useHandleAsideMenu from 'hooks/useHandleAsideMenu';
 import useCheckWidth from 'hooks/useCheckWidth';
 import { useAuth } from 'providers/AuthenticationProvider';
 import { useSettingsTheme } from 'providers/SettingsThemeProvider';
+import Navbar from 'components/Navbar';
 
 const drawerWidth = 90;
 
@@ -231,6 +232,20 @@ const DefaultLayout = ({ children }: { children: React.ReactNode }) => {
       );
     });
   };
+
+  return (
+    <CommonStyles.Box component='main'>
+      <Navbar />
+      <Suspense fallback={<CommonStyles.Loading />}>
+        <CommonStyles.Box
+          className='main__container'
+          sx={{ maxWidth: 1460, margin: 'auto', pt: 5, px: 2 }}
+        >
+          {children}
+        </CommonStyles.Box>
+      </Suspense>
+    </CommonStyles.Box>
+  );
 
   return (
     <Box sx={{ display: 'flex' }}>

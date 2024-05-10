@@ -27,6 +27,7 @@ const Launcher = ({ idApp, launchUri }: LauncherProps) => {
   //! Render
   return (
     <CommonStyles.Box
+      className='component:Launcher'
       sx={{
         overflow: 'hidden',
         height: 'calc(100vh - 48px)',
@@ -35,10 +36,11 @@ const Launcher = ({ idApp, launchUri }: LauncherProps) => {
       }}
     >
       <iframe
-        src={`${launchUri}?token=${auth.accessToken}&id=${idApp}` || ''}
+        src={`${launchUri}?embedded=true&token=${auth.accessToken}&id=${idApp}` || ''}
         // src={`http://localhost:3001?token=${auth.accessToken}&id=${idApp}` || ''}
         frameBorder={0}
-        sandbox='allow-same-origin allow-scripts allow-popups allow-forms'
+        sandbox='allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts allow-downloads allow-pointer-lock'
+        allow='accelerometer; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; clipboard-write;'
       />
     </CommonStyles.Box>
   );

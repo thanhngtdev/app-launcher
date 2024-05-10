@@ -2,7 +2,6 @@ import DoDisturbOffOutlinedIcon from '@mui/icons-material/DoDisturbOffOutlined';
 import FileOpenOutlinedIcon from '@mui/icons-material/FileOpenOutlined';
 import AddTaskIcon from '@mui/icons-material/AddTask';
 import AssignmentTurnedInOutlinedIcon from '@mui/icons-material/AssignmentTurnedInOutlined';
-import AppsIcon from '@mui/icons-material/Apps';
 import LockIcon from '@mui/icons-material/Lock';
 import KeyIcon from '@mui/icons-material/Key';
 import SettingsAccessibilityIcon from '@mui/icons-material/SettingsAccessibility';
@@ -13,7 +12,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import CheckIcon from '@mui/icons-material/Check';
 import PersonAddOutlinedIcon from '@mui/icons-material/PersonAddOutlined';
 import SaveIcon from '@mui/icons-material/Save';
-import SettingsIcon from '@mui/icons-material/Settings';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import SearchIcon from '@mui/icons-material/Search';
 import GroupIcon from '@mui/icons-material/Group';
@@ -32,6 +30,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DownloadingIcon from '@mui/icons-material/Downloading';
 import RestoreFromTrashIcon from '@mui/icons-material/RestoreFromTrash';
 import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
+import * as IoIcons from 'react-icons/io5';
 
 export default {
   InboxIcon,
@@ -52,7 +51,7 @@ export default {
   Users: GroupIcon,
   Search: SearchIcon,
   Reset: RestartAltIcon,
-  SettingsIcon,
+  SettingsIcon: IoIcons.IoSettingsOutline,
   SaveIcon,
   AssignIcon: PersonAddOutlinedIcon,
   UnAssignIcon: PersonOffIcon,
@@ -63,9 +62,11 @@ export default {
   SettingsAccessibilityIcon,
   KeyIcon,
   LockIcon,
-  AppsIcon,
+  AppsIcon: IoIcons.IoAppsOutline,
   AssignmentChecked: AssignmentTurnedInOutlinedIcon,
   CheckedAndAdd: AddTaskIcon,
   DenyAccess: DoDisturbOffOutlinedIcon,
   RequestAccess: FileOpenOutlinedIcon,
+  HelpIcon: IoIcons.IoHelpCircleOutline,
+  NotificationIcon: IoIcons.IoNotificationsOutline,
 };

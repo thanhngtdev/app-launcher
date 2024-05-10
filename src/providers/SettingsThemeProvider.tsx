@@ -75,22 +75,27 @@ const SettingsThemeProvider = ({ children }: { children: any }) => {
   const themeOfApp = useMemo(
     () =>
       createTheme({
+        typography: {
+          fontFamily: `"Open Sans", sans-serif`,
+        },
         palette: {
           mode: mode,
           primary: {
-            main: mainColour,
+            main: '#147b77',
           },
         },
         colors: {
           purple: '#611f69',
           green: '#2eb67d',
-          red: '#e01e5a',
+          red: 'red',
           yellow: '#ecb22e',
           blue: '#36c5f0',
           white: '#fff',
           black: 'rgb(18, 18, 18)',
-          gray: 'rgba(0,0,0,0.4)',
+          gray: '#fafafb',
           grayLight: '#F2F2F2',
+          border: '#dde0e2',
+          borderInput: '#e8ebeb',
         },
       }),
     [mainColour]

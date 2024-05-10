@@ -6,7 +6,7 @@ import { Route } from 'interfaces/common';
 
 // Bash importHere
 const DefaultLayout = lazy(() => import('layouts/DefaultLayout'));
-const Apps = lazy(() => import('pages/Homepage'));
+const Homepage = lazy(() => import('pages/NewDesigns/Homepage'));
 const Users = lazy(() => import('pages/Users'));
 const Settings = lazy(() => import('pages/Settings'));
 const Laucher = lazy(() => import('pages/Launcher'));
@@ -24,7 +24,7 @@ const routes: Route[] = [
       {
         name: 'Homepage',
         path: BaseUrl.Homepage,
-        component: withCheckRole(Apps, [PERMISSION_ENUM.PUBLIC]),
+        component: withCheckRole(Homepage, [PERMISSION_ENUM.PUBLIC]),
         isPrivateRoute: true,
       },
       {

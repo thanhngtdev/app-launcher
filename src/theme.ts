@@ -1,31 +1,25 @@
 import { createTheme } from '@mui/material/styles';
 
+type Colors = {
+  purple?: string;
+  green?: string;
+  red?: string;
+  yellow?: string;
+  blue?: string;
+  white?: string;
+  black?: string;
+  gray?: string;
+  grayLight?: string;
+  border?: string;
+  borderInput?: string;
+};
+
 declare module '@mui/material/styles' {
   interface Theme {
-    colors?: {
-      purple?: string;
-      green?: string;
-      red?: string;
-      yellow?: string;
-      blue?: string;
-      white?: string;
-      black?: string;
-      gray?: string;
-      grayLight?: string;
-    };
+    colors?: Colors;
   }
   interface ThemeOptions {
-    colors?: {
-      purple?: string;
-      green?: string;
-      red?: string;
-      yellow?: string;
-      blue?: string;
-      white?: string;
-      black?: string;
-      gray?: string;
-      grayLight?: string;
-    };
+    colors?: Colors;
   }
 }
 
@@ -44,7 +38,7 @@ const lightTheme = createTheme({
     blue: '#36c5f0',
     white: '#fff',
     black: 'rgb(18, 18, 18)',
-    gray: 'rgba(0,0,0,0.4)',
+    gray: '#fafafb',
     grayLight: '#F2F2F2',
   },
 });
@@ -61,7 +55,7 @@ const darkTheme = createTheme({
     blue: '#36c5f0',
     white: '#fff',
     black: 'rgb(18, 18, 18)',
-    gray: '#ccc',
+    gray: '#fafafb',
     grayLight: '#F2F2F2',
   },
 });

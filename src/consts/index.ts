@@ -47,3 +47,5 @@ export const PermissionOptions = Object.entries(PERMISSION_ENUM)
 export const NUMBER_DEFAULT_ROW_PER_PAGE = 5;
 export const NUMBER_DEFAULT_PAGE = 0;
 export const API_KEY_TINY_EDITOR = 'pyfe4ygo4uskbsupyjwkvj16peu92u1qlp1liqki0rnv1zct';
+
+export const SIZE_ICON_DEFAULT = 24;
