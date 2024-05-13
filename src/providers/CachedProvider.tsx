@@ -8,10 +8,10 @@ interface CachedContextI {
 }
 
 const CachedContext = createContext<CachedContextI>({
-  get: () => {},
-  set: () => {},
+  get: () => { },
+  set: () => { },
 });
-
+console.log('CachedContext', CachedContext);
 export const useCached = () => useContext(CachedContext);
 
 const ToggleThemeProvider = ({ children }: { children: any }) => {
