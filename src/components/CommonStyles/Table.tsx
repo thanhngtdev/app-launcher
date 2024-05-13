@@ -1,20 +1,19 @@
-import * as React from 'react';
-import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
+import Checkbox from '@mui/material/Checkbox';
+import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
-import Paper from '@mui/material/Paper';
-import Checkbox from '@mui/material/Checkbox';
+import { useTheme } from '@mui/material/styles';
 import { visuallyHidden } from '@mui/utils';
-import { OrderType } from 'interfaces/common';
-import CommonStyles from '.';
 import CommonIcons from 'components/CommonIcons';
+import { OrderType } from 'interfaces/common';
+import * as React from 'react';
+import CommonStyles from '.';
 
 interface EnhancedTableProps<T> {
   numSelected: number;
@@ -155,7 +154,7 @@ function TableCommon<T>({
       <Paper sx={{ width: '100%', mb: 2 }}>
         <TableContainer>
           <Table sx={{ minWidth: 750 }} aria-labelledby='tableTitle' size='medium'>
-            <EnhancedTableHead
+            {/* <EnhancedTableHead
               numSelected={selected.length}
               order={order}
               orderBy={orderBy}
@@ -166,7 +165,7 @@ function TableCommon<T>({
               rowCount={rows.length}
               headCells={headCells}
               showCheckBox={showCheckBox}
-            />
+            /> */}
             <TableBody>
               {!isLoading &&
                 rows.map((row, index) => {
@@ -277,7 +276,7 @@ function TableCommon<T>({
           </Table>
         </TableContainer>
 
-        <TablePagination
+        {/* <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component='div'
           count={totalCount}
@@ -285,7 +284,7 @@ function TableCommon<T>({
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
-        />
+        /> */}
       </Paper>
     </Box>
   );

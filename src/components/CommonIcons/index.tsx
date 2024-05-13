@@ -69,4 +69,10 @@ export default {
   RequestAccess: FileOpenOutlinedIcon,
   HelpIcon: IoIcons.IoHelpCircleOutline,
   NotificationIcon: IoIcons.IoNotificationsOutline,
+  IoHeartOutline: IoIcons.IoHeartOutline,
+  IoSearchOutline: IoIcons.IoSearchOutline,
+  IoListOutline: IoIcons.IoListOutline,
+  IoHomeOutline: IoIcons.IoHomeOutline,
+  IoEllipsisVerticalSharp: IoIcons.IoEllipsisVerticalSharp,
+  IoArrowForwardOutline: IoIcons.IoArrowForwardOutline,
 };

@@ -3,6 +3,7 @@ import CommonStyles from 'components/CommonStyles';
 import TabsMui from '@mui/material/Tabs';
 import TabMui from '@mui/material/Tab';
 import { a11yProps } from 'helpers';
+import { useTheme } from '@mui/material';
 
 interface TabsProps {
   defaultTab?: number;
@@ -13,6 +14,7 @@ interface TabsProps {
 const Tabs = ({ tabs, defaultTab = 0, onChangeTab }: TabsProps) => {
   //! State
   const [value, setValue] = useState(defaultTab);
+  const theme = useTheme();
 
   //! Function
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -23,17 +25,21 @@ const Tabs = ({ tabs, defaultTab = 0, onChangeTab }: TabsProps) => {
   //! Render
   return (
     <CommonStyles.Box>
-      <TabsMui value={value} onChange={handleChange} aria-label='basic tabs example'>
+      <TabsMui sx={{ pl: 3 }} value={value} onChange={handleChange} aria-label='basic tabs example'>
         {tabs.map((tab, index) => (
-          <TabMui key={tab.label} label={tab.label} {...a11yProps(index)} />
+          <TabMui
+            key={tab.label}
+            label={tab.label}
+            {...a11yProps(index)}
+            sx={{ textTransform: 'capitalize' }}
+          />
         ))}
       </TabsMui>
-      <CommonStyles.Box sx={{ pt: 2 }}>
+      <CommonStyles.Box sx={{ border: `1px solid ${theme.colors?.borderIcon}` }}>
         {tabs.map((tab, index) => {
           if (index === value) {
             return <tab.component key={tab.label} />;
           }
-
           return null;
         })}
       </CommonStyles.Box>

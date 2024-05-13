@@ -3,6 +3,8 @@ import { FieldInputProps, FormikProps } from 'formik';
 import { get, isString } from 'lodash';
 import { styled } from '@mui/material/styles';
 import CommonStyles from 'components/CommonStyles';
+import { ReactNode } from 'react';
+import { InputAdornment } from '@mui/material';
 
 const CustomTextField = styled(MuiTextField)(({ theme }) => ({
   '& input:valid + fieldset': {
@@ -24,9 +26,10 @@ const CustomTextField = styled(MuiTextField)(({ theme }) => ({
 interface Props {
   field?: FieldInputProps<any>;
   form?: FormikProps<any>;
+  iconStartInput?: ReactNode;
 }
 
-const TextField = ({ field, form, label, ...props }: Props & TextFieldProps) => {
+const TextField = ({ field, form, label, iconStartInput, ...props }: Props & TextFieldProps) => {
   const { name, value, onBlur, onChange } = field || {};
   const { errors, touched } = form || {};
 
@@ -52,6 +55,13 @@ const TextField = ({ field, form, label, ...props }: Props & TextFieldProps) => 
         sx={{
           '& label': {},
           '& input': {},
+        }}
+        InputProps={{
+          startAdornment: iconStartInput ? (
+            <InputAdornment position='start' className='icon-start-input'>
+              {iconStartInput}
+            </InputAdornment>
+          ) : undefined,
         }}
         {...props}
       />
