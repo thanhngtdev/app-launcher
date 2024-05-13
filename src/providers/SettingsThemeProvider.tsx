@@ -96,6 +96,7 @@ const SettingsThemeProvider = ({ children }: { children: any }) => {
           grayLight: '#F2F2F2',
           border: '#dde0e2',
           borderInput: '#e8ebeb',
+          borderIcon: '#f4f4f6',
         },
       }),
     [mainColour]

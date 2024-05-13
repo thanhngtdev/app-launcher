@@ -12,6 +12,7 @@ type Colors = {
   grayLight?: string;
   border?: string;
   borderInput?: string;
+  borderIcon?: string;
 };
 
 declare module '@mui/material/styles' {
