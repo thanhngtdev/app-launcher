@@ -36,11 +36,11 @@ const ItemNotification = (props: ItemNotificationProps) => {
         }}
       >
         <CommonStyles.Box maxWidth={250}>
-          <CommonStyles.Typography sx={{ flexShrink: 1, fontWeight: '600', fontSize: '1rem' }}>
+          <CommonStyles.Typography sx={{ flexShrink: 1, fontWeight: '600', fontSize: '0.8rem' }}>
             {item.title}
           </CommonStyles.Typography>
           <CommonStyles.Typography
-            sx={{ fontWeight: '400', fontSize: '0.8rem', color: theme.colors?.textGray }}
+            sx={{ fontWeight: '400', fontSize: '0.6rem', color: theme.colors?.textGray }}
           >
             CASE: {item?.code}
           </CommonStyles.Typography>
@@ -48,12 +48,18 @@ const ItemNotification = (props: ItemNotificationProps) => {
         <CommonStyles.Box
           sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
         >
-          <CommonStyles.Typography>{item.time}</CommonStyles.Typography>
+          <CommonStyles.Typography sx={{ fontWeight: '400', fontSize: '0.8rem' }}>
+            {item.time}
+          </CommonStyles.Typography>
           {item?.read ? (
             <CommonStyles.Box
               sx={{ width: 6, height: 6, borderRadius: 6, backgroundColor: 'red', ml: 1 }}
             />
-          ) : undefined}
+          ) : (
+            <CommonStyles.Box
+              sx={{ width: 6, height: 6, borderRadius: 6, backgroundColor: 'white', ml: 1 }}
+            />
+          )}
         </CommonStyles.Box>
       </CommonStyles.Box>
     </CommonStyles.Box>

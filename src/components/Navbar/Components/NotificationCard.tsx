@@ -49,7 +49,7 @@ const NotificationCard = (props: NotificationCardProps) => {
           my: 2,
         }}
       >
-        <CommonStyles.Typography fontWeight={600} fontSize='1.5rem'>
+        <CommonStyles.Typography fontWeight={600} fontSize='1.2rem'>
           Notification
         </CommonStyles.Typography>
         <CommonStyles.Box sx={{ display: 'flex', alignItems: 'center', alignContent: 'center' }}>
@@ -85,10 +85,14 @@ const NotificationCard = (props: NotificationCardProps) => {
             break;
         }
         return (
-          <CommonStyles.Box key={ind}>
+          <CommonStyles.Box key={ind} sx={{ pb: 1 }}>
             <CommonStyles.Typography
-              fontWeight='600'
-              sx={{ color: theme.colors?.textGray, textTransform: 'uppercase' }}
+              sx={{
+                color: theme.colors?.textGray,
+                textTransform: 'uppercase',
+                fontSize: '0.8rem',
+                fontWeight: '600',
+              }}
             >
               {title}
             </CommonStyles.Typography>
