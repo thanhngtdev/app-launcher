@@ -1,10 +1,12 @@
-import React from 'react';
-import { Badge } from '@mui/material';
+import { Badge, Popover, Switch } from '@mui/material';
+import { styled, useTheme } from '@mui/material/styles';
+import CommonIcons from 'components/CommonIcons';
 import CommonStyles from 'components/CommonStyles';
 import Avatar from 'components/CommonStyles/Avatar';
-import { styled } from '@mui/material/styles';
-import CommonIcons from 'components/CommonIcons';
 import { SIZE_ICON_DEFAULT } from 'consts';
+import React, { useId } from 'react';
+import ItemNotification from './ItemNotification';
+import NotificationCard from './NotificationCard';
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   '& .MuiBadge-badge': {
@@ -37,8 +39,80 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 
 const RightSide = () => {
   //! State
+  const id = useId();
+  const theme = useTheme();
+  const [anchorElNoti, setAnchorElNoti] = React.useState<HTMLButtonElement | null>(null);
+  const openNoti = Boolean(anchorElNoti);
+  const label = { inputProps: { 'aria-label': 'Switch demo' } };
+  const tabs = [
+    { label: 'Direct', component: 'snsnsn' },
+    { label: 'News', component: 'snsnsn' },
+  ];
+  const data = {
+    old: [
+      {
+        avatar:
+          'https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg',
+        title: 'donzombie work form home ',
+        code: '#828284774',
+        time: '20 hours ago',
+        read: true,
+      },
+      {
+        avatar:
+          'https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg',
+        title: 'thanh in holiday',
+        code: '#828284774',
+        time: '18 hours ago',
+        read: false,
+      },
+      {
+        avatar:
+          'https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg',
+        title: 'donzombie work form home',
+        code: '#828284774',
+        time: '16 hours ago',
+        read: false,
+      },
+      {
+        avatar:
+          'https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg',
+        title: 'thanh in holiday',
+        code: '#828284774',
+        time: '14 hours ago',
+        read: true,
+      },
+    ],
+    new: [
+      {
+        avatar:
+          'https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg',
+        title: 'donzombie work form home',
+        code: '#828284774',
+        time: '1 hours ago',
+        read: true,
+      },
+      {
+        avatar:
+          'https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg',
+        title: 'donzombie work form home',
+        code: '#828284774',
+        time: '2 hours ago',
+        read: true,
+      },
+    ],
+  };
+
+  console.log('Object.entries(dataNotification)', Object.entries(data));
 
   //! Function
+  const handleClickNoti = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorElNoti(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorElNoti(null);
+  };
 
   //! Render
   return (
@@ -46,7 +120,14 @@ const RightSide = () => {
       className='component:RightSide'
       sx={{ display: 'flex', alignItems: 'center', gap: 3 }}
     >
-      <CommonIcons.NotificationIcon className='is-hover' size={SIZE_ICON_DEFAULT} />
+      <CommonIcons.NotificationIcon
+        className='is-hover'
+        size={SIZE_ICON_DEFAULT}
+        onClick={(e: any) => {
+          handleClickNoti(e);
+        }}
+        style={{ cursor: 'pointer' }}
+      />
       <CommonIcons.HelpIcon className='is-hover' size={SIZE_ICON_DEFAULT + 3} />
       <CommonIcons.SettingsIcon className='is-hover' size={SIZE_ICON_DEFAULT} />
 
@@ -58,6 +139,23 @@ const RightSide = () => {
       >
         <Avatar sx={{ width: 35, height: 35 }} src='https://mui.com/static/images/avatar/1.jpg' />
       </StyledBadge>
+      <Popover
+        id={id}
+        open={openNoti}
+        anchorEl={anchorElNoti}
+        onClose={handleClose}
+        keepMounted={false}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+      >
+        <NotificationCard data={data} tabs={tabs} />
+      </Popover>
     </CommonStyles.Box>
   );
 };

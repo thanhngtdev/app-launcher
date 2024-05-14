@@ -1,11 +1,15 @@
-import React from 'react';
+import { Dialog } from '@mui/material';
 import CommonStyles from 'components/CommonStyles';
 import EachApplication from 'components/EachApplication';
-import HeaderOfSection from './HeaderOfSection';
+import AllApplicationDialog from 'pages/NewDesigns/AllApplication';
+import React from 'react';
 import ContentOfSection from './ContentOfSection';
+import HeaderOfSection from './HeaderOfSection';
 
 const ApplicationSection = () => {
   //! State
+  const [open, setOpen] = React.useState(false);
+
   const applicationMock = [
     { label: 'Convey', href: '/' },
     { label: 'Atomic', href: '/' },
@@ -16,6 +20,13 @@ const ApplicationSection = () => {
   ];
 
   //! Function
+  const handleClickOpen = () => {
+    setOpen((prev) => !prev);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   //! Render
   return (
@@ -23,7 +34,7 @@ const ApplicationSection = () => {
       <HeaderOfSection
         title='Applications'
         subTitle={
-          <CommonStyles.Typography className='is-hover' isLink>
+          <CommonStyles.Typography className='is-hover' isLink onClick={handleClickOpen}>
             Show all products
           </CommonStyles.Typography>
         }
@@ -34,6 +45,9 @@ const ApplicationSection = () => {
           return <EachApplication key={el.label} application={el} />;
         })}
       </ContentOfSection>
+      <Dialog fullScreen open={open} onClose={handleClose}>
+        <AllApplicationDialog onClickClose={handleClose} />
+      </Dialog>
     </CommonStyles.Box>
   );
 };

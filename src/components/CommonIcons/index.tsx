@@ -31,6 +31,8 @@ import DownloadingIcon from '@mui/icons-material/Downloading';
 import RestoreFromTrashIcon from '@mui/icons-material/RestoreFromTrash';
 import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
 import * as IoIcons from 'react-icons/io5';
+import LaunchIcon from '@mui/icons-material/Launch';
+import { MdOutlineLaunch } from 'react-icons/md';
 
 export default {
   InboxIcon,
@@ -75,4 +77,7 @@ export default {
   IoHomeOutline: IoIcons.IoHomeOutline,
   IoEllipsisVerticalSharp: IoIcons.IoEllipsisVerticalSharp,
   IoArrowForwardOutline: IoIcons.IoArrowForwardOutline,
+  IoClose: IoIcons.IoClose,
+  LaunchIcon,
+  MdOutlineLaunch,
 };

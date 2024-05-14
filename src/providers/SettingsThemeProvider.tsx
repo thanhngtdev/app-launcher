@@ -97,6 +97,8 @@ const SettingsThemeProvider = ({ children }: { children: any }) => {
           border: '#dde0e2',
           borderInput: '#e8ebeb',
           borderIcon: '#f4f4f6',
+          textGray: '#666c6e',
+          borderLine: '#dcdfe0',
         },
       }),
     [mainColour]

@@ -13,6 +13,8 @@ type Colors = {
   border?: string;
   borderInput?: string;
   borderIcon?: string;
+  textGray?: string;
+  borderLine?: string;
 };
 
 declare module '@mui/material/styles' {
